@@ -1,0 +1,68 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>images/test.png</file>
+        <file>images/exit.png</file>
+        <file alias="bad">images/bad.PNG</file>
+        <file alias="ok">images/ok.PNG</file>
+        <file>images/package-new.png</file>
+        <file>images/package-remove.png</file>
+        <file alias="dev">images/emblem-system.png</file>
+        <file>images/add.bmp</file>
+        <file alias="host">images/boot.png</file>
+        <file>images/document-new.png</file>
+        <file>images/document-open.png</file>
+        <file>images/editcopy.png</file>
+        <file>images/editcut.png</file>
+        <file>images/editpaste.png</file>
+        <file>images/editredo.png</file>
+        <file>images/editundo.png</file>
+        <file>images/exportpdf.png</file>
+        <file>images/filenew.png</file>
+        <file>images/fileopen.png</file>
+        <file>images/fileprint.png</file>
+        <file>images/filesave.png</file>
+        <file>images/finish.png</file>
+        <file alias="down">images/go-down.png</file>
+        <file>images/go-top.png</file>
+        <file>images/go-up.png</file>
+        <file alias="del">images/gtk-no.png</file>
+        <file>images/network-config.png</file>
+        <file alias="edit">images/stock_right.png</file>
+        <file>images/textbold.png</file>
+        <file>images/textcenter.png</file>
+        <file>images/textitalic.png</file>
+        <file>images/textjustify.png</file>
+        <file>images/textleft.png</file>
+        <file>images/textright.png</file>
+        <file>images/textunder.png</file>
+        <file>images/vfileopen.png</file>
+        <file>images/zoomin.png</file>
+        <file>images/zoomout.png</file>
+    </qresource>
+    <qresource prefix="/textedit">
+        <file>images/editcopy.png</file>
+        <file>images/editcut.png</file>
+        <file>images/editpaste.png</file>
+        <file>images/editredo.png</file>
+        <file>images/editundo.png</file>
+        <file>images/exportpdf.png</file>
+        <file>images/filenew.png</file>
+        <file>images/fileopen.png</file>
+        <file>images/fileprint.png</file>
+        <file>images/filesave.png</file>
+        <file>images/test.png</file>
+        <file>images/textbold.png</file>
+        <file>images/textcenter.png</file>
+        <file>images/textitalic.png</file>
+        <file>images/textjustify.png</file>
+        <file>images/textleft.png</file>
+        <file>images/textright.png</file>
+        <file>images/textunder.png</file>
+        <file>images/zoomin.png</file>
+        <file>images/zoomout.png</file>
+        <file>images/vfileopen.png</file>
+    </qresource>
+    <qresource prefix="/tr">
+        <file alias="ru.qm">lang/tr_ru.qm</file>
+    </qresource>
+</RCC>
