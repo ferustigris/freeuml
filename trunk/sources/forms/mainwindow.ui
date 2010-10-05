@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EnterInputs</class>
+ <widget class="QMainWindow" name="EnterInputs">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>442</width>
+    <height>473</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>UML Editor</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/icons/images/new/network-config.png</normaloff>:/icons/images/new/network-config.png</iconset>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="mainLayout"/>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="datagrams">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="currentIndex">
+       <number>4</number>
+      </property>
+      <widget class="QWidget" name="activity">
+       <attribute name="title">
+        <string>Activity</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QVBoxLayout" name="activityLayout"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="useCase">
+       <attribute name="title">
+        <string>Use case</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QVBoxLayout" name="useCaseLayout"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="fsm">
+       <attribute name="title">
+        <string>FSM</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="fsmLayout"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="topology">
+       <attribute name="title">
+        <string>Topology</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="topologyLayout"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="coloboration">
+       <attribute name="title">
+        <string>Coloboration</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="coloborationLayout"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>442</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="maFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionCreate_project"/>
+    <addaction name="actionOpen_project"/>
+    <addaction name="actionSave_project"/>
+    <addaction name="separator"/>
+    <addaction name="actionGeneration"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="maActions">
+    <property name="title">
+     <string>Actions</string>
+    </property>
+    <addaction name="actionAdd_activity"/>
+    <addaction name="actionAddState"/>
+    <addaction name="actionAdd_condition"/>
+    <addaction name="actionAdd_sync"/>
+    <addaction name="actionAdd_author"/>
+    <addaction name="actionAdd_use_case"/>
+    <addaction name="actionAdd_node"/>
+    <addaction name="actionAdd_module"/>
+    <addaction name="actionAdd_coloboration"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionShow_toolbar"/>
+   </widget>
+   <addaction name="maFile"/>
+   <addaction name="maActions"/>
+   <addaction name="menuView"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="windowTitle">
+    <string>Панель инструментов</string>
+   </property>
+   <property name="toolTip">
+    <string>Панель инструментов</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpen_project"/>
+   <addaction name="actionSave_project"/>
+   <addaction name="separator"/>
+   <addaction name="actionGeneration"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdd_activity"/>
+   <addaction name="actionAdd_condition"/>
+   <addaction name="actionAdd_sync"/>
+   <addaction name="actionAddState"/>
+   <addaction name="actionAdd_use_case"/>
+   <addaction name="actionAdd_author"/>
+   <addaction name="actionAdd_node"/>
+   <addaction name="actionAdd_module"/>
+   <addaction name="actionAdd_coloboration"/>
+   <addaction name="separator"/>
+   <addaction name="actionLevel_up"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAddState">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/textedit/images/filenew.png</normaloff>:/textedit/images/filenew.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add state</string>
+   </property>
+   <property name="shortcut">
+    <string>+</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/exit.png</normaloff>:/icons/images/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionGeneration">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/finish.png</normaloff>:/icons/images/finish.png</iconset>
+   </property>
+   <property name="text">
+    <string>Generation</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionLevel_up">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/go-up.png</normaloff>:/icons/images/go-up.png</iconset>
+   </property>
+   <property name="text">
+    <string>Level up</string>
+   </property>
+   <property name="toolTip">
+    <string>Level up</string>
+   </property>
+   <property name="shortcut">
+    <string>PgUp, Backspace</string>
+   </property>
+  </action>
+  <action name="actionSave_project">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/textedit/images/filesave.png</normaloff>:/textedit/images/filesave.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save project</string>
+   </property>
+   <property name="toolTip">
+    <string>Save project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionOpen_project">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/document-open.png</normaloff>:/icons/images/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open project</string>
+   </property>
+   <property name="toolTip">
+    <string>Open project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionCreate_project">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/document-new.png</normaloff>:/icons/images/document-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>Create project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionAdd_activity">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/filenew.png</normaloff>:/icons/images/filenew.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add activity</string>
+   </property>
+   <property name="toolTip">
+    <string>Add activity</string>
+   </property>
+  </action>
+  <action name="actionAdd_condition">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/test.png</normaloff>:/icons/images/test.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add condition</string>
+   </property>
+  </action>
+  <action name="actionAdd_sync">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/editcopy.png</normaloff>:/icons/images/editcopy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add sync</string>
+   </property>
+   <property name="toolTip">
+    <string>Add sync</string>
+   </property>
+  </action>
+  <action name="actionAdd_author">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/add.bmp</normaloff>:/icons/images/add.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Add author</string>
+   </property>
+   <property name="toolTip">
+    <string>Add author</string>
+   </property>
+  </action>
+  <action name="actionAdd_use_case">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/filenew.png</normaloff>:/icons/images/filenew.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add use case</string>
+   </property>
+  </action>
+  <action name="actionAdd_node">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/textedit/images/fileprint.png</normaloff>:/textedit/images/fileprint.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add node</string>
+   </property>
+   <property name="toolTip">
+    <string>Add node</string>
+   </property>
+  </action>
+  <action name="actionAdd_module">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/dev</normaloff>:/icons/dev</iconset>
+   </property>
+   <property name="text">
+    <string>Add module</string>
+   </property>
+   <property name="toolTip">
+    <string>Add module</string>
+   </property>
+  </action>
+  <action name="actionAdd_coloboration">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/filenew.png</normaloff>:/icons/images/filenew.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add coloboration</string>
+   </property>
+   <property name="toolTip">
+    <string>Add coloboration</string>
+   </property>
+  </action>
+  <action name="actionShow_toolbar">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/host</normaloff>:/icons/host</iconset>
+   </property>
+   <property name="text">
+    <string>Show toolbar</string>
+   </property>
+   <property name="toolTip">
+    <string>Show toolbar</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="../../share/mainResources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
