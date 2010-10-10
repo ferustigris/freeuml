@@ -161,8 +161,17 @@ QString Edge::getData () const
 	return name;
 }
 /*!\func
+ * type of relation
+ * \params no
+ * \return type of edge
+ */
+Types Edge::getType() const
+{
+	return EDGE_SIMPLE;
+}
+/*!\func
  * подцепить мышью
- * \param
+ * \params
  * - event - событие
  * \return нет
  */
@@ -175,4 +184,14 @@ void Edge::mousePressEvent(QGraphicsSceneMouseEvent *event)
 		update();
 	}
 	QGraphicsItem::mousePressEvent(event);
+}
+/*!\func
+ * set name
+ * \params
+ * - name - new name
+ * \return no
+ */
+void  Edge::setName(const QString&name)
+{
+	this->name = name;
 }

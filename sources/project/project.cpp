@@ -200,6 +200,7 @@ void Project::save_edge(QDomElement& parent, INode* node)
 		e.setAttribute("from", item->sourceNode()->getId());
 		e.setAttribute("to", item->destNode()->getId());
 		e.setAttribute("data", item->getData());
+		e.setAttribute("type", item->getType());
 		parent.appendChild(e);
 	}
 }
@@ -330,7 +331,16 @@ int Project::load_one_edge(QDomNode& parent, GraphBody*activity)
 			INode *nto = findNode(to, activity->getParentNode()), *nfrom = findNode(from, activity->getParentNode());
 			if((nto)&&(nfrom))
 			{
-				IEdge*n = activity->getFactory()->newEdgeSimple(nfrom, nto, e.attribute("data"));
+				IEdge*n = 0;
+				switch(e.attribute("type").toInt()) {
+				case EDGE_LIST:
+					n = activity->getFactory()->newEdgeList(nfrom, nto, e.attribute("data"));
+					break;
+				case EDGE_SIMPLE:
+					;;
+				default:
+					n = activity->getFactory()->newEdgeSimple(nfrom, nto, e.attribute("data"));
+				}
 				n->Hide();
 			}
 		}

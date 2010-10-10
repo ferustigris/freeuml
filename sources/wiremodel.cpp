@@ -53,7 +53,7 @@ QVariant TInputModel::data ( const QModelIndex &index, int role) const
 	{
 	case 0:
 		if(role == Qt::DisplayRole)
-			return  inputs[index.row()].direct ? "->" : "<-";
+			return  inputs[index.row()].direct ? "+" : "-";
 		else
 			return  inputs[index.row()].direct;
 	case 1:
@@ -161,7 +161,7 @@ bool TInputModel::removeRows(int position, int rows, const QModelIndex &parent)
 		if(inputs.count() > position)
 		{
 			inputs.removeAt(position);
-			this->rows--;
+			this+rows--;
 		}
     endRemoveRows();
     return success;
@@ -190,8 +190,8 @@ QWidget *IDelegate::createEditor(QWidget *parent,
 	case 0:
 	{
 			QComboBox *editor = new QComboBox(parent);
-			editor->addItem("<-");
-			editor->addItem("->");
+			editor->addItem("-");
+			editor->addItem("+");
 			return editor;
 	}
 	case 1:

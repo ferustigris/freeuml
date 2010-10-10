@@ -20,11 +20,13 @@ public:
 	void setState (const States newState);
 	States getState () const;
 	virtual QString getData () const;
+	virtual Types getType() const;
 protected:
 	virtual QRectF boundingRect() const;
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event );
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+	void setName(const QString&name);
 private:
 	GraphBody *graph;
 	INode *source, *dest;
