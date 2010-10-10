@@ -128,9 +128,7 @@ void StateBody::on_actionHelp_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(INode*n = getSelectedNode())
 	{
-		static QSharedPointer<TDialogAddItem> dlg;
-		dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(n,""));
-		dlg->show();
+		TDialogAddItem::getHelp(n);
 		change(true);
 	}
 }

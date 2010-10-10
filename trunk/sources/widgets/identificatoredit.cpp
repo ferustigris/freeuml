@@ -20,22 +20,23 @@ IdentificatorEdit::IdentificatorEdit(QWidget *parent) :
  */
 void IdentificatorEdit::textEdited ( const QString & text )
 {
-    QString valid("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm_"), digits("1234567890");
-    if(text.isEmpty())
-    {
-//        setText("_" + QString::number(qrand()));
-    }
-    else
-    if(valid.contains(text[0]))
-    {
-        for(int i = 1; i < text.length(); i++)
-            if(!valid.contains(text[i])&&!digits.contains(text[i]))
-            {
-                setText(oldText);
-                return;
-            }
-        oldText = text.left(32);
-    }
-    if(oldText != text)
-        setText(oldText);
+	//QString latin("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"),
+	//cyrilic("ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆÝß×ÑÌÈÒÜÁÞéöóêåíãøùçõúôûâàïðîëäæýÿ÷ñìèòüáþ"),
+	//signs("._-=+*/()[]{}<>!?"), digits("1234567890");
+	//QString valid(latin + cyrilic + signs);
+	if(text.isEmpty())
+	{
+	}
+	else
+	{
+		/*for(int i = 0; i < text.length(); i++)
+			if(!valid.contains(text[i])&&!digits.contains(text[i]))
+			{
+				setText(oldText);
+				return;
+			}*/
+			oldText = text.left(32);
+	}
+	if(oldText != text)
+		setText(oldText);
 }

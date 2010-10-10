@@ -147,12 +147,7 @@ void UseCaseBody::on_actionHelp_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(INode*n = getSelectedNode())
 	{
-		//if(n->getType() != TOP_SYNC)
-		{
-			static QSharedPointer<TDialogAddItem> dlg;
-			dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(n,""));
-			dlg->show();
-			change(true);
-		}
+		TDialogAddItem::getHelp(n);
+		change(true);
 	}
 }
