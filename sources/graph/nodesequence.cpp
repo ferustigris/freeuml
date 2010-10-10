@@ -26,7 +26,7 @@ QRectF NodeSequence::boundingRect() const
 {
 	qreal width = name->boundingRect().width() + 10;
 	qreal height = name->boundingRect().height() + 5;
-	return QRectF(-width/2-3, -height/2-3, width+6, height+6);
+	return QRectF(-width/2-3, -height/2-3, width+6, height+6 + 1000);
 }
 /*!\func
  * перерисовка
@@ -40,6 +40,8 @@ void NodeSequence::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 {
 	qreal width = name->boundingRect().width() + 10;
 	qreal height = name->boundingRect().height() + 5;
+	painter->setPen(Qt::DotLine);
+	painter->drawLine(0,0,0,1000);
 	if(graph->getCurIndex() == id)
 	{
 		painter->setPen(Qt::NoPen);
@@ -88,7 +90,8 @@ QPainterPath NodeSequence::shape() const
 	QPainterPath path;
 	qreal width = name->boundingRect().width() + 10;
 	qreal height = name->boundingRect().height() + 5;
-	path.addRect(-width/2-3, -height/2-3, width+6, height+6);
+	path.addRect(-width/2-3, -height/2-3, width+6, height+6 );
+	path.addRect(-1, 0, 2, 1000);
 	return path;
 }
 /*!\func TShape::setName
