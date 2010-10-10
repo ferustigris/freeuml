@@ -39,7 +39,10 @@ SOURCES += main.cpp \
     sources/graph/nodehost.cpp \
     sources/graph/collaborationbody.cpp \
 	sources/graph/edgedirectlist.cpp \
-    sources/graph/edgeparams.cpp
+    sources/graph/edgeparams.cpp \
+    sources/graph/sequencebody.cpp \
+    sources/graph/nodesequence.cpp \
+    sources/graph/edgesequence.cpp
 HEADERS += sources/mainwindow.h \
     sources/log/errors.h \
     sources/graph/graphbody.h \
@@ -67,7 +70,10 @@ HEADERS += sources/mainwindow.h \
     sources/graph/nodehost.h \
     sources/graph/collaborationbody.h \
 	sources/graph/edgedirectlist.h \
-    sources/graph/edgeparams.h
+    sources/graph/edgeparams.h \
+    sources/graph/sequencebody.h \
+    sources/graph/nodesequence.h \
+    sources/graph/edgesequence.h
 FORMS += sources/forms/mainwindow.ui \
     sources/forms/graphbody.ui \
     sources/forms/generator.ui \

@@ -185,13 +185,3 @@ void Edge::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	}
 	QGraphicsItem::mousePressEvent(event);
 }
-/*!\func
- * set name
- * \params
- * - name - new name
- * \return no
- */
-void  Edge::setName(const QString&name)
-{
-	this->name = name;
-}

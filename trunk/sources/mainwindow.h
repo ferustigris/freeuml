@@ -35,6 +35,7 @@ private:
 	QSharedPointer<GraphBody> fsm;
 	QSharedPointer<GraphBody> topology;
 	QSharedPointer<GraphBody> collaboration;
+	QSharedPointer<GraphBody> sequence;
 	GraphBody*current;
 	bool hasChanges;
 protected:
@@ -47,10 +48,12 @@ protected:
 	void createNewFSM();
 	void createNewTopology();
 	void createNewCollaboration();
+	void createNewSequence();
 private slots:
+	void on_actionAdd_sequence_triggered();
 	void on_actionShow_toolbar_triggered();
- void on_actionAdd_coloboration_triggered();
- void on_actionAdd_module_triggered();
+	void on_actionAdd_coloboration_triggered();
+	void on_actionAdd_module_triggered();
 	void on_actionAdd_node_triggered();
 	void on_actionAdd_use_case_triggered();
 	void on_actionAdd_author_triggered();

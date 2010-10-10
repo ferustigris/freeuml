@@ -10,6 +10,7 @@
 #include "usecasebody.h"
 #include "statebody.h"
 #include "topologybody.h"
+#include "sequencebody.h"
 #include "collaborationbody.h"
 
 /*!\func
@@ -133,6 +134,17 @@ void EnterInputs::createNewCollaboration()
 	ui->coloborationLayout->addWidget(collaboration.data());
 }
 /*!\func
+ * create new body for Sequence diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::createNewSequence()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	sequence = QSharedPointer<GraphBody>(new SequenceBody(this));
+	ui->sequenceLayout->addWidget(sequence.data());
+}
+/*!\func
  * user said: generate code!
  * \params no
  * \return no
@@ -250,6 +262,7 @@ bool EnterInputs::newProject ()
 	createNewFSM();
 	createNewTopology();
 	createNewCollaboration();
+	createNewSequence();
 	project = QSharedPointer<Project>(new Project(activity.data(), useCase.data(), fsm.data(), topology.data(), collaboration.data(), project_name));
 	project->load();
 	setWindowTitle(window_title + " - " + project->getProjectName());
@@ -317,6 +330,7 @@ void EnterInputs::on_datagrams_currentChanged(int index)
 	ui->actionAdd_node->setVisible(false);
 	ui->actionAdd_module->setVisible(false);
 	ui->actionAdd_coloboration->setVisible(false);
+	ui->actionAdd_sequence->setVisible(false);
 	switch(index)
 	{
 	case 0://activity
@@ -342,6 +356,10 @@ void EnterInputs::on_datagrams_currentChanged(int index)
 	case 4://collaboration
 		current = collaboration.data();
 		ui->actionAdd_coloboration->setVisible(true);
+		break;
+	case 5://sequence
+		current = sequence.data();
+		ui->actionAdd_sequence->setVisible(true);
 		break;
 	}
 	current->reflesh();
@@ -426,7 +444,7 @@ void EnterInputs::on_actionAdd_module_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	topology->addTop(TOP_ACTIVITY);
 }
-/*!\func
+/*! \func
  * add new component to collaboration diagram
  * \params no
  * \return no
@@ -435,4 +453,14 @@ void EnterInputs::on_actionAdd_coloboration_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	collaboration->addTop(TOP_ACTIVITY);
+}
+/*! \func
+ * add new sequence to sequence diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionAdd_sequence_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	sequence->addTop(TOP_SEQUENCE);
 }

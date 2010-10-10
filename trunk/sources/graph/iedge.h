@@ -7,6 +7,7 @@
 enum Types {
 	EDGE_SIMPLE = 0,
 	EDGE_LIST,
+	EDGE_SEQUENCE,
 };
 
 class INode;
