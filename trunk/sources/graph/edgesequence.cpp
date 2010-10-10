@@ -24,7 +24,7 @@ EdgeSequence::EdgeSequence(GraphBody *graphWidget, INode *sourceNode, INode *des
 	shift = 0;
 	QString str(name.section(".", -1));
 	QString num(name.section(".", 0, 0));
-	QMessageBox::information(0, str, num);
+	//QMessageBox::information(0, str, num);
 	if(!num.isEmpty())
 	{
 		bool ok = false;
@@ -38,6 +38,7 @@ EdgeSequence::EdgeSequence(GraphBody *graphWidget, INode *sourceNode, INode *des
 		foreach(INode*n, sourceNode->getParent()->nodes())
 			shift += n->edgesIn().count();
 	this->name = str;
+	setFlags(flags() | QGraphicsItem::ItemSendsGeometryChanges | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsScenePositionChanges);
 }
 /*! \func
  * destructor
@@ -164,5 +165,83 @@ QString EdgeSequence::getData () const
  */
 void EdgeSequence::Edit()
 {
-	name = QInputDialog::getText(0, QApplication::translate("Edge", "Change edge name"), QApplication::translate("Edge", "new name:"),QLineEdit::Normal, name);
+	QString tmp = QInputDialog::getText(0, QApplication::translate("Edge", "Change edge name"), QApplication::translate("Edge", "new name:"),QLineEdit::Normal, name);
+	if(!tmp.isEmpty())
+		name = tmp;
+}
+/*! \func
+ * move item handler
+ * \params
+ * - event - event params
+ * \return no
+ */
+void EdgeSequence::hoverMoveEvent ( QGraphicsSceneHoverEvent * event )
+{
+	QMessageBox::information(0, "1", "2");
+}
+/*!\func
+ * edge changed
+ * \param
+ * - тип изменения
+ * - новое значение
+ * \return нет
+ */
+QVariant EdgeSequence::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+	if (change == ItemPositionChange)
+	{
+		// value is the new position.
+		QPointF newPos = value.toPointF();
+		newPos.setX(pos().x());
+		//newPos.setY(((int)newPos.y())%(int)(2*arrowSize));
+		//QMessageBox::information(0, ",", QString::number(newPos.y()/(2*arrowSize)));
+		return newPos;
+	}
+	return QGraphicsItem::itemChange(change, value);
+}
+/*!\func
+ * отпустить мышь
+ * \param
+ * - тип изменения
+ * \return нет
+ */
+void EdgeSequence::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
+{
+	int newShift = event->scenePos().y()/(2*arrowSize) - 1;
+	QMessageBox::information(0, ",", QString::number(newShift));
+	EdgeSequence*edge1 = NULL, *edge2 = NULL;
+	foreach(INode*n, sourceNode()->getParent()->nodes())
+	{
+		foreach(IEdge*e, n->edgesIn())
+		{
+			EdgeSequence*edge = static_cast<EdgeSequence*>(e);
+			if(edge)
+			{
+				if(edge->shift == newShift)continue;
+				if(edge->shift < newShift)
+				{
+					if(edge1)
+					{
+						if(edge1->pos().y() < y)
+							edge1 = edge;
+					}
+					else edge1 = edge;
+				}
+				if(y > event->pos().y())
+				{
+					if(edge2)
+					{
+						if(edge2->pos().y() > y)
+							edge2 = edge;
+					}
+					else edge2 = edge;
+				}
+			}
+		}
+	}
+	if(edge1&&edge2)
+	{
+		QMessageBox::information(0, edge1->name, edge2->name);
+	}
+
 }

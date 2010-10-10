@@ -17,6 +17,9 @@ public:
 protected:
 	virtual QRectF boundingRect() const;
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+	virtual void hoverMoveEvent ( QGraphicsSceneHoverEvent * event );
+	virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 private:
 	QPointF sourcePoint;
 	QPointF destPoint;

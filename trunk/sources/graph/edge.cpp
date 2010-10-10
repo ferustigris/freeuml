@@ -143,7 +143,9 @@ void Edge::Remove()
 //! remove
 void Edge::Edit()
 {
-	name = QInputDialog::getText(0, QApplication::translate("Edge", "Change edge name"), QApplication::translate("Edge", "new name:"),QLineEdit::Normal, name);
+	QString tmp = QInputDialog::getText(0, QApplication::translate("Edge", "Change edge name"), QApplication::translate("Edge", "new name:"),QLineEdit::Normal, name);
+	if(!tmp.isEmpty())
+		name = tmp;
 }
 //! state of edge
 void Edge::setState (const States newState)
