@@ -15,11 +15,13 @@ public:
 	INode*newIf(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos);
 	INode*newSync(const qint32 id, INode *parent, const QPointF&pos);
 	INode*newAuthor(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos);
+	INode*newSequence(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help);
 	INode*newSimple(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos);
 	INode*newHost(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos);
 	INode*newRoot();
 	//edges
 	IEdge*newEdgeSimple(INode *source, INode *dest, const QString&name);
+	IEdge*newEdgeSequence(INode *source, INode *dest, const QString&name);
 	IEdge*newEdgeList(INode *source, INode *dest, const QString&data);
 private:
 	GraphBody*gb;

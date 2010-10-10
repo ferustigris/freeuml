@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>442</width>
+    <width>629</width>
     <height>473</height>
    </rect>
   </property>
@@ -37,7 +37,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="activity">
        <attribute name="title">
@@ -89,6 +89,16 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="Sequence">
+       <attribute name="title">
+        <string>Sequence</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="sequenceLayout"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -98,7 +108,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>442</width>
+     <width>629</width>
      <height>18</height>
     </rect>
    </property>
@@ -127,6 +137,7 @@
     <addaction name="actionAdd_node"/>
     <addaction name="actionAdd_module"/>
     <addaction name="actionAdd_coloboration"/>
+    <addaction name="actionAdd_sequence"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -165,6 +176,7 @@
    <addaction name="actionAdd_author"/>
    <addaction name="actionAdd_node"/>
    <addaction name="actionAdd_module"/>
+   <addaction name="actionAdd_sequence"/>
    <addaction name="actionAdd_coloboration"/>
    <addaction name="separator"/>
    <addaction name="actionLevel_up"/>
@@ -366,6 +378,15 @@
    </property>
    <property name="toolTip">
     <string>Show toolbar</string>
+   </property>
+  </action>
+  <action name="actionAdd_sequence">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/textedit/images/filenew.png</normaloff>:/textedit/images/filenew.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add sequence</string>
    </property>
   </action>
  </widget>

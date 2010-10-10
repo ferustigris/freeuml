@@ -161,7 +161,7 @@ bool TInputModel::removeRows(int position, int rows, const QModelIndex &parent)
 		if(inputs.count() > position)
 		{
 			inputs.removeAt(position);
-			this+rows--;
+			this->rows--;
 		}
     endRemoveRows();
     return success;

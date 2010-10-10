@@ -12,7 +12,7 @@ public:
 	~Edge();
 	INode *sourceNode() const;
 	INode *destNode() const;
-	void adjust();
+	virtual void adjust();
 	void Show();
 	void Hide();
 	void Remove();
@@ -26,7 +26,6 @@ protected:
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event );
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-	void setName(const QString&name);
 private:
 	GraphBody *graph;
 	INode *source, *dest;
