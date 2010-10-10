@@ -13,13 +13,14 @@
  * \param no
  * \return no
  */
-Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *collaboration, const QString&_path) : file(_path)
+Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *collaboration, GraphBody *sequence, const QString&_path) : file(_path)
 {//
 	this->activity = activity;
 	this->useCase = useCase;
 	this->state = state;
 	this->topology = topology;
 	this->collaboration = collaboration;
+	this->sequence = sequence;
 	fileName = _path + projectMainFile;
 	path = _path;
 	tmpProject = false;
@@ -42,6 +43,7 @@ Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, Grap
 	content += "\t<State />\n";
 	content += "\t<Topology />\n";
 	content += "\t<Collaboration />\n";
+	content += "\t<Sequence />\n";
 	content += "</project>\n";
 	create_new();
 	if(file.open(QIODevice::ReadWrite))
@@ -114,6 +116,11 @@ int Project::load()
 			load_node(n, collaboration->getParentNode(), collaboration);
 			load_edges(n, collaboration);
 		}
+		if((e.tagName() =="Sequence"))
+		{
+			load_node(n, sequence->getParentNode(), sequence);
+			load_edges(n, sequence);
+		}
 		n = n.nextSibling();
 	}
 	return 0;
@@ -157,6 +164,8 @@ void Project::save()
 			save_node(e, topology->getParentNode());
 		if((e.tagName() =="Collaboration"))
 			save_node(e, collaboration->getParentNode());
+		if((e.tagName() =="Sequence"))
+			save_node(e, sequence->getParentNode());
 		n = n.nextSibling();
 	}
 	QTextStream tf(&file);
@@ -333,6 +342,9 @@ int Project::load_one_edge(QDomNode& parent, GraphBody*activity)
 			{
 				IEdge*n = 0;
 				switch(e.attribute("type").toInt()) {
+				case EDGE_SEQUENCE:
+					n = activity->getFactory()->newEdgeSequence(nfrom, nto, e.attribute("data"));
+					break;
 				case EDGE_LIST:
 					n = activity->getFactory()->newEdgeList(nfrom, nto, e.attribute("data"));
 					break;
@@ -390,10 +402,10 @@ int Project::load_node(QDomNode& parent, INode* pnode, GraphBody*activity)
 			case TOP_SYNC:
 				n = activity->getFactory()->newSync(id, pnode, QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
 				break;
-			case TOP_ACTIVITY:
-				n = activity->getFactory()->newActivity(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
-											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
+			case TOP_SEQUENCE:
+				n = activity->getFactory()->newSequence(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"));
 				break;
+			case TOP_ACTIVITY:
 			default:
 				n = activity->getFactory()->newActivity(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
 											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));

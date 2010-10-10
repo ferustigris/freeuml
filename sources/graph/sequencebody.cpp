@@ -57,7 +57,7 @@ bool SequenceBody::addRelation(const qint16& index,const qint16& relationWith)
 		if(dest && source )
 			if((dest->getId() != source->getId()))
 				{
-					getFactory()->newEdgeSequence(source, dest, "1.asd");
+					getFactory()->newEdgeSequence(source, dest, "");
 					change(true);
 					return true;
 				}
