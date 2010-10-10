@@ -4,6 +4,11 @@
 #include <QObject>
 #include <QGraphicsItem>
 
+enum Types {
+	EDGE_SIMPLE = 0,
+	EDGE_LIST,
+};
+
 class INode;
 //! virtual classs for edges
 class IEdge : public QGraphicsItem
@@ -25,5 +30,6 @@ public:
 	virtual void setState (const States newState) = 0;
 	virtual States getState () const = 0;
 	virtual QString getData() const = 0;
+	virtual Types getType() const = 0;
 };
 #endif // IEDGE_H
