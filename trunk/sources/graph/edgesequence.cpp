@@ -38,7 +38,7 @@ EdgeSequence::EdgeSequence(GraphBody *graphWidget, INode *sourceNode, INode *des
 		foreach(INode*n, sourceNode->getParent()->nodes())
 			shift += n->edgesIn().count();
 	this->name = str;
-	setFlags(flags() | QGraphicsItem::ItemSendsGeometryChanges | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsScenePositionChanges);
+	setFlags(QGraphicsItem::ItemSendsGeometryChanges | QGraphicsItem::ItemIsMovable);
 }
 /*! \func
  * destructor
@@ -55,21 +55,10 @@ EdgeSequence::~EdgeSequence()
  */
 void EdgeSequence::adjust()
 {
-	if (!sourceNode() || !destNode())
-		return;
-	QLineF line(mapFromItem(sourceNode(), 0, 0), mapFromItem(destNode(), 0, 0));
-	qreal length = line.length();
-	prepareGeometryChange();
-	if (!qFuzzyCompare(length, qreal(0.0)))
-	{
-		QPointF edgeOffset((line.dx() * 10) / length, (line.dy() * 10) / length);
-		sourcePoint = line.p1() + edgeOffset;
-		destPoint = line.p2() - edgeOffset;
-	} else {
-		sourcePoint = destPoint = line.p1();
-	}
-	sourcePoint = QPointF(sourcePoint.x(), sourcePoint.y() + (1+shift)*2*arrowSize);
-	destPoint = QPointF(destPoint.x(), destPoint.y() + (1+shift)*2*arrowSize);
+	sourcePoint = QPointF(sourceNode()->x(), sourceNode()->y() + (1+shift)*2*arrowSize);
+	destPoint = QPointF(destNode()->x(), destNode()->y() + (1+shift)*2*arrowSize);
+	rect = QRectF(0,-arrowSize,destPoint.x()-sourcePoint.x(), 2*arrowSize);
+	setPos(sourcePoint);
 }
 /*!\func
  * type of relation
@@ -87,15 +76,7 @@ Types EdgeSequence::getType() const
  */
  QRectF EdgeSequence::boundingRect() const
 {
-	if (!sourceNode() || !destNode())
-		return QRectF();
-	if(sourcePoint == destPoint)
-	{
-		return QRectF(destPoint.x() - 28, destPoint.y() - 28, 30, 30);
-	}
-	qreal penWidth = 1;
-	qreal extra = (penWidth + arrowSize) / 2.0;
-	return QRectF(sourcePoint, QSizeF(destPoint.x() - sourcePoint.x(), destPoint.y() - sourcePoint.y())).normalized().adjusted(-extra, -extra, extra, extra);
+	return rect;
 }
  /*! \func
   * paint edge
@@ -105,48 +86,27 @@ Types EdgeSequence::getType() const
   */
 void EdgeSequence::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	if (!sourceNode() || !destNode())
-		return;
-	QColor color (Qt::black);
-	switch (getState()) {
-	case OFF:
-		color = Qt::gray;
-		break;
-	case OK:
-		color = Qt::green;
-		break;
-	case WARNING:
-	default:
-		color = Qt::red;
-	}
-
-	// Draw the line itself
-	if(sourceNode()->getId() == destNode()->getId())
+	painter->setPen(Qt::black);
+	painter->drawLine(0, 0, rect.width(), 0);
+	if(destPoint.x() < sourcePoint.x())
 	{
-		painter->setPen(QPen(color, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-		painter->drawEllipse(destPoint.x() - 28, destPoint.y() - 28, 30, 30);
-		painter->setPen(Qt::black);
-		painter->drawText(destPoint+QPoint(-28,-14), name);
+		painter->drawText(rect.width(),0, name);
+		painter->setPen(Qt::NoPen);
+		QPointF destArrowP1 = QPointF(rect.width() + arrowSize, -arrowSize/2);
+		QPointF destArrowP2 = QPointF(rect.width() + arrowSize,  arrowSize/2);
+		QPointF destArrowP3 = QPointF(rect.width(),  0);
+		painter->setBrush(Qt::gray);
+		painter->drawPolygon(QPolygonF() << destArrowP3<< destArrowP1 << destArrowP2 << destArrowP3);
 	}
-	else
+	if(destPoint.x() > sourcePoint.x())
 	{
-		QLineF line(sourcePoint, destPoint);
-		painter->setPen(QPen(color, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-		painter->drawLine(line);
-		// Draw the arrows if there's enough room
-		double angle = ::acos(line.dx() / line.length());
-		if (line.dy() >= 0)
-			angle = 2*Pi - angle;
-		QPointF destArrowP1 = (destPoint + sourcePoint)/2 + QPointF(sin(angle - Pi / 3) * arrowSize,
-							  cos(angle - Pi / 3) * arrowSize);
-		QPointF destArrowP2 = (destPoint + sourcePoint)/2 + QPointF(sin(angle - Pi + Pi / 3) * arrowSize,
-							  cos(angle - Pi + Pi / 3) * arrowSize);
-		QPointF destArrowP3 = (destPoint + sourcePoint)/2 + QPointF(sin(angle + Pi / 2) * arrowSize,
-							  cos(angle + Pi / 2) * arrowSize);
-		painter->setBrush(color);
-		painter->drawPolygon(QPolygonF() << destArrowP3 << destArrowP1 << destArrowP2);
-		painter->setPen(Qt::black);
-		painter->drawText((destPoint + sourcePoint)/2, name);
+		painter->drawText(0,0, name);
+		painter->setPen(Qt::NoPen);
+		QPointF destArrowP1 = QPointF(rect.width() - arrowSize, -arrowSize/2);
+		QPointF destArrowP2 = QPointF(rect.width() - arrowSize,  arrowSize/2);
+		QPointF destArrowP3 = QPointF(rect.width(),  0);
+		painter->setBrush(Qt::gray);
+		painter->drawPolygon(QPolygonF() << destArrowP3<< destArrowP1 << destArrowP2 << destArrowP3);
 	}
 }
 /*! \func
@@ -169,36 +129,6 @@ void EdgeSequence::Edit()
 	if(!tmp.isEmpty())
 		name = tmp;
 }
-/*! \func
- * move item handler
- * \params
- * - event - event params
- * \return no
- */
-void EdgeSequence::hoverMoveEvent ( QGraphicsSceneHoverEvent * event )
-{
-	QMessageBox::information(0, "1", "2");
-}
-/*!\func
- * edge changed
- * \param
- * - тип изменения
- * - новое значение
- * \return нет
- */
-QVariant EdgeSequence::itemChange(GraphicsItemChange change, const QVariant &value)
-{
-	if (change == ItemPositionChange)
-	{
-		// value is the new position.
-		QPointF newPos = value.toPointF();
-		newPos.setX(pos().x());
-		//newPos.setY(((int)newPos.y())%(int)(2*arrowSize));
-		//QMessageBox::information(0, ",", QString::number(newPos.y()/(2*arrowSize)));
-		return newPos;
-	}
-	return QGraphicsItem::itemChange(change, value);
-}
 /*!\func
  * отпустить мышь
  * \param
@@ -207,9 +137,10 @@ QVariant EdgeSequence::itemChange(GraphicsItemChange change, const QVariant &val
  */
 void EdgeSequence::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
 {
-	int newShift = event->scenePos().y()/(2*arrowSize) - 1;
-	QMessageBox::information(0, ",", QString::number(newShift));
-	EdgeSequence*edge1 = NULL, *edge2 = NULL;
+	int newShift = (event->scenePos().y()/(2*arrowSize) - 1), max = 0;
+	if(newShift < shift)newShift++;
+	if(newShift < 1)newShift = 1;
+	if(newShift == shift)return;
 	foreach(INode*n, sourceNode()->getParent()->nodes())
 	{
 		foreach(IEdge*e, n->edgesIn())
@@ -217,31 +148,34 @@ void EdgeSequence::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event )
 			EdgeSequence*edge = static_cast<EdgeSequence*>(e);
 			if(edge)
 			{
-				if(edge->shift == newShift)continue;
-				if(edge->shift < newShift)
+				if(edge->shift > max)max = edge->shift;
+				if(shift < newShift)
 				{
-					if(edge1)
-					{
-						if(edge1->pos().y() < y)
-							edge1 = edge;
-					}
-					else edge1 = edge;
+					if((edge->shift > shift)&&(edge->shift <= newShift))
+						edge->shift--;
 				}
-				if(y > event->pos().y())
+				if(shift > newShift)
 				{
-					if(edge2)
-					{
-						if(edge2->pos().y() > y)
-							edge2 = edge;
-					}
-					else edge2 = edge;
+					if((edge->shift >= newShift)&&(edge->shift < shift))
+						edge->shift++;
 				}
+				edge->adjust();
 			}
 		}
 	}
-	if(edge1&&edge2)
-	{
-		QMessageBox::information(0, edge1->name, edge2->name);
-	}
-
+	if(max < newShift)
+		newShift = max;
+	shift = newShift;
+	adjust();
+}
+/*!\func
+ * фигура для определения занимаемой пло-ди
+ * \param нет
+ * \return фигура
+ */
+QPainterPath EdgeSequence::shape() const
+{
+	QPainterPath path;
+	path.addRect(rect);
+	return path;
 }
