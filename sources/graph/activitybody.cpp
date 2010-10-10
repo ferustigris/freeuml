@@ -152,9 +152,7 @@ void ActivityBody::on_actionHelp_triggered()
 	{
 		if(n->getType() != TOP_SYNC)
 		{
-                        static QSharedPointer<TDialogAddItem> dlg;
-                        dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(n,""));
-			dlg->show();
+			TDialogAddItem::getHelp(n);
 			change(true);
 		}
 	}

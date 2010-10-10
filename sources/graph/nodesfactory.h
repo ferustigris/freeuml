@@ -20,6 +20,7 @@ public:
 	INode*newRoot();
 	//edges
 	IEdge*newEdgeSimple(INode *source, INode *dest, const QString&name);
+	IEdge*newEdgeList(INode *source, INode *dest, const QString&data);
 private:
 	GraphBody*gb;
 };

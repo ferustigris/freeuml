@@ -2,6 +2,7 @@
 #include "inode.h"
 #include "iedge.h"
 #include "edge.h"
+#include "edgedirectlist.h"
 #include "node.h"
 #include "nodeif.h"
 #include "nodeauthor.h"
@@ -125,6 +126,18 @@ INode* NodesFactory::newRoot()
 IEdge* NodesFactory::newEdgeSimple(INode *source, INode *dest, const QString&name)
 {
 	IEdge *e = new Edge(gb, source, dest, name);
+	return e;
+}
+/*!\func
+ * create new edge with list directions
+ * \params
+ * - dest - destination node
+ * - source - sources node
+ * \return pointer to new edge
+ */
+IEdge* NodesFactory::newEdgeList(INode *source, INode *dest, const QString&data)
+{
+	IEdge *e = new EdgeDirectList(gb, source, dest, data);
 	return e;
 }
 /*!\func

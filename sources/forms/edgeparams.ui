@@ -127,7 +127,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icons/images/new/gtk-no.png</normaloff>:/icons/images/new/gtk-no.png</iconset>
+         <normaloff>:/icons/del</normaloff>:/icons/del</iconset>
        </property>
       </widget>
      </item>

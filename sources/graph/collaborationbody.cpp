@@ -76,7 +76,7 @@ bool CollaborationBody::addRelation(const qint16& index,const qint16& relationWi
 					}
 					if(!present)
 					{
-						getFactory()->newEdgeSimple(source, dest, "");
+						getFactory()->newEdgeList(source, dest, "");
 						change(true);
 						return true;
 					}
@@ -129,9 +129,7 @@ void CollaborationBody::on_actionHelp_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(INode*n = getSelectedNode())
 	{
-		static QSharedPointer<TDialogAddItem> dlg;
-		dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(n,""));
-		dlg->show();
+		TDialogAddItem::getHelp(n);
 		change(true);
 	}
 }

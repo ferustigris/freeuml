@@ -3,7 +3,7 @@
 # -------------------------------------------------
 QT = core gui webkit \
     xml
-TARGET = uml_editor
+TARGET = freeuml
 TEMPLATE = app
 INCLUDEPATH += sources/graph \
     sources/forms \
@@ -37,7 +37,9 @@ SOURCES += main.cpp \
     sources/graph/statebody.cpp \
     sources/graph/topologybody.cpp \
     sources/graph/nodehost.cpp \
-    sources/graph/collaborationbody.cpp
+    sources/graph/collaborationbody.cpp \
+	sources/graph/edgedirectlist.cpp \
+    sources/graph/edgeparams.cpp
 HEADERS += sources/mainwindow.h \
     sources/log/errors.h \
     sources/graph/graphbody.h \
@@ -63,7 +65,9 @@ HEADERS += sources/mainwindow.h \
     sources/graph/statebody.h \
     sources/graph/topologybody.h \
     sources/graph/nodehost.h \
-    sources/graph/collaborationbody.h
+    sources/graph/collaborationbody.h \
+	sources/graph/edgedirectlist.h \
+    sources/graph/edgeparams.h
 FORMS += sources/forms/mainwindow.ui \
     sources/forms/graphbody.ui \
     sources/forms/generator.ui \

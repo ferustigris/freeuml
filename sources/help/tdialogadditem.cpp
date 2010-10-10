@@ -11,7 +11,6 @@
  * \return no
  */
 TDialogAddItem::TDialogAddItem(INode *mi, const QString &dbPath, QWidget *parent) :
-    QDialog(parent),
     m_ui(new Ui::TDialogAddItem) {
     m_ui->setupUi(this);
 	n = mi;
@@ -31,7 +30,19 @@ TDialogAddItem::TDialogAddItem(INode *mi, const QString &dbPath, QWidget *parent
  * \return no
  */
 TDialogAddItem::~TDialogAddItem() {
-    delete m_ui;
+	delete m_ui;
+}
+/*!\func
+ * get dialog
+ * \params
+ * - mi - node
+ * \return no
+ */
+void TDialogAddItem::getHelp(INode *mi)
+{
+	static QSharedPointer<TDialogAddItem> dlg;
+	dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(mi, ""));
+	dlg->show();
 }
 /*!\func
  * change
@@ -40,14 +51,14 @@ TDialogAddItem::~TDialogAddItem() {
  * \return no
  */
 void TDialogAddItem::changeEvent(QEvent *e) {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-	m_ui->retranslateUi(this);
-	break;
-    default:
-	break;
-    }
+	QDialog::changeEvent(e);
+	switch (e->type()) {
+	case QEvent::LanguageChange:
+		m_ui->retranslateUi(this);
+		break;
+	default:
+		break;
+	}
 }
 /*!\func
  * cancel slot
@@ -80,13 +91,13 @@ void TDialogAddItem::on_pbOk_pressed() {
  */
 bool isNamePresent(QString name, INode *n)
 {
-    if(!n)return false;
-    foreach(INode *child, n->getNodes())
-    {
-        if(isNamePresent(name, child))return true;
-    }
-    if(name == n->getName())return true;
-    return false;
+	if(!n)return false;
+	foreach(INode *child, n->getNodes())
+	{
+		if(isNamePresent(name, child))return true;
+	}
+	if(name == n->getName())return true;
+	return false;
 }
 /*!\func
  * text changed
