@@ -1,4 +1,4 @@
-#include "nodeauthor.h"
+#include "nodeclass.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QStyleOption>
@@ -11,7 +11,7 @@
  * \params no
  * \return no
  */
-NodeAuthor::NodeAuthor(GraphBody *graphWidget, INode* _parent, qint16 _id) : Node(graphWidget, _parent, _id)
+NodeClass::NodeClass(GraphBody *graphWidget, INode* _parent, qint16 _id) : Node(graphWidget, _parent, _id)
 {
 	graph = graphWidget;
 	id = _id;
@@ -23,7 +23,7 @@ NodeAuthor::NodeAuthor(GraphBody *graphWidget, INode* _parent, qint16 _id) : Nod
  * \param нет
  * \return занимемая пл-дь
  */
-QRectF NodeAuthor::boundingRect() const
+QRectF NodeClass::boundingRect() const
 {
 	return QRectF(-width/2-3, -3, width+6, height+6);
 }
@@ -35,7 +35,7 @@ QRectF NodeAuthor::boundingRect() const
  * - при кэшировании не используется
  * \return нет
  */
-void NodeAuthor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
+void NodeClass::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
 	if(graph->getCurIndex() == id)
 	{
@@ -70,7 +70,7 @@ void NodeAuthor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
  * \params no
  * \return type of node
  */
-TopTypes NodeAuthor::getType() const
+TopTypes NodeClass::getType() const
 {
 		return TOP_AUTHOR;
 }
@@ -79,11 +79,19 @@ TopTypes NodeAuthor::getType() const
  * \params нет
  * \return фигура
  */
-QPainterPath NodeAuthor::shape() const
+QPainterPath NodeClass::shape() const
 {
 	QPainterPath path;
 	qreal width = name->boundingRect().width()*1.1 + 10;
 	qreal height = width/2;
 	path.addRect(-width/2-3, -3, width+6, height+6);
 	return path;
+}
+/*!\func
+ * edit node
+ * \params no
+ * \return type of node
+ */
+void NodeClass::Edit()
+{
 }

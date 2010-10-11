@@ -36,6 +36,7 @@ private:
 	QSharedPointer<GraphBody> topology;
 	QSharedPointer<GraphBody> collaboration;
 	QSharedPointer<GraphBody> sequence;
+	QSharedPointer<GraphBody> classes;
 	GraphBody*current;
 	bool hasChanges;
 protected:
@@ -49,7 +50,9 @@ protected:
 	void createNewTopology();
 	void createNewCollaboration();
 	void createNewSequence();
+	void createNewClass();
 private slots:
+	void on_actionAdd_class_triggered();
 	void on_actionAdd_sequence_triggered();
 	void on_actionShow_toolbar_triggered();
 	void on_actionAdd_coloboration_triggered();

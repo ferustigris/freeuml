@@ -14,6 +14,7 @@ enum TopTypes
 	TOP_AUTHOR,
 	TOP_HOST,
 	TOP_SEQUENCE,
+	TOP_CLASS,
 };
 class INode : public QGraphicsItem
 {

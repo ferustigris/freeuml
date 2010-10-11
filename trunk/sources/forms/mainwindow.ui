@@ -37,7 +37,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="activity">
        <attribute name="title">
@@ -99,6 +99,16 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="Class">
+       <attribute name="title">
+        <string>Class</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="classLayout"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -138,6 +148,7 @@
     <addaction name="actionAdd_module"/>
     <addaction name="actionAdd_coloboration"/>
     <addaction name="actionAdd_sequence"/>
+    <addaction name="actionAdd_class"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -178,6 +189,7 @@
    <addaction name="actionAdd_module"/>
    <addaction name="actionAdd_sequence"/>
    <addaction name="actionAdd_coloboration"/>
+   <addaction name="actionAdd_class"/>
    <addaction name="separator"/>
    <addaction name="actionLevel_up"/>
   </widget>
@@ -387,6 +399,15 @@
    </property>
    <property name="text">
     <string>Add sequence</string>
+   </property>
+  </action>
+  <action name="actionAdd_class">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icons/images/filenew.png</normaloff>:/icons/images/filenew.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add class</string>
    </property>
   </action>
  </widget>
