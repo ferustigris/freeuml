@@ -41,6 +41,7 @@ public:
     virtual void Show() = 0;
     virtual void Hide() = 0;
     virtual void remove() = 0;
+	virtual void Edit() = 0;
 };
 
 #endif // INODE_H

@@ -2,7 +2,6 @@
 #include "errors.h"
 #include "mainwindow.h"
 #include <QTime>
-#include "tdialogadditem.h"
 #include "nodesfactory.h"
 #include <QObject>
 
@@ -135,19 +134,5 @@ void UseCaseBody::on_actionLevel_down_triggered()
 		{
 			GraphBody::on_actionLevel_down_triggered();
 		}
-	}
-}
-/*!\func
- * edit top
- * \params
- * \return
- */
-void UseCaseBody::on_actionHelp_triggered()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	if(INode*n = getSelectedNode())
-	{
-		TDialogAddItem::getHelp(n);
-		change(true);
 	}
 }

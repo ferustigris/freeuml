@@ -7,6 +7,7 @@
 #include "node.h"
 #include "errors.h"
 #include "graphbody.h"
+#include "tdialogadditem.h"
 
 /*!\func
  * конструктор. класс вершины графа
@@ -367,7 +368,8 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     graph->setCurIndex(id);
-    graph->on_actionHelp_triggered();
+	Edit();
+	//graph->on_actionHelp_triggered();
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 /*!\func
@@ -442,11 +444,11 @@ void Node::Hide()
 //! remove
 void Node::remove()
 {
-    Hide();
-    foreach(Edge*e, edgeListIn)
-        e->sourceNode()->delEdge(e);
-    foreach(Edge*e, edgeListOut)
-        e->destNode()->delEdge(e);
+	Hide();
+	foreach(Edge*e, edgeListIn)
+		e->sourceNode()->delEdge(e);
+	foreach(Edge*e, edgeListOut)
+		e->destNode()->delEdge(e);
 }
 /*!\func
  * type of node
@@ -455,5 +457,14 @@ void Node::remove()
  */
 TopTypes Node::getType() const
 {
-    return TOP_SIMPLE;
+	return TOP_SIMPLE;
+}
+/*!\func
+ * edit node
+ * \params no
+ * \return type of node
+ */
+void Node::Edit()
+{
+	TDialogAddItem::getHelp(this);
 }

@@ -31,10 +31,8 @@ protected:
 	virtual bool addRelation(const qint16& index,const qint16& relationWith);
 private slots:
 	virtual void on_actionLevel_down_triggered();
-        virtual void on_actionEdgeRemove_triggered(QObject*pointer);
-        virtual void on_actionEdgeEdit_triggered(QObject*pointer);
-public slots:
-	virtual void on_actionHelp_triggered();
+	virtual void on_actionEdgeRemove_triggered(QObject*pointer);
+	virtual void on_actionEdgeEdit_triggered(QObject*pointer);
 private:
 	QMenu ppTopMenu;
 };

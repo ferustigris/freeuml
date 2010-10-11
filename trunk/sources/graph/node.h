@@ -38,6 +38,7 @@ public:
 	virtual void setShortDesc(const QString&);
 	virtual void Show();
 	virtual void Hide();
+	virtual void Edit();
 protected:
 	QRectF boundingRect() const;
 	QPainterPath shape() const;

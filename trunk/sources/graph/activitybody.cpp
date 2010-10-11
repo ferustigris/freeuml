@@ -3,7 +3,6 @@
 #include "mainwindow.h"
 #include <QTime>
 #include <QSignalMapper>
-#include "tdialogadditem.h"
 #include "nodesfactory.h"
 #include <QObject>
 
@@ -137,23 +136,6 @@ void ActivityBody::on_actionLevel_down_triggered()
 		if(n->getType() != TOP_SYNC)
 		{
 			GraphBody::on_actionLevel_down_triggered();
-		}
-	}
-}
-/*!\func
- * edit top
- * \params
- * \return
- */
-void ActivityBody::on_actionHelp_triggered()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	if(INode*n = getSelectedNode())
-	{
-		if(n->getType() != TOP_SYNC)
-		{
-			TDialogAddItem::getHelp(n);
-			change(true);
 		}
 	}
 }

@@ -87,3 +87,11 @@ QPainterPath NodeAuthor::shape() const
 	path.addRect(-width/2-3, -3, width+6, height+6);
 	return path;
 }
+/*!\func
+ * edit node
+ * \params no
+ * \return type of node
+ */
+void NodeAuthor::Edit()
+{
+}
