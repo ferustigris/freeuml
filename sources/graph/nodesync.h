@@ -6,7 +6,8 @@ class NodeSync : public NodeActivity
 {
 public:
 	NodeSync(GraphBody *graphWidget, INode* _parent, qint16 _id);
-    virtual TopTypes getType() const;
+	virtual TopTypes getType() const;
+	virtual void Edit();
 private:
 	GraphBody *graph;
 	qint16 id;

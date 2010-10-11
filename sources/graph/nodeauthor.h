@@ -8,6 +8,7 @@ class NodeAuthor : public Node
 public:
 	NodeAuthor(GraphBody *graphWidget, INode* _parent, qint16 _id);
 	virtual TopTypes getType() const;
+	virtual void Edit();
 private:
 	GraphBody *graph;
 	qint16 id;

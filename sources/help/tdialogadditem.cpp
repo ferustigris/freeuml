@@ -11,13 +11,13 @@
  * \return no
  */
 TDialogAddItem::TDialogAddItem(INode *mi, const QString &dbPath, QWidget *parent) :
-    m_ui(new Ui::TDialogAddItem) {
-    m_ui->setupUi(this);
+	m_ui(new Ui::TDialogAddItem)
+{
+	m_ui->setupUi(this);
 	n = mi;
 	oldName = n->getName();
 	setModal(true);
 	m_ui->pbOk->setEnabled(true);
-	show();
 	m_ui->tabWidget->setCurrentIndex(0);
 	m_ui->textEdit->setCurrentFileName(dbPath);
 	m_ui->textEdit->fileOpen(mi->getHelpFile());
@@ -40,6 +40,7 @@ TDialogAddItem::~TDialogAddItem() {
  */
 void TDialogAddItem::getHelp(INode *mi)
 {
+	if(!mi)return;
 	static QSharedPointer<TDialogAddItem> dlg;
 	dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(mi, ""));
 	dlg->show();
@@ -66,14 +67,17 @@ void TDialogAddItem::changeEvent(QEvent *e) {
  * \return no
  */
 void TDialogAddItem::on_pbCancel_pressed() {
-    reject();
+	if(!n)return;
+	reject();
 }
 /*!\func
  * ok slot
  * \params no
  * \return no
  */
-void TDialogAddItem::on_pbOk_pressed() {
+void TDialogAddItem::on_pbOk_pressed()
+{
+	if(!n)return;
 	QString name(m_ui->leName->text());
 	n->setHelpFile(m_ui->textEdit->getCurrentFileName());
 	QString short_desc(m_ui->shortDescr->toPlainText());
@@ -107,7 +111,8 @@ bool isNamePresent(QString name, INode *n)
  */
 void TDialogAddItem::on_leName_textChanged(QString text)
 {
-    //QMessageBox::information(0, text, text);
+	if(!n)return;
+	//QMessageBox::information(0, text, text);
     if(oldName == text)
     {
         m_ui->pbOk->setEnabled(true);

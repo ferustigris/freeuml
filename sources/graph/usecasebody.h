@@ -19,7 +19,6 @@ protected:
 	virtual bool addRelation(const qint16& index,const qint16& relationWith);
 private slots:
 	virtual void on_actionLevel_down_triggered();
-	virtual void on_actionHelp_triggered();
 private:
 	QMenu ppTopMenu;
 };

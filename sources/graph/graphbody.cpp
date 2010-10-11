@@ -350,6 +350,11 @@ void GraphBody::changeEdge(IEdge* e)
  */
 void GraphBody::on_actionHelp_triggered()
 {
+	if(INode*n = getSelectedNode())
+	{
+		n->Edit();
+		change(true);
+	}
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 }
 /*!\func

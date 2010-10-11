@@ -17,7 +17,6 @@ public:
 	static void getHelp(INode *mi);
 protected:
 	virtual void changeEvent(QEvent *e);
-
 private:
 	Ui::TDialogAddItem *m_ui;
 	INode *n;
