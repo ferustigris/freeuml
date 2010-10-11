@@ -8,7 +8,7 @@
         <file>images/package-remove.png</file>
         <file alias="dev">images/emblem-system.png</file>
         <file>images/add.bmp</file>
-        <file alias="host">images/boot.png</file>
+        <file>images/boot.png</file>
         <file>images/document-new.png</file>
         <file>images/document-open.png</file>
         <file>images/editcopy.png</file>
@@ -19,7 +19,7 @@
         <file>images/exportpdf.png</file>
         <file>images/filenew.png</file>
         <file>images/fileopen.png</file>
-        <file>images/fileprint.png</file>
+        <file alias="host">images/fileprint.png</file>
         <file>images/filesave.png</file>
         <file>images/finish.png</file>
         <file alias="down">images/go-down.png</file>
