@@ -1,13 +1,14 @@
-#ifndef NodeAuthor_H
-#define NodeAuthor_H
+#ifndef NodeClass_H
+#define NodeClass_H
 #include "node.h"
 
 //! node for activity
-class NodeAuthor : public Node
+class NodeClass : public Node
 {
 public:
-	NodeAuthor(GraphBody *graphWidget, INode* _parent, qint16 _id);
+	NodeClass(GraphBody *graphWidget, INode* _parent, qint16 _id);
 	virtual TopTypes getType() const;
+	virtual void Edit();
 private:
 	GraphBody *graph;
 	qint16 id;
@@ -20,4 +21,4 @@ protected:
 
 };
 
-#endif // NodeAuthor_H
+#endif // NodeClass_H

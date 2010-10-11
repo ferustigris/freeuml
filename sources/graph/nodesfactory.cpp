@@ -5,6 +5,7 @@
 #include "edgesequence.h"
 #include "edgedirectlist.h"
 #include "node.h"
+#include "nodeclass.h"
 #include "nodeif.h"
 #include "nodeauthor.h"
 #include "nodesync.h"
@@ -168,6 +169,27 @@ IEdge* NodesFactory::newEdgeList(INode *source, INode *dest, const QString&data)
 INode* NodesFactory::newAuthor(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
 {
 	Node*n = new NodeAuthor(gb, parent, id);
+	gb->setMax(id);
+	n->setPos(pos);
+	n->setToolTip(desc);
+	n->setName(name);
+	n->setHelpFile(help);
+	parent->addNode(n);
+	return n;
+}
+/*!\func
+ * create new class
+ * \params
+ * - parent - parent of new node
+ * - name - name of node
+ * - desc - short description
+ * - help - help for node
+ * - pos - node position
+ * \return pointer to new node
+ */
+INode* NodesFactory::newClass(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+{
+	Node*n = new NodeClass(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);

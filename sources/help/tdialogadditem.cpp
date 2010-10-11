@@ -15,7 +15,7 @@ TDialogAddItem::TDialogAddItem(INode *mi, const QString &dbPath, QWidget *parent
 {
 	m_ui->setupUi(this);
 	n = mi;
-	oldName = n->getName();
+	oldName = mi->getName();
 	setModal(true);
 	m_ui->pbOk->setEnabled(true);
 	m_ui->tabWidget->setCurrentIndex(0);
@@ -41,8 +41,16 @@ TDialogAddItem::~TDialogAddItem() {
 void TDialogAddItem::getHelp(INode *mi)
 {
 	if(!mi)return;
-	static QSharedPointer<TDialogAddItem> dlg;
+	/*static QSharedPointer<TDialogAddItem> dlg;
 	dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(mi, ""));
+	dlg->show();*/
+	static TDialogAddItem*dlg = 0;
+	if(dlg)
+	{
+		delete dlg;
+		dlg = 0;
+	}
+	dlg = new TDialogAddItem(mi, "");
 	dlg->show();
 }
 /*!\func
@@ -67,7 +75,6 @@ void TDialogAddItem::changeEvent(QEvent *e) {
  * \return no
  */
 void TDialogAddItem::on_pbCancel_pressed() {
-	if(!n)return;
 	reject();
 }
 /*!\func
@@ -112,23 +119,22 @@ bool isNamePresent(QString name, INode *n)
 void TDialogAddItem::on_leName_textChanged(QString text)
 {
 	if(!n)return;
-	//QMessageBox::information(0, text, text);
-    if(oldName == text)
-    {
-        m_ui->pbOk->setEnabled(true);
-        return;
-    }
-    else
-    if((n)&&(!text.isEmpty()))
-    {
-        INode*p = n;
-        while(p->getParent())
-            p = p->getParent();
-        if(!isNamePresent(text, p))
-        {
-            m_ui->pbOk->setEnabled(true);
-            return;
-        }
-    }
-    m_ui->pbOk->setEnabled(false);
+	if(oldName == text)
+	{
+		m_ui->pbOk->setEnabled(true);
+		return;
+	}
+	else
+	if((n)&&(!text.isEmpty()))
+	{
+		INode*p = n;
+		while(p->getParent())
+			p = p->getParent();
+		if(!isNamePresent(text, p))
+		{
+			m_ui->pbOk->setEnabled(true);
+			return;
+		}
+	}
+	m_ui->pbOk->setEnabled(false);
 }

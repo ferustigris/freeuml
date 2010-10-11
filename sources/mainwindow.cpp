@@ -9,6 +9,7 @@
 #include "activitybody.h"
 #include "usecasebody.h"
 #include "statebody.h"
+#include "classbody.h"
 #include "topologybody.h"
 #include "sequencebody.h"
 #include "collaborationbody.h"
@@ -145,6 +146,17 @@ void EnterInputs::createNewSequence()
 	ui->sequenceLayout->addWidget(sequence.data());
 }
 /*!\func
+ * create new body for class diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::createNewClass()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	classes = QSharedPointer<GraphBody>(new ClassBody(this));
+	ui->classLayout->addWidget(classes.data());
+}
+/*!\func
  * user said: generate code!
  * \params no
  * \return no
@@ -263,6 +275,7 @@ bool EnterInputs::newProject ()
 	createNewTopology();
 	createNewCollaboration();
 	createNewSequence();
+	createNewClass();
 	project = QSharedPointer<Project>(new Project(activity.data(), useCase.data(), fsm.data(), topology.data(), collaboration.data(), sequence.data(), project_name));
 	project->load();
 	setWindowTitle(window_title + " - " + project->getProjectName());
@@ -331,6 +344,7 @@ void EnterInputs::on_datagrams_currentChanged(int index)
 	ui->actionAdd_module->setVisible(false);
 	ui->actionAdd_coloboration->setVisible(false);
 	ui->actionAdd_sequence->setVisible(false);
+	ui->actionAdd_class->setVisible(false);
 	switch(index)
 	{
 	case 0://activity
@@ -360,6 +374,10 @@ void EnterInputs::on_datagrams_currentChanged(int index)
 	case 5://sequence
 		current = sequence.data();
 		ui->actionAdd_sequence->setVisible(true);
+		break;
+	case 6://class
+		current = classes.data();
+		ui->actionAdd_class->setVisible(true);
 		break;
 	}
 	current->reflesh();
@@ -463,4 +481,14 @@ void EnterInputs::on_actionAdd_sequence_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	sequence->addTop(TOP_SEQUENCE);
+}
+/*! \func
+ * add new class to diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionAdd_class_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	classes->addTop(TOP_CLASS);
 }
