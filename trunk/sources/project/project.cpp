@@ -13,7 +13,7 @@
  * \param no
  * \return no
  */
-Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *collaboration, GraphBody *sequence, const QString&_path) : file(_path)
+Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *collaboration, GraphBody *sequence, GraphBody *classes, const QString&_path) : file(_path)
 {//
 	this->activity = activity;
 	this->useCase = useCase;
@@ -21,6 +21,7 @@ Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, Grap
 	this->topology = topology;
 	this->collaboration = collaboration;
 	this->sequence = sequence;
+	this->classes = classes;
 	fileName = _path + projectMainFile;
 	path = _path;
 	tmpProject = false;
@@ -44,6 +45,7 @@ Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, Grap
 	content += "\t<Topology />\n";
 	content += "\t<Collaboration />\n";
 	content += "\t<Sequence />\n";
+	content += "\t<Classes />\n";
 	content += "</project>\n";
 	create_new();
 	if(file.open(QIODevice::ReadWrite))
@@ -121,6 +123,11 @@ int Project::load()
 			load_node(n, sequence->getParentNode(), sequence);
 			load_edges(n, sequence);
 		}
+		if((e.tagName() =="Classes"))
+		{
+			load_node(n, classes->getParentNode(), classes);
+			load_edges(n, classes);
+		}
 		n = n.nextSibling();
 	}
 	return 0;
@@ -166,6 +173,8 @@ void Project::save()
 			save_node(e, collaboration->getParentNode());
 		if((e.tagName() =="Sequence"))
 			save_node(e, sequence->getParentNode());
+		if((e.tagName() =="Classes"))
+			save_node(e, classes->getParentNode());
 		n = n.nextSibling();
 	}
 	QTextStream tf(&file);
@@ -404,6 +413,10 @@ int Project::load_node(QDomNode& parent, INode* pnode, GraphBody*activity)
 				break;
 			case TOP_SEQUENCE:
 				n = activity->getFactory()->newSequence(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"));
+				break;
+			case TOP_CLASS:
+				n = activity->getFactory()->newClass(id, pnode, e.attribute("name"), e.attribute("short_description"),e.attribute("help"),
+													 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
 				break;
 			case TOP_ACTIVITY:
 			default:

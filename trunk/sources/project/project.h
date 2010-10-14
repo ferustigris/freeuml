@@ -13,7 +13,7 @@ const QString projectMainFile("/project.xml");
 class Project
 {
 public:
-	Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *colloboration, GraphBody *sequence, const QString&_path);
+	Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *colloboration, GraphBody *sequence, GraphBody *classes, const QString&_path);
 	~Project();
 	int load();
 	void save();
@@ -31,6 +31,7 @@ private:
 	GraphBody *topology;
 	GraphBody *collaboration;
 	GraphBody *sequence;
+	GraphBody *classes;
 	bool tmpProject;
 	QStringList mustBeRemoved;
 protected:

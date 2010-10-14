@@ -276,7 +276,7 @@ bool EnterInputs::newProject ()
 	createNewCollaboration();
 	createNewSequence();
 	createNewClass();
-	project = QSharedPointer<Project>(new Project(activity.data(), useCase.data(), fsm.data(), topology.data(), collaboration.data(), sequence.data(), project_name));
+	project = QSharedPointer<Project>(new Project(activity.data(), useCase.data(), fsm.data(), topology.data(), collaboration.data(), sequence.data(), classes.data(), project_name));
 	project->load();
 	setWindowTitle(window_title + " - " + project->getProjectName());
 	on_datagrams_currentChanged(0);
