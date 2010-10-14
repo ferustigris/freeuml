@@ -4,6 +4,7 @@
 #include <QStyleOption>
 #include "errors.h"
 #include "graphbody.h"
+#include "editclass.h"
 
 
 /*!\func
@@ -11,12 +12,14 @@
  * \params no
  * \return no
  */
-NodeClass::NodeClass(GraphBody *graphWidget, INode* _parent, qint16 _id) : Node(graphWidget, _parent, _id)
+NodeClass::NodeClass(GraphBody *graphWidget, INode* _parent, qint16 _id) : NodeActivity(graphWidget, _parent, _id)
 {
 	graph = graphWidget;
 	id = _id;
-	width = 5;
-	height = 15;
+	width = 40;
+	signWidth = 10;
+	signHeight = 20;
+	height = signHeight;
 }
 /*!\func
  * какую площадь займете?
@@ -25,7 +28,7 @@ NodeClass::NodeClass(GraphBody *graphWidget, INode* _parent, qint16 _id) : Node(
  */
 QRectF NodeClass::boundingRect() const
 {
-	return QRectF(-width/2-3, -3, width+6, height+6);
+	return QRectF(-3, -3, width+6, height+6);
 }
 /*!\func
  * перерисовка
@@ -41,29 +44,34 @@ void NodeClass::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	{
 		painter->setPen(Qt::NoPen);
 		painter->setBrush(QColor(0xd0, 0xd0, 0xd0, 100));
-		painter->drawRoundedRect(-width/2-3, -3, width+6, height+6, 5, 5);
+		painter->drawRoundedRect(-3, -3, width+6, height+6, 5, 5);
 	}
 	painter->setPen(Qt::black);
 	painter->setBrush(Qt::yellow);
 	if (option->state & QStyle::State_Sunken) {
 	} else {
 	}
-	QPainterPath path;
-	//body
-	path.moveTo(0, 0);
-	path.lineTo(0, 3*height/4);
-	//legs
-	path.lineTo(-width/2, height);
-	path.moveTo(0, 3*height/4);
-	path.lineTo(width/2, height);
-	//hands
-	path.moveTo(-width/2, height/2);
-	path.lineTo(width/2, height/2);
-	painter->setBrush(Qt::NoBrush);
-	painter->drawPath(path);
+	QFont font("Arial", 10, QFont::Normal);
+	font.setStyleStrategy(QFont::PreferAntialias);
+	painter->setFont(font);
+	painter->setPen(Qt::black);
 	painter->setBrush(Qt::yellow);
-	painter->drawEllipse(QPointF(0,height/4), width/2 + 1, width/2 + 1);
-	if(!nodes().isEmpty())painter->drawImage(QRect(width/2-height/2, 0, height/2, height/2), QImage(":/icons/down"));
+	painter->drawRect(0, 0, width, height);
+	qreal i = signHeight;
+	painter->drawLine(0, i, width, i);
+	painter->drawText(10, i-4, name->toPlainText());
+	foreach(QString text, fields)
+	{
+		i += signHeight;
+		painter->drawText(10, i-4, text);
+	}
+	painter->drawLine(0, i, width, i);
+	foreach(QString text, methods)
+	{
+		i += signHeight;
+		painter->drawText(10, i-4, text);
+	}
+	if(!nodes().isEmpty())painter->drawImage(QRectF(0, 0, 20, 20), QImage(":/icons/down"));
 }
 /*!\func
  * type of node
@@ -72,7 +80,7 @@ void NodeClass::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
  */
 TopTypes NodeClass::getType() const
 {
-		return TOP_AUTHOR;
+		return TOP_CLASS;
 }
 /*!\func
  * фигура для определения занимаемой пло-ди
@@ -82,9 +90,7 @@ TopTypes NodeClass::getType() const
 QPainterPath NodeClass::shape() const
 {
 	QPainterPath path;
-	qreal width = name->boundingRect().width()*1.1 + 10;
-	qreal height = width/2;
-	path.addRect(-width/2-3, -3, width+6, height+6);
+	path.addRect(-3, -3, width+6, height+6);
 	return path;
 }
 /*!\func
@@ -94,4 +100,120 @@ QPainterPath NodeClass::shape() const
  */
 void NodeClass::Edit()
 {
+	EditClass::getClass(this);
+}
+/*!\func
+ * set methods
+ * \params
+ * - methods - list of methods
+ * \return no
+ */
+void NodeClass::setMethods(const QStringList&methods)
+{
+	width = 40;
+	foreach(QString text, methods)
+	{
+		qreal newWidth = text.length()*signWidth + 20;
+		if(newWidth > width)width = newWidth;
+	}
+	foreach(QString text, fields)
+	{
+		qreal newWidth = text.length()*signWidth + 20;
+		if(newWidth > width)width = newWidth;
+	}
+	{
+		qreal newWidth = name->toPlainText().length()*signWidth + 20;
+		if(newWidth > width)width = newWidth;
+	}
+	height = (methods.count() + fields.count() + 1)*signHeight;
+	this->methods = methods;
+}
+/*!\func
+ * set fields
+ * \params no
+ * - fields - list of fields
+ * \return type of node
+ */
+void NodeClass::setFields(const QStringList&fields)
+{
+	width = 40;
+	foreach(QString text, methods)
+	{
+		qreal newWidth = text.length()*signWidth + 20;
+		if(newWidth > width)width = newWidth;
+	}
+	foreach(QString text, fields)
+	{
+		qreal newWidth = text.length()*signWidth + 20;
+		if(newWidth > width)width = newWidth;
+	}
+	{
+		qreal newWidth = name->toPlainText().length()*signWidth + 20;
+		if(newWidth > width)width = newWidth;
+	}
+	height = (methods.count() + fields.count() + 1)*signHeight;
+	this->fields = fields;
+}
+/*!\func
+ * get methods
+ * \params no
+ * \return list of methods
+ */
+QStringList NodeClass::getMethods()const
+{
+	return methods;
+}
+/*!\func
+ * get fields
+ * \params no
+ * \return list of fields
+ */
+QStringList NodeClass::getFields()const
+{
+	return fields;
+}
+/*!\func
+ * установить имя
+ * \param
+ * - newN - новое имя
+ * \return нет
+ */
+void NodeClass::setName(const QString&data) {
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	QStringList list = data.split("\n", QString::SkipEmptyParts);
+	if(list.count())
+	{
+		if(list.count() > 2)
+		{
+			QString name = list[0];
+			this->name->setPlainText(name);
+			QStringList fields = list[1].split("|", QString::SkipEmptyParts);
+			setFields(fields);
+			QStringList methods = list[2].split("|", QString::SkipEmptyParts);
+			setMethods(methods);
+		}
+		else name->setPlainText(data);
+		qreal newWidth = name->toPlainText().length()*signWidth + 20;
+		if(newWidth > width)width = newWidth;
+	}
+}
+/*!\func
+ * get data
+ * \param no
+ * \return data
+ */
+QString NodeClass::getName() const
+{
+		LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+		QString data(name->toPlainText() + "\n");
+		foreach(QString text, fields)
+		{
+			data += text + "|";
+		}
+		data += "\n";
+		foreach(QString text, methods)
+		{
+			data += text + "|";
+		}
+		return data;
 }

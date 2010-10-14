@@ -44,7 +44,8 @@ SOURCES += main.cpp \
     sources/graph/nodesequence.cpp \
     sources/graph/edgesequence.cpp \
     sources/graph/nodeclass.cpp \
-    sources/graph/classbody.cpp
+    sources/graph/classbody.cpp \
+    sources/editclass.cpp
 HEADERS += sources/mainwindow.h \
     sources/log/errors.h \
     sources/graph/graphbody.h \
@@ -77,11 +78,13 @@ HEADERS += sources/mainwindow.h \
     sources/graph/nodesequence.h \
     sources/graph/edgesequence.h \
     sources/graph/nodeclass.h \
-    sources/graph/classbody.h
+    sources/graph/classbody.h \
+    sources/editclass.h
 FORMS += sources/forms/mainwindow.ui \
     sources/forms/graphbody.ui \
     sources/forms/generator.ui \
     sources/forms/edgeparams.ui \
-    sources/forms/tdialogadditem.ui
+    sources/forms/tdialogadditem.ui \
+    sources/forms/editclass.ui
 RESOURCES += share/mainResources.qrc
 TRANSLATIONS = share/lang/tr_ru.ts
