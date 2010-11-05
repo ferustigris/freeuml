@@ -149,5 +149,5 @@ void EdgeLines::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
  */
 Types EdgeLines::getType() const
 {
-	return EDGE_AGGREGATION;
+	return EDGE_LINES;
 }

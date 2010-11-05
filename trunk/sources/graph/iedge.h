@@ -9,6 +9,7 @@ enum Types {
 	EDGE_LIST,
 	EDGE_SEQUENCE,
 	EDGE_AGGREGATION,
+	EDGE_LINES,
 };
 
 class INode;

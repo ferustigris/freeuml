@@ -83,7 +83,7 @@ bool UseCaseBody::addRelation(const qint16& index,const qint16& relationWith, co
 					}
 					if(!present)
 					{
-						getFactory()->newEdgeLines(source, dest, "");
+						getFactory()->newEdge(EDGE_LINES, source, dest, "");
 						change(true);
 						return true;
 					}
@@ -111,12 +111,11 @@ qint16 UseCaseBody::addTop(TopTypes type)
 	switch(type) {
 	case TOP_AUTHOR:
 		name = QString ("AUTHOR_") + QString::number(id);
-		getFactory()->newAuthor(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 		break;
 	default:
 		name = QString ("TOP_") + QString::number(id);
-		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
+	getFactory()->newNode(type, id, getCurrentNode(), name, tr("No tool tip now!"), QPointF(posx,posy))->show();
 	change(true);
 	return id;
 }
@@ -136,4 +135,14 @@ void UseCaseBody::on_actionLevel_down_triggered()
 			GraphBody::on_actionLevel_down_triggered();
 		}
 	}
+}
+/*!\func
+ * return nodes factory
+ * \param no
+ * \return factory
+ */
+INodesFactory*UseCaseBody::getFactory()
+{
+	static NodesFactory nodesFactory(this);
+	return &nodesFactory;
 }

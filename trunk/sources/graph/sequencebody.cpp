@@ -57,7 +57,7 @@ bool SequenceBody::addRelation(const qint16& index,const qint16& relationWith, c
 		if(dest && source )
 			if((dest->getId() != source->getId()))
 				{
-					getFactory()->newEdgeSequence(source, dest, "");
+					getFactory()->newEdge(EDGE_SEQUENCE, source, dest, "");
 					change(true);
 					return true;
 				}
@@ -78,8 +78,8 @@ qint16 SequenceBody::addTop(TopTypes type)
 	switch(type) {
 	default:
 		name = QString ("MODULE_") + QString::number(id);
-		getFactory()->newSequence(id, getCurrentNode(), name, tr("No tool tip now!"), "")->show();
 	}
+	getFactory()->newNode(TOP_SEQUENCE, id, getCurrentNode(), name, tr("No tool tip now!"), QPointF())->show();
 	change(true);
 	return id;
 }
@@ -92,4 +92,14 @@ void SequenceBody::on_actionLevel_down_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody::on_actionLevel_down_triggered();
+}
+/*!\func
+ * return nodes factory
+ * \param no
+ * \return factory
+ */
+INodesFactory*SequenceBody::getFactory()
+{
+	static NodesFactory nodesFactory(this);
+	return &nodesFactory;
 }

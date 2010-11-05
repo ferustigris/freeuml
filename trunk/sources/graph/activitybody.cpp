@@ -84,7 +84,7 @@ bool ActivityBody::addRelation(const qint16& index,const qint16& relationWith, c
 				}
 				if(!present)
 				{
-					getFactory()->newEdgeLines(source, dest, "");
+					getFactory()->newEdge(EDGE_LINES, source, dest, "");
 					change(true);
 					return true;
 				}
@@ -110,16 +110,7 @@ qint16 ActivityBody::addTop(TopTypes type)
 	qreal posx = mapToScene(x(), y()).x() + w/1000*rand1;
 	qreal posy = mapToScene(x(), y()).y() + h/1000*rand2;
 	name = QString ("TOP_") + QString::number(id);
-	switch(type) {
-	case TOP_IF:
-		getFactory()->newIf(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
-		break;
-	case TOP_SYNC:
-		getFactory()->newSync(id, getCurrentNode(), QPointF(posx,posy))->show();
-		break;
-	default:
-		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
-	}
+	getFactory()->newNode(type, id, getCurrentNode(), name, tr("No tool tip now!"), QPointF(posx,posy))->show();
 	change(true);
 	return id;
 }
@@ -190,4 +181,14 @@ void ActivityBody::on_actionEdgeEdit_triggered(QObject*pointer)
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(Pointer *p = qobject_cast<Pointer*>(pointer))
 		p->edge()->Edit();
+}
+/*!\func
+ * return nodes factory
+ * \param no
+ * \return factory
+ */
+INodesFactory*ActivityBody::getFactory()
+{
+	static NodesFactory nodesFactory(this);
+	return &nodesFactory;
 }

@@ -12,9 +12,6 @@
 #include <QTime>
 #include "nodesfactory.h"
 
-extern QString program_dir;
-extern QString config_path;
-
 /*!\func TGraph::TGraph
  *  --,
  * \param
@@ -27,7 +24,7 @@ GraphBody::GraphBody(EnterInputs *parent) :
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	m_ui->setupUi(this);
-	nodesFactory = new NodesFactory(this);
+	this->parent = parent;
 	line = new QGraphicsLineItem;
 	scene.setItemIndexMethod(QGraphicsScene::NoIndex);
 	setScene(&scene);
@@ -40,8 +37,7 @@ GraphBody::GraphBody(EnterInputs *parent) :
 	state = STATE_IDLE;
 	currentIndex = -1;
 	scene.addItem(line);
-	rootNode = nodesFactory->newRoot();
-	this->parent = parent;
+	rootNode = getFactory()->newRoot();
 	node = rootNode;
 	max_id = 0;
 	foreach(INode* n, node->nodes())
@@ -57,7 +53,6 @@ GraphBody::GraphBody(EnterInputs *parent) :
 GraphBody::~GraphBody()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	delete nodesFactory;
 	delete m_ui;
 }
 /*!\func
@@ -116,12 +111,14 @@ void GraphBody::mousePressEvent(QMouseEvent *event) {
  * \return
  */
 void GraphBody::mouseMoveEvent(QMouseEvent *event) {
-    LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-    switch(state) {
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	switch(state)
+	{
 	case STATE_IDLE:
 		line->hide();
-	    if(parent&&(event->buttons()&Qt::LeftButton)&&(node->nodes().contains(currentIndex)))parent->change(true);
-	    break;
+		if(parent&&(event->buttons()&Qt::LeftButton)&&(node->nodes().contains(currentIndex)))
+			parent->change(true);
+		break;
 	case STATE_ADD_RELATION:
 		LOG(LOG_DEBUG, QString(__FUNCTION__)+": add relation");
 		if(node->nodes().contains(currentIndex))
@@ -135,35 +132,6 @@ void GraphBody::mouseMoveEvent(QMouseEvent *event) {
 		break;
 	}
 	QGraphicsView::mouseMoveEvent(event);
-}
-/*!\func GraphBody::addRelation
- * new edge
- * \params
- * - index - index source node
- * - relationWith - index destination node
- * - state - current state
- * \return
- */
-bool GraphBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	Q_UNUSED(state);
-	Q_UNUSED(index);
-	Q_UNUSED(relationWith);
-	return false;
-}
-/*!\func
- *
- * \param
- * - parent -
- * - name -
- * \return
- */
-qint16 GraphBody::addTop(TopTypes type)
-{
-	Q_UNUSED(type);
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	return -1;
 }
 /*!\func
  *
@@ -392,9 +360,10 @@ void GraphBody::on_actionRemove_state_triggered()
  * \param no
  * \return factory
  */
-NodesFactory*GraphBody::getFactory() const
+INodesFactory*GraphBody::getFactory()
 {
-	return nodesFactory;
+	static NodesFactory nodesFactory(this);
+	return &nodesFactory;
 }
 /*!\func
  * set max id

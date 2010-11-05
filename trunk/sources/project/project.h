@@ -36,7 +36,6 @@ private:
 	QStringList mustBeRemoved;
 protected:
 	void save_edge(QDomElement& parent, INode* node);
-	void save_help(INode* node);
 	void create_new();
 	void backup();
 	void save_node(QDomElement& parent, INode* node);

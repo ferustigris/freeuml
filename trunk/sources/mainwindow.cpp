@@ -239,7 +239,7 @@ void EnterInputs::on_actionOpen_project_triggered()
 	if(hasChanges)
 		if(QMessageBox::question(0, tr("Saving project..."), tr("Are you want save project before close it?"), QMessageBox::Yes, QMessageBox::No, 0) == QMessageBox::Yes)
 			on_actionSave_project_triggered();
-        QString project_path = QFileDialog::getOpenFileName(0, tr("Open project..."), QDir::homePath(), tr("Projects (project.xml);;"));
+	QString project_path = QFileDialog::getOpenFileName(0, tr("Open project..."), QDir::homePath(), tr("Projects (project.xml);;"));
 	if(project_path.isEmpty())return;
 	project_path.replace(projectMainFile, "");
 	QDir dir;
@@ -314,16 +314,6 @@ void EnterInputs::change(const bool changes)
 {
 	hasChanges = changes;
 	ui->actionSave_project->setEnabled(changes);
-}
-/*!\func
- * show tool bar
- * \params no
- * \return no
- */
-void EnterInputs::on_actionShow_toolbar_triggered()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	ui->mainToolBar->show();
 }
 /*!\func
  * select diagram
@@ -491,4 +481,16 @@ void EnterInputs::on_actionAdd_class_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	classes->addTop(TOP_CLASS);
+}
+/*!\func
+ * show tool bar
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionShow_toolbar_triggered(bool checked)
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(checked)ui->mainToolBar->show();
+	else
+		ui->mainToolBar->hide();
 }

@@ -76,7 +76,7 @@ bool TopologyBody::addRelation(const qint16& index,const qint16& relationWith, c
 					}
 					if(!present)
 					{
-						getFactory()->newEdgeSimple(source, dest, "");
+						getFactory()->newEdge(EDGE_SIMPLE, source, dest, "");
 						change(true);
 						return true;
 					}
@@ -104,12 +104,11 @@ qint16 TopologyBody::addTop(TopTypes type)
 	switch(type) {
 	case TOP_HOST:
 		name = QString ("NODE_") + QString::number(id);
-		getFactory()->newHost(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 		break;
 	default:
 		name = QString ("MODULE_") + QString::number(id);
-		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
+	getFactory()->newNode(type, id, getCurrentNode(), name, tr("No tool tip now!"), QPointF(posx,posy))->show();
 	change(true);
 	return id;
 }
@@ -124,3 +123,13 @@ void TopologyBody::on_actionLevel_down_triggered()
 	GraphBody::on_actionLevel_down_triggered();
 }
 
+/*!\func
+ * return nodes factory
+ * \param no
+ * \return factory
+ */
+INodesFactory*TopologyBody::getFactory()
+{
+	static NodesFactory nodesFactory(this);
+	return &nodesFactory;
+}

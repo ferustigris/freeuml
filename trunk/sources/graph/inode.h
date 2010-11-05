@@ -3,6 +3,7 @@
 #include <QList>
 #include <edge.h>
 #include <QGraphicsItem>
+//! different types of nodes
 enum TopTypes
 {
 	TOP_SIMPLE = 0,
@@ -16,6 +17,7 @@ enum TopTypes
 	TOP_SEQUENCE,
 	TOP_CLASS,
 };
+//! abstract class for node
 class INode : public QGraphicsItem
 {
 public:

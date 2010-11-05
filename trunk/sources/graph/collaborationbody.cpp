@@ -76,7 +76,7 @@ bool CollaborationBody::addRelation(const qint16& index,const qint16& relationWi
 					}
 					if(!present)
 					{
-						getFactory()->newEdgeLines(source, dest, "");
+						getFactory()->newEdge(EDGE_LINES, source, dest, "");
 						change(true);
 						return true;
 					}
@@ -104,8 +104,8 @@ qint16 CollaborationBody::addTop(TopTypes type)
 	switch(type) {
 	default:
 		name = QString ("COMPONENT_") + QString::number(id);
-		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
+	getFactory()->newNode(TOP_ACTIVITY, id, getCurrentNode(), name, tr("No tool tip now!"), QPointF(posx,posy))->show();
 	change(true);
 	return id;
 }
@@ -118,4 +118,14 @@ void CollaborationBody::on_actionLevel_down_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody::on_actionLevel_down_triggered();
+}
+/*!\func
+ * return nodes factory
+ * \param no
+ * \return factory
+ */
+INodesFactory*CollaborationBody::getFactory()
+{
+	static NodesFactory nodesFactory(this);
+	return &nodesFactory;
 }

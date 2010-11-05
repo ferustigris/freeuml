@@ -39,7 +39,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icons/images/package-new.png</normaloff>:/icons/images/package-new.png</iconset>
+         <normaloff>:/icon/icons/edit_add.png</normaloff>:/icon/icons/edit_add.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -56,7 +56,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icons/images/package-remove.png</normaloff>:/icons/images/package-remove.png</iconset>
+         <normaloff>:/icon/icons/trashcan_empty-alt.png</normaloff>:/icon/icons/trashcan_empty-alt.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -127,7 +127,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icons/del</normaloff>:/icons/del</iconset>
+         <normaloff>:/icon/icons/button_cancel.png</normaloff>:/icon/icons/button_cancel.png</iconset>
        </property>
       </widget>
      </item>

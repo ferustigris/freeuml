@@ -28,6 +28,93 @@ NodesFactory::NodesFactory(GraphBody*gb)
 	this->gb = gb;
 }
 /*!\func
+ * create new root node
+ * \params no
+ * \return pointer to new node
+ */
+INode* NodesFactory::newRoot()
+{
+	RootNode*n = new RootNode(gb);
+	gb->setMax(0);
+	return n;
+}
+/*!\func
+ * create new  node
+ * \params
+ * - parent - parent of new node
+ * - name - name of node
+ * - desc - short description
+ * - help - help for node
+ * - pos - node position
+ * \return pointer to new node
+ */
+INode* NodesFactory::newNode(const TopTypes type, const qint32 id, INode *parent, const QString&name, const QString&description, const QPointF&pos)
+{
+	INode*n = NULL;
+	switch(type)
+	{
+	case TOP_SIMPLE:
+		n = newSimple(id, parent, name, description, pos);
+		break;
+	case TOP_USECASE:
+		n = newUseCase(id, parent, name, description, pos);
+		break;
+	case TOP_HOST:
+		n = newHost(id, parent, name, description, pos);
+		break;
+	case TOP_AUTHOR:
+		n = newAuthor(id, parent, name, description, pos);
+		break;
+	case TOP_IF:
+		n = newIf(id, parent, name, description, pos);
+		break;
+	case TOP_SYNC:
+		n = newSync(id, parent, pos);
+		break;
+	case TOP_SEQUENCE:
+		n = newSequence(id, parent, name, description);
+		break;
+	case TOP_CLASS:
+		n = newClass(id, parent, name, description, pos);
+		break;
+	case TOP_ACTIVITY:
+	default:
+		n = newActivity(id, parent, name, description, pos);
+	}
+	return n;
+}
+/*!\func
+ * create new edge
+ * \params
+ * - dest - destination node
+ * - source - sources node
+ * - name - name of edge
+ * \return pointer to new edge
+ */
+IEdge* NodesFactory::newEdge(const Types type, INode *source, INode *dest, const QString&name)
+{
+	IEdge*n = NULL;
+	switch(type)
+	{
+	case EDGE_SEQUENCE:
+		n = newEdgeSequence(source, dest, name);
+		break;
+	case EDGE_LIST:
+		n = newEdgeList(source, dest, name);
+		break;
+	case EDGE_LINES:
+		n = newEdgeLines(source, dest, name);
+		break;
+	case EDGE_SIMPLE:
+		;;
+	default:
+		n = newEdgeSimple(source, dest, name);
+	}
+	return n;
+}
+//
+#warning: delete all under this line!!!
+/*!\func
  * create new use case
  * \params
  * - parent - parent of new node
@@ -37,14 +124,13 @@ NodesFactory::NodesFactory(GraphBody*gb)
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newUseCase(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+INode* NodesFactory::newUseCase(const qint32 id, INode *parent, const QString&name, const QString&desc, const QPointF&pos)
 {
 	Node*n = new NodeUseCase(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);
 	n->setName(name);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	return n;
 }
@@ -58,14 +144,13 @@ INode* NodesFactory::newUseCase(const qint32 id, INode *parent, const QString&na
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newActivity(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+INode* NodesFactory::newActivity(const qint32 id, INode *parent, const QString&name, const QString&desc, const QPointF&pos)
 {
 	Node*n = new NodeActivity(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);
 	n->setName(name);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	return n;
 }
@@ -79,14 +164,13 @@ INode* NodesFactory::newActivity(const qint32 id, INode *parent, const QString&n
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newIf(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+INode* NodesFactory::newIf(const qint32 id, INode *parent, const QString&name, const QString&desc, const QPointF&pos)
 {
 	Node*n = new NodeIf(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);
 	n->setName(name);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	return n;
 }
@@ -107,17 +191,6 @@ INode* NodesFactory::newSync(const qint32 id, INode *parent, const QPointF&pos)
 	n->setPos(pos);
 	//n->setToolTip(desc);
 	parent->addNode(n);
-	return n;
-}
-/*!\func
- * create new root node
- * \params no
- * \return pointer to new node
- */
-INode* NodesFactory::newRoot()
-{
-	RootNode*n = new RootNode(gb);
-	gb->setMax(0);
 	return n;
 }
 /*!\func
@@ -194,14 +267,13 @@ IEdge* NodesFactory::newEdgeList(INode *source, INode *dest, const QString&data)
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newAuthor(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+INode* NodesFactory::newAuthor(const qint32 id, INode *parent, const QString&name, const QString&desc, const QPointF&pos)
 {
 	Node*n = new NodeAuthor(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);
 	n->setName(name);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	return n;
 }
@@ -215,14 +287,13 @@ INode* NodesFactory::newAuthor(const qint32 id, INode *parent, const QString&nam
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newClass(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+INode* NodesFactory::newClass(const qint32 id, INode *parent, const QString&name, const QString&desc, const QPointF&pos)
 {
 	Node*n = new NodeClass(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);
 	n->setName(name);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	return n;
 }
@@ -236,14 +307,13 @@ INode* NodesFactory::newClass(const qint32 id, INode *parent, const QString&name
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newSimple(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+INode* NodesFactory::newSimple(const qint32 id, INode *parent, const QString&name, const QString&desc, const QPointF&pos)
 {
 	Node*n = new Node(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);
 	n->setName(name);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	return n;
 }
@@ -257,12 +327,11 @@ INode* NodesFactory::newSimple(const qint32 id, INode *parent, const QString&nam
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newSequence(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help)
+INode* NodesFactory::newSequence(const qint32 id, INode *parent, const QString&name, const QString&desc)
 {
 	NodeSequence*n = new NodeSequence(gb, parent, id);
 	gb->setMax(id);
 	n->setToolTip(desc);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	n->setName(name);
 	return n;
@@ -277,14 +346,13 @@ INode* NodesFactory::newSequence(const qint32 id, INode *parent, const QString&n
  * - pos - node position
  * \return pointer to new node
  */
-INode* NodesFactory::newHost(const qint32 id, INode *parent, const QString&name, const QString&desc, const QString&help, const QPointF&pos)
+INode* NodesFactory::newHost(const qint32 id, INode *parent, const QString&name, const QString&desc, const QPointF&pos)
 {
 	Node*n = new NodeHost(gb, parent, id);
 	gb->setMax(id);
 	n->setPos(pos);
 	n->setToolTip(desc);
 	n->setName(name);
-	n->setHelpFile(help);
 	parent->addNode(n);
 	return n;
 }
