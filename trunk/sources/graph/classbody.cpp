@@ -45,8 +45,9 @@ void ClassBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool ClassBody::addRelation(const qint16& index,const qint16& relationWith)
+bool ClassBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
 {
+	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(!getCurrentNode())return false;
 	if(getCurrentNode()->nodes().contains(index) &&getCurrentNode()->nodes().contains(relationWith))
@@ -102,7 +103,7 @@ qint16 ClassBody::addTop(TopTypes type)
 	switch(type) {
 	default:
 		name = QString ("STATE_") + QString::number(id);
-		getFactory()->newClass(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->Show();
+		getFactory()->newClass(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
 	change(true);
 	return id;

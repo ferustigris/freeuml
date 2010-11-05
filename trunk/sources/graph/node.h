@@ -36,8 +36,8 @@ public:
 	virtual void setHelpFile(const QString&);
 	virtual QString getShortDesc() const;
 	virtual void setShortDesc(const QString&);
-	virtual void Show();
-	virtual void Hide();
+	virtual void show();
+	virtual void hide();
 	virtual void Edit();
 protected:
 	QRectF boundingRect() const;

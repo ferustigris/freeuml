@@ -28,7 +28,7 @@ public:
 	virtual void ppMenu();
 	virtual void changeEdge(IEdge* e);
 protected:
-	virtual bool addRelation(const qint16& index,const qint16& relationWith);
+	virtual bool addRelation(const qint16& index,const qint16& relationWith, const States state);
 private slots:
 	virtual void on_actionLevel_down_triggered();
 	virtual void on_actionEdgeRemove_triggered(QObject*pointer);

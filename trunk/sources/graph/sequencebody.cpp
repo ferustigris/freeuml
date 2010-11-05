@@ -45,8 +45,9 @@ void SequenceBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool SequenceBody::addRelation(const qint16& index,const qint16& relationWith)
+bool SequenceBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
 {
+	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(!getCurrentNode())return false;
 	if(getCurrentNode()->nodes().contains(index) &&getCurrentNode()->nodes().contains(relationWith))
@@ -77,7 +78,7 @@ qint16 SequenceBody::addTop(TopTypes type)
 	switch(type) {
 	default:
 		name = QString ("MODULE_") + QString::number(id);
-		getFactory()->newSequence(id, getCurrentNode(), name, tr("No tool tip now!"), "")->Show();
+		getFactory()->newSequence(id, getCurrentNode(), name, tr("No tool tip now!"), "")->show();
 	}
 	change(true);
 	return id;

@@ -16,7 +16,7 @@ public:
 	virtual qint16 addTop(TopTypes type);
 	virtual void ppMenu();
 protected:
-	virtual bool addRelation(const qint16& index,const qint16& relationWith);
+	virtual bool addRelation(const qint16& index,const qint16& relationWith, const States state);
 private slots:
 	virtual void on_actionLevel_down_triggered();
 private:

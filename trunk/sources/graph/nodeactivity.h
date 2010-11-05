@@ -7,7 +7,7 @@ class NodeActivity : public Node
 public:
 	NodeActivity(GraphBody *graphWidget, INode* _parent, qint16 _id);
 	virtual TopTypes getType() const;
-	virtual void Show();
+	virtual void show();
 private:
 	GraphBody *graph;
 	qint16 id;

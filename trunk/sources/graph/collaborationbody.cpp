@@ -45,8 +45,9 @@ void CollaborationBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool CollaborationBody::addRelation(const qint16& index,const qint16& relationWith)
+bool CollaborationBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
 {
+	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(!getCurrentNode())return false;
 	if(getCurrentNode()->nodes().contains(index) &&getCurrentNode()->nodes().contains(relationWith))
@@ -75,7 +76,7 @@ bool CollaborationBody::addRelation(const qint16& index,const qint16& relationWi
 					}
 					if(!present)
 					{
-						getFactory()->newEdgeList(source, dest, "");
+						getFactory()->newEdgeLines(source, dest, "");
 						change(true);
 						return true;
 					}
@@ -103,7 +104,7 @@ qint16 CollaborationBody::addTop(TopTypes type)
 	switch(type) {
 	default:
 		name = QString ("COMPONENT_") + QString::number(id);
-		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->Show();
+		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
 	change(true);
 	return id;

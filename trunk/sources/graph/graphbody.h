@@ -20,6 +20,7 @@ enum States {
 	STATE_IDLE = 0,
 	STATE_ADD_RELATION,
 	STATE_LEVEL_DOWN,
+	STATE_ADD_RELATION_AGGREGATION,
 };
 //виджет для отображения графа
 class GraphBody : public QGraphicsView {
@@ -44,7 +45,7 @@ public:
 protected:
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent *event);
-	virtual bool addRelation(const qint16& index,const qint16& relationWith);
+	virtual bool addRelation(const qint16& index,const qint16& relationWith, const States state = STATE_ADD_RELATION);
 	void change(const bool ch);
 protected:
 	void drawBackground(QPainter *painter, const QRectF &rect);
@@ -56,6 +57,7 @@ protected:
 		MENUITEM_ADDSIMPLERELATION = 0x02,
 		MENUITEM_EDIT = 0x04,
 		MENUITEM_REMOVENODE = 0x08,
+		MENUITEM_ADDAGGREGATION = 0x10,
 	};
 	void setMenuItems(QMenu&menu, const qint16 items) const;
 	INode*getCurrentNode() const;
@@ -79,6 +81,9 @@ protected slots:
 	virtual void on_actionLevel_down_triggered();
 public slots:
 	virtual void on_actionHelp_triggered();
+
+private slots:
+	void on_actionAdd_aggregation_triggered();
 };
 
 #endif // GRAPHBODY_H

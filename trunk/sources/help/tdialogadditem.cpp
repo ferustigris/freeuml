@@ -13,6 +13,7 @@
 TDialogAddItem::TDialogAddItem(INode *mi, const QString &dbPath, QWidget *parent) :
 	m_ui(new Ui::TDialogAddItem)
 {
+	Q_UNUSED(parent);
 	m_ui->setupUi(this);
 	n = mi;
 	oldName = mi->getName();

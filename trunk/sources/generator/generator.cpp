@@ -131,7 +131,11 @@ void Generator::on_pbNext_clicked()
  */
 void Generator::genNodeCode(const QString&startDir, INode* n, const QString&parentDir, QTextStream &xise)
 {
-    LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	Q_UNUSED(startDir);
+	Q_UNUSED(n);
+	Q_UNUSED(parentDir);
+	Q_UNUSED(xise);
 }
 /*!\func
  * непосредственно, генерация

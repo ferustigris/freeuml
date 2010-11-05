@@ -2,6 +2,8 @@
 #include "inode.h"
 #include "iedge.h"
 #include "edge.h"
+#include "edgeaggregation.h"
+#include "edgeline.h"
 #include "edgesequence.h"
 #include "edgedirectlist.h"
 #include "node.h"
@@ -129,6 +131,32 @@ INode* NodesFactory::newRoot()
 IEdge* NodesFactory::newEdgeSimple(INode *source, INode *dest, const QString&name)
 {
 	IEdge *e = new Edge(gb, source, dest, name);
+	return e;
+}
+/*!\func
+ * create new edge
+ * \params
+ * - dest - destination node
+ * - source - sources node
+ * - name - name of edge
+ * \return pointer to new edge
+ */
+IEdge* NodesFactory::newEdgeLines(INode *source, INode *dest, const QString&name)
+{
+	IEdge *e = new EdgeLines(gb, source, dest, name);
+	return e;
+}
+/*!\func
+ * create new edge
+ * \params
+ * - dest - destination node
+ * - source - sources node
+ * - name - name of edge
+ * \return pointer to new edge
+ */
+IEdge* NodesFactory::newEdgeAggregation(INode *source, INode *dest, const QString&name)
+{
+	IEdge *e = new EdgeAggregation(gb, source, dest, name);
 	return e;
 }
 /*!\func

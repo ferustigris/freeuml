@@ -13,8 +13,8 @@ public:
 	INode *sourceNode() const;
 	INode *destNode() const;
 	virtual void adjust();
-	void Show();
-	void Hide();
+	void show();
+	void hide();
 	void Remove();
 	void Edit();
 	void setState (const States newState);
@@ -23,6 +23,7 @@ public:
 	virtual Types getType() const;
 protected:
 	virtual QRectF boundingRect() const;
+	QPainterPath shape() const;
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event );
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -33,7 +34,8 @@ private:
 	QPointF destPoint;
 	qreal arrowSize;
 	States state;
-	QString name;
+protected:
+	QGraphicsTextItem *name;
 };
 
 #endif

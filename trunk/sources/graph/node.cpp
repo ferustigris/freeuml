@@ -156,7 +156,7 @@ void Node::addNode(INode*node)
     //node->name->setPos(node->pos() + QPoint((int)(-node->name->boundingRect().width()/2), 10));
     if(shapesList.contains(node->getId()))
     {
-        shapesList[node->getId()]->Hide();
+		shapesList[node->getId()]->hide();
         shapesList.remove(node->getId());
     }
     shapesList.insert(node->getId(),node);
@@ -335,7 +335,7 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
         foreach (Edge *edge, edgeListOut)
             edge->adjust();
 				name->moveBy(x() - name->x() - name->boundingRect().width()/2, y() - name->y() + 10);*/
-		Show();
+		show();
         break;
     default:
         ;;
@@ -424,27 +424,27 @@ INode*Node::getParent()
     return parent;
 }
 //! show on scene
-void Node::Show()
+void Node::show()
 {
-    foreach(Edge * e, edgeListIn + edgeListOut)
-	e->Show();
-    show();
-    name->setPos(pos());
-    name->moveBy(x() - name->x() - name->boundingRect().width()/2, y() - name->y() + 10);
-    name->show();
+	foreach(Edge * e, edgeListIn + edgeListOut)
+		e->show();
+	QGraphicsItem::show();
+	name->setPos(pos());
+	name->moveBy(x() - name->x() - name->boundingRect().width()/2, y() - name->y() + 10);
+	name->show();
 }
 //! hide on scene
-void Node::Hide()
+void Node::hide()
 {
-    foreach(Edge * e, edgeListIn + edgeListOut)
-        e->Hide();
-    hide();
-    name->hide();
+	foreach(Edge * e, edgeListIn + edgeListOut)
+		e->hide();
+	QGraphicsItem::hide();
+	name->hide();
 }
 //! remove
 void Node::remove()
 {
-	Hide();
+	hide();
 	foreach(Edge*e, edgeListIn)
 		e->sourceNode()->delEdge(e);
 	foreach(Edge*e, edgeListOut)

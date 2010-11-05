@@ -7,7 +7,7 @@ class NodeSequence : public Node
 public:
 	NodeSequence(GraphBody *graphWidget, INode* _parent, qint16 _id);
 	virtual TopTypes getType() const;
-	virtual void Show();
+	virtual void show();
 	void setName(const QString&newN);
 private:
 	GraphBody *graph;
