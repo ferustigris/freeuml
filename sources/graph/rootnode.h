@@ -19,8 +19,8 @@ public:
     virtual void delEdge(Edge *edge);
     virtual QList<Edge *> edgesIn() const;
     virtual QList<Edge *> edgesOut() const;
-    virtual void Show();
-    virtual void Hide();
+	virtual void show();
+	virtual void hide();
     virtual void remove();
 private:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

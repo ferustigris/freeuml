@@ -8,6 +8,7 @@ enum Types {
 	EDGE_SIMPLE = 0,
 	EDGE_LIST,
 	EDGE_SEQUENCE,
+	EDGE_AGGREGATION,
 };
 
 class INode;
@@ -24,8 +25,8 @@ public:
 	virtual INode *sourceNode() const = 0;
 	virtual INode *destNode() const = 0;
 	virtual void adjust() = 0;
-	virtual void Show() = 0;
-	virtual void Hide() = 0;
+	virtual void show() = 0;
+	virtual void hide() = 0;
 	virtual void Remove() = 0;
 	virtual void Edit() = 0;
 	virtual void setState (const States newState) = 0;

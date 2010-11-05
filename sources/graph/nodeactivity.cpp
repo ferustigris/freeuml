@@ -64,13 +64,13 @@ TopTypes NodeActivity::getType() const
 	return TOP_ACTIVITY;
 }
 /*!\func
- * reimplement Show function
+ * reimplement show function
  * \params no
  * \return no
  */
-void NodeActivity::Show()
+void NodeActivity::show()
 {
-	Node::Show();
+	Node::show();
 	name->setPos(pos());
 	name->setZValue(13);
 	name->moveBy(-name->boundingRect().width()/2, -name->boundingRect().height()/2);

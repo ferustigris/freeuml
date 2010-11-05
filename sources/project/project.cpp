@@ -362,7 +362,7 @@ int Project::load_one_edge(QDomNode& parent, GraphBody*activity)
 				default:
 					n = activity->getFactory()->newEdgeSimple(nfrom, nto, e.attribute("data"));
 				}
-				n->Hide();
+				n->hide();
 			}
 		}
 		node = node.nextSibling();
@@ -427,7 +427,7 @@ int Project::load_node(QDomNode& parent, INode* pnode, GraphBody*activity)
 		}
 		node = node.nextSibling();
 	}
-	pnode->Hide();
+	pnode->hide();
 	return max_id;
 }
 

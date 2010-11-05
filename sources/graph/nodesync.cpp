@@ -37,6 +37,7 @@ QRectF NodeSync::boundingRect() const
  */
 void NodeSync::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
+	Q_UNUSED(option);
 	if(graph->getCurIndex() == id)
 	{
 		painter->setPen(Qt::NoPen);

@@ -45,7 +45,7 @@ GraphBody::GraphBody(EnterInputs *parent) :
 	node = rootNode;
 	max_id = 0;
 	foreach(INode* n, node->nodes())
-		n->Show();
+		n->show();
 	setLevelsPath();
 	change(false);
 }
@@ -80,7 +80,7 @@ void GraphBody::clear()
 	QMapIterator<qint16, INode* > i(node->nodes());
 	while(i.hasNext()) {
 		i.next();
-		i.value()->Hide();
+		i.value()->hide();
 	}
 }
 /*!\func TGraph::mousePressEvent
@@ -94,6 +94,7 @@ void GraphBody::mousePressEvent(QMouseEvent *event) {
     switch(state)
     {
 	case STATE_ADD_RELATION:
+	case STATE_ADD_RELATION_AGGREGATION:
 		if(node->nodes().contains(currentIndex))
 		{
 			qint16 index = currentIndex;
@@ -103,7 +104,7 @@ void GraphBody::mousePressEvent(QMouseEvent *event) {
 	default:
 		currentIndex = -1;
 		foreach(INode*n, node->nodes())
-			n->Hide(), n->Show();
+			n->hide(), n->show();
 		state = STATE_IDLE;
 	}
 	QGraphicsView::mousePressEvent(event);
@@ -118,7 +119,7 @@ void GraphBody::mouseMoveEvent(QMouseEvent *event) {
     LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
     switch(state) {
 	case STATE_IDLE:
-	    line->hide();
+		line->hide();
 	    if(parent&&(event->buttons()&Qt::LeftButton)&&(node->nodes().contains(currentIndex)))parent->change(true);
 	    break;
 	case STATE_ADD_RELATION:
@@ -137,14 +138,16 @@ void GraphBody::mouseMoveEvent(QMouseEvent *event) {
 }
 /*!\func GraphBody::addRelation
  * new edge
- * \param
+ * \params
  * - index - index source node
  * - relationWith - index destination node
+ * - state - current state
  * \return
  */
-bool GraphBody::addRelation(const qint16& index,const qint16& relationWith)
+bool GraphBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	Q_UNUSED(state);
 	Q_UNUSED(index);
 	Q_UNUSED(relationWith);
 	return false;
@@ -158,6 +161,7 @@ bool GraphBody::addRelation(const qint16& index,const qint16& relationWith)
  */
 qint16 GraphBody::addTop(TopTypes type)
 {
+	Q_UNUSED(type);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	return -1;
 }
@@ -200,8 +204,9 @@ void GraphBody::drawBackground(QPainter *painter, const QRectF &rect)
  */
 void GraphBody::wheelEvent(QWheelEvent *event)
 {
-    LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-    scaleView(pow((double)2, -event->delta() / 240.0));
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(event->modifiers() & Qt::ControlModifier)
+		scaleView(pow((double)2, -event->delta() / 240.0));
 }
 /*!\func
  *
@@ -255,7 +260,7 @@ void GraphBody::on_actionLevel_down_triggered()
 		QMapIterator<qint16, INode* > i(node->nodes());
 		while(i.hasNext()) {
 			i.next();
-			i.value()->Show();
+			i.value()->show();
 		}
 		if(parent)
 		{
@@ -278,7 +283,7 @@ bool GraphBody::levelUp()
 	QMapIterator<qint16, INode* > i(node->nodes());
 	while(i.hasNext()) {
 		i.next();
-		i.value()->Show();
+		i.value()->show();
 	}
 	setLevelsPath();
 	return node->getParent() != NULL;
@@ -296,7 +301,7 @@ void GraphBody::reflesh()
 	while(i.hasNext())
 	{
 		i.next();
-		i.value()->Show();
+		i.value()->show();
 	}
 	setLevelsPath();
 }
@@ -457,4 +462,15 @@ void GraphBody::change(const bool ch)
 qint16 GraphBody::getMax() const
 {
 	return max_id;
+}
+/*!\func
+ * add aggregation edge
+ * \params no
+ * \return maximum id
+ */
+void GraphBody::on_actionAdd_aggregation_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	state = STATE_ADD_RELATION_AGGREGATION;
+	line->show();
 }

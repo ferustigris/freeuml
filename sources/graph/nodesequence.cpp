@@ -67,13 +67,13 @@ TopTypes NodeSequence::getType() const
 	return TOP_SEQUENCE;
 }
 /*!\func
- * reimplement Show function
+ * reimplement show function
  * \params no
  * \return no
  */
-void NodeSequence::Show()
+void NodeSequence::show()
 {
-	Node::Show();
+	Node::show();
 	name->setPos(pos());
 	name->setZValue(13);
 	name->moveBy(-name->boundingRect().width()/2, -name->boundingRect().height()/2);

@@ -4,7 +4,7 @@
 RootNode::RootNode(GraphBody *graphWidget) : Node(graphWidget,0,0)
 {
     gb  = graphWidget;
-    Node::Hide();
+	Node::hide();
 }
 /*!\func
  * перерисовка
@@ -136,7 +136,7 @@ QList<Edge *> RootNode::edgesOut() const
  * \params no
  * \return no
  */
-void RootNode::Show()
+void RootNode::show()
 {
 }
 /*!\func
@@ -144,7 +144,7 @@ void RootNode::Show()
  * \params no
  * \return no
  */
-void RootNode::Hide()
+void RootNode::hide()
 {
 }
 /*!\func

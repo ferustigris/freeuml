@@ -45,7 +45,9 @@ SOURCES += main.cpp \
     sources/graph/edgesequence.cpp \
     sources/graph/nodeclass.cpp \
     sources/graph/classbody.cpp \
-    sources/editclass.cpp
+    sources/editclass.cpp \
+    sources/graph/edgeaggregation.cpp \
+    sources/graph/edgeline.cpp
 HEADERS += sources/mainwindow.h \
     sources/log/errors.h \
     sources/graph/graphbody.h \
@@ -79,7 +81,9 @@ HEADERS += sources/mainwindow.h \
     sources/graph/edgesequence.h \
     sources/graph/nodeclass.h \
     sources/graph/classbody.h \
-    sources/editclass.h
+    sources/editclass.h \
+    sources/graph/edgeaggregation.h \
+    sources/graph/edgeline.h
 FORMS += sources/forms/mainwindow.ui \
     sources/forms/graphbody.ui \
     sources/forms/generator.ui \

@@ -52,8 +52,9 @@ void UseCaseBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool UseCaseBody::addRelation(const qint16& index,const qint16& relationWith)
+bool UseCaseBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
 {
+	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(!getCurrentNode())return false;
 	if(getCurrentNode()->nodes().contains(index) &&getCurrentNode()->nodes().contains(relationWith))
@@ -82,7 +83,7 @@ bool UseCaseBody::addRelation(const qint16& index,const qint16& relationWith)
 					}
 					if(!present)
 					{
-						getFactory()->newEdgeSimple(source, dest, "");
+						getFactory()->newEdgeLines(source, dest, "");
 						change(true);
 						return true;
 					}
@@ -110,11 +111,11 @@ qint16 UseCaseBody::addTop(TopTypes type)
 	switch(type) {
 	case TOP_AUTHOR:
 		name = QString ("AUTHOR_") + QString::number(id);
-		getFactory()->newAuthor(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->Show();
+		getFactory()->newAuthor(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 		break;
 	default:
 		name = QString ("TOP_") + QString::number(id);
-		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->Show();
+		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
 	change(true);
 	return id;

@@ -53,8 +53,9 @@ void ActivityBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool ActivityBody::addRelation(const qint16& index,const qint16& relationWith)
+bool ActivityBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
 {
+	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	if(!getCurrentNode())return false;
 	if(getCurrentNode()->nodes().contains(index) &&getCurrentNode()->nodes().contains(relationWith))
@@ -83,7 +84,7 @@ bool ActivityBody::addRelation(const qint16& index,const qint16& relationWith)
 				}
 				if(!present)
 				{
-					getFactory()->newEdgeSimple(source, dest, "");
+					getFactory()->newEdgeLines(source, dest, "");
 					change(true);
 					return true;
 				}
@@ -111,13 +112,13 @@ qint16 ActivityBody::addTop(TopTypes type)
 	name = QString ("TOP_") + QString::number(id);
 	switch(type) {
 	case TOP_IF:
-		getFactory()->newIf(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->Show();
+		getFactory()->newIf(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 		break;
 	case TOP_SYNC:
-		getFactory()->newSync(id, getCurrentNode(), QPointF(posx,posy))->Show();
+		getFactory()->newSync(id, getCurrentNode(), QPointF(posx,posy))->show();
 		break;
 	default:
-		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->Show();
+		getFactory()->newActivity(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
 	change(true);
 	return id;
@@ -146,25 +147,25 @@ void ActivityBody::on_actionLevel_down_triggered()
  */
 void ActivityBody::changeEdge(IEdge* e)
 {
-        LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-        static QSharedPointer<QAction>actionRemove;
-        static QSharedPointer<QAction>actionEdit;
-        static QSharedPointer<QSignalMapper>mapperRemove;
-        static QSharedPointer<QSignalMapper>mapperEdit;
-        actionRemove = QSharedPointer<QAction>(new QAction(QIcon(":/icons/del"), tr("Remove edge"), this));
-        actionEdit = QSharedPointer<QAction>(new QAction(QIcon(":/icons/edit"), tr("Edit edge"), this));
-        mapperRemove = QSharedPointer<QSignalMapper>(new QSignalMapper);
-        mapperEdit = QSharedPointer<QSignalMapper>(new QSignalMapper);
-        mapperRemove->setMapping(actionRemove.data(), new Pointer(e));
-        mapperEdit->setMapping(actionEdit.data(), new Pointer(e));
-        connect(actionRemove.data(), SIGNAL(triggered()), mapperRemove.data(), SLOT (map()));
-        connect(actionEdit.data(), SIGNAL(triggered()), mapperEdit.data(), SLOT (map()));
-        connect(mapperRemove.data(), SIGNAL(mapped(QObject*)), this, SLOT(on_actionEdgeRemove_triggered(QObject*)));
-        connect(mapperEdit.data(), SIGNAL(mapped(QObject*)), this, SLOT(on_actionEdgeEdit_triggered(QObject*)));
-        ppTopMenu.clear();
-        ppTopMenu.addAction(actionEdit.data());
-        ppTopMenu.addAction(actionRemove.data());
-        ppTopMenu.exec(QCursor().pos());
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	static QSharedPointer<QAction>actionRemove;
+	static QSharedPointer<QAction>actionEdit;
+	static QSharedPointer<QSignalMapper>mapperRemove;
+	static QSharedPointer<QSignalMapper>mapperEdit;
+	actionRemove = QSharedPointer<QAction>(new QAction(QIcon(":/icons/del"), tr("Remove edge"), this));
+	actionEdit = QSharedPointer<QAction>(new QAction(QIcon(":/icons/edit"), tr("Edit edge"), this));
+	mapperRemove = QSharedPointer<QSignalMapper>(new QSignalMapper);
+	mapperEdit = QSharedPointer<QSignalMapper>(new QSignalMapper);
+	mapperRemove->setMapping(actionRemove.data(), new Pointer(e));
+	mapperEdit->setMapping(actionEdit.data(), new Pointer(e));
+	connect(actionRemove.data(), SIGNAL(triggered()), mapperRemove.data(), SLOT (map()));
+	connect(actionEdit.data(), SIGNAL(triggered()), mapperEdit.data(), SLOT (map()));
+	connect(mapperRemove.data(), SIGNAL(mapped(QObject*)), this, SLOT(on_actionEdgeRemove_triggered(QObject*)));
+	connect(mapperEdit.data(), SIGNAL(mapped(QObject*)), this, SLOT(on_actionEdgeEdit_triggered(QObject*)));
+	ppTopMenu.clear();
+	ppTopMenu.addAction(actionEdit.data());
+	ppTopMenu.addAction(actionRemove.data());
+	ppTopMenu.exec(QCursor().pos());
 }
 /*!\func
  * delete edge
@@ -174,9 +175,9 @@ void ActivityBody::changeEdge(IEdge* e)
  */
 void ActivityBody::on_actionEdgeRemove_triggered(QObject*pointer)
 {
-        LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-        if(Pointer *p = qobject_cast<Pointer*>(pointer))
-                p->edge()->Remove();
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(Pointer *p = qobject_cast<Pointer*>(pointer))
+		p->edge()->Remove();
 }
 /*!\func
  * edit edge
@@ -186,7 +187,7 @@ void ActivityBody::on_actionEdgeRemove_triggered(QObject*pointer)
  */
 void ActivityBody::on_actionEdgeEdit_triggered(QObject*pointer)
 {
-        LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-        if(Pointer *p = qobject_cast<Pointer*>(pointer))
-                p->edge()->Edit();
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(Pointer *p = qobject_cast<Pointer*>(pointer))
+		p->edge()->Edit();
 }
