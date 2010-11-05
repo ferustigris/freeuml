@@ -75,7 +75,7 @@ bool StateBody::addRelation(const qint16& index,const qint16& relationWith, cons
 					}
 					if(!present)
 					{
-						getFactory()->newEdgeSimple(source, dest, "");
+						getFactory()->newEdge(EDGE_SIMPLE, source, dest, "");
 						change(true);
 						return true;
 					}
@@ -103,8 +103,8 @@ qint16 StateBody::addTop(TopTypes type)
 	switch(type) {
 	default:
 		name = QString ("STATE_") + QString::number(id);
-		getFactory()->newSimple(id, getCurrentNode(), name, tr("No tool tip now!"), "", QPointF(posx,posy))->show();
 	}
+	getFactory()->newNode(TOP_SIMPLE, id, getCurrentNode(), name, tr("No tool tip now!"), QPointF(posx,posy))->show();
 	change(true);
 	return id;
 }
@@ -117,5 +117,15 @@ void StateBody::on_actionLevel_down_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody::on_actionLevel_down_triggered();
+}
+/*!\func
+ * return nodes factory
+ * \param no
+ * \return factory
+ */
+INodesFactory*StateBody::getFactory()
+{
+	static NodesFactory nodesFactory(this);
+	return &nodesFactory;
 }
 

@@ -16,7 +16,7 @@
   <action name="actionAdd_relation">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/textedit/images/editpaste.png</normaloff>:/textedit/images/editpaste.png</iconset>
+     <normaloff>:/icon/icons/player_fwd.png</normaloff>:/icon/icons/player_fwd.png</iconset>
    </property>
    <property name="text">
     <string>Add relation</string>
@@ -58,7 +58,7 @@
   <action name="actionHelp">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/textedit/images/test.png</normaloff>:/textedit/images/test.png</iconset>
+     <normaloff>:/icon/icons/pencil.png</normaloff>:/icon/icons/pencil.png</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -72,8 +72,8 @@
   </action>
   <action name="actionRemove_state">
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/images/new/gtk-no.png</normaloff>:/icons/images/new/gtk-no.png</iconset>
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/icons/messagebox_critical.png</normaloff>:/icon/icons/messagebox_critical.png</iconset>
    </property>
    <property name="text">
     <string>Remove state</string>
@@ -83,6 +83,10 @@
    </property>
   </action>
   <action name="actionAdd_aggregation">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/icons/player_fwd.png</normaloff>:/icon/icons/player_fwd.png</iconset>
+   </property>
    <property name="text">
     <string>Add aggregation</string>
    </property>

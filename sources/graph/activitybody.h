@@ -12,10 +12,10 @@
 class Pointer : public QObject {
     Q_OBJECT
 public:
-        Pointer (IEdge*e) : QObject(0) {this->e = e;}
-        IEdge* edge() const {return this->e;}
+	Pointer (IEdge*e) : QObject(0) {this->e = e;}
+	IEdge* edge() const {return this->e;}
 private:
-        IEdge*e;
+	IEdge*e;
 };
 
 //! canvas for activity diagram
@@ -27,6 +27,7 @@ public:
 	virtual qint16 addTop(TopTypes type);
 	virtual void ppMenu();
 	virtual void changeEdge(IEdge* e);
+	virtual INodesFactory*getFactory();
 protected:
 	virtual bool addRelation(const qint16& index,const qint16& relationWith, const States state);
 private slots:

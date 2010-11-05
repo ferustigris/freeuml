@@ -52,9 +52,9 @@ protected:
 	void createNewSequence();
 	void createNewClass();
 private slots:
-	void on_actionAdd_class_triggered();
+	void on_actionShow_toolbar_triggered(bool checked);
+ void on_actionAdd_class_triggered();
 	void on_actionAdd_sequence_triggered();
-	void on_actionShow_toolbar_triggered();
 	void on_actionAdd_coloboration_triggered();
 	void on_actionAdd_module_triggered();
 	void on_actionAdd_node_triggered();

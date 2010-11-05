@@ -1,7 +1,9 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-02-10T14:25:49
 # -------------------------------------------------
-QT = core gui webkit \
+QT = core \
+    gui \
+    webkit \
     xml
 TARGET = freeuml
 TEMPLATE = app
@@ -38,7 +40,7 @@ SOURCES += main.cpp \
     sources/graph/topologybody.cpp \
     sources/graph/nodehost.cpp \
     sources/graph/collaborationbody.cpp \
-	sources/graph/edgedirectlist.cpp \
+    sources/graph/edgedirectlist.cpp \
     sources/graph/edgeparams.cpp \
     sources/graph/sequencebody.cpp \
     sources/graph/nodesequence.cpp \
@@ -74,7 +76,7 @@ HEADERS += sources/mainwindow.h \
     sources/graph/topologybody.h \
     sources/graph/nodehost.h \
     sources/graph/collaborationbody.h \
-	sources/graph/edgedirectlist.h \
+    sources/graph/edgedirectlist.h \
     sources/graph/edgeparams.h \
     sources/graph/sequencebody.h \
     sources/graph/nodesequence.h \
@@ -83,7 +85,8 @@ HEADERS += sources/mainwindow.h \
     sources/graph/classbody.h \
     sources/editclass.h \
     sources/graph/edgeaggregation.h \
-    sources/graph/edgeline.h
+    sources/graph/edgeline.h \
+    sources/inodesfactory.h
 FORMS += sources/forms/mainwindow.ui \
     sources/forms/graphbody.ui \
     sources/forms/generator.ui \

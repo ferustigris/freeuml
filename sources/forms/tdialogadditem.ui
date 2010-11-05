@@ -21,7 +21,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -100,8 +100,8 @@
         <string>Отмена</string>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>:/icons/images/new/gtk-no.png</normaloff>:/icons/images/new/gtk-no.png</iconset>
+        <iconset resource="../../share/mainResources.qrc">
+         <normaloff>:/icon/icons/button_cancel.png</normaloff>:/icon/icons/button_cancel.png</iconset>
        </property>
       </widget>
      </item>

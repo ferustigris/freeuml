@@ -65,4 +65,43 @@
     <qresource prefix="/tr">
         <file alias="ru.qm">lang/tr_ru.qm</file>
     </qresource>
+    <qresource prefix="/icon">
+        <file>icons/aim.png</file>
+        <file>icons/applix.png</file>
+        <file>icons/build.png</file>
+        <file>icons/button_cancel.png</file>
+        <file>icons/camera_test.png</file>
+        <file>icons/dia_gnome_icon.png</file>
+        <file>icons/down.png</file>
+        <file>icons/edit_add.png</file>
+        <file>icons/exit.png</file>
+        <file>icons/file-manager.png</file>
+        <file>icons/games.png</file>
+        <file>icons/idea.png</file>
+        <file>icons/joystick.png</file>
+        <file>icons/kalarm.png</file>
+        <file>icons/kblackbox.png</file>
+        <file>icons/kontact_contacts.png</file>
+        <file>icons/kontact_date.png</file>
+        <file>icons/kontact_journal.png</file>
+        <file>icons/kthememgr.png</file>
+        <file>icons/ktip.png</file>
+        <file>icons/kwikdisk.png</file>
+        <file>icons/kynaptic.png</file>
+        <file>icons/messagebox_critical.png</file>
+        <file>icons/messagebox_info.png</file>
+        <file>icons/messagebox_warning.png</file>
+        <file>icons/mycomputer.png</file>
+        <file>icons/next.png</file>
+        <file>icons/pencil.png</file>
+        <file>icons/player_fwd.png</file>
+        <file>icons/player_play.png</file>
+        <file>icons/reload_all_tabs.png</file>
+        <file>icons/run.png</file>
+        <file>icons/trashcan_empty-alt.png</file>
+        <file>icons/tux.png</file>
+        <file>icons/viewmag1.png</file>
+        <file>icons/viewmag-.png</file>
+        <file>icons/viewmag+.png</file>
+    </qresource>
 </RCC>

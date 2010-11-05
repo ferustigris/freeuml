@@ -7,10 +7,8 @@
 #include <QGraphicsScene>
 #include <QMenu>
 #include <QSettings>
-#include "inode.h"
-#include "iedge.h"
+#include "inodesfactory.h"
 
-class NodesFactory;
 class EnterInputs;
 
 namespace Ui {
@@ -28,7 +26,7 @@ class GraphBody : public QGraphicsView {
 public:
 	explicit GraphBody(EnterInputs *parent);
 	virtual ~GraphBody();
-	virtual qint16 addTop(TopTypes type);
+	virtual qint16 addTop(TopTypes type) = 0;
 	virtual void ppMenu();
 	virtual void changeEdge(IEdge* e);
 public:
@@ -41,11 +39,11 @@ public:
 	void reflesh();
 	INode* getParentNode();
 	void addItem(QGraphicsItem* item);
-	NodesFactory*getFactory() const;
+	virtual INodesFactory*getFactory();
 protected:
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent *event);
-	virtual bool addRelation(const qint16& index,const qint16& relationWith, const States state = STATE_ADD_RELATION);
+	virtual bool addRelation(const qint16& index,const qint16& relationWith, const States state = STATE_ADD_RELATION) = 0;
 	void change(const bool ch);
 protected:
 	void drawBackground(QPainter *painter, const QRectF &rect);
@@ -53,6 +51,7 @@ protected:
 	void scaleView(qreal scaleFactor);
 	void setLevelsPath() const;
 	enum ItemTypes {
+#warning: pattern posetitel
 		MENUITEM_DOWN = 0x01,
 		MENUITEM_ADDSIMPLERELATION = 0x02,
 		MENUITEM_EDIT = 0x04,
@@ -73,7 +72,6 @@ private:
 	quint8 state;
 	QGraphicsLineItem* line;
 	qreal factor;
-	NodesFactory *nodesFactory;
 protected slots:
 	void on_actionRemove_state_triggered();
 	void on_actionAdd_relation_triggered();

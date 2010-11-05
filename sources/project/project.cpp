@@ -198,8 +198,6 @@ void Project::save_node(QDomElement& parent, INode* node)
 		e.setAttribute("y", item->pos().y());
 		e.setAttribute("type", item->getType());
 		e.setAttribute("short_description", item->getShortDesc());
-		save_help(item);
-		e.setAttribute("help", item->getHelpFile());
 		parent.appendChild(e);
 		save_node(e, item);
 		save_edge(parent, item);
@@ -220,41 +218,6 @@ void Project::save_edge(QDomElement& parent, INode* node)
 		e.setAttribute("data", item->getData());
 		e.setAttribute("type", item->getType());
 		parent.appendChild(e);
-	}
-}
-/*!\func
- * save help page
- * \params
- * - node - node
- * \return no
- */
-void Project::save_help(INode* node)
-{
-	if(node)
-	{
-		if(!node->getHelp().isEmpty())
-		{
-			QDir dir;
-			if(node->getHelpFile().isEmpty())
-			{
-				QString helpFile(node->getName() + ".html");
-				node->setHelpFile(helpFile);
-			}
-			QString name(node->getHelpFile());
-			name.replace(".html","");
-			QString helpPath(path + "/help/" + name);
-			dir.mkpath(helpPath);
-			QFile file(path + "/help/" + node->getHelpFile());
-			file.open(QIODevice::WriteOnly);
-			QTextStream text(&file);
-			text<<node->getHelp();
-			file.close();
-			foreach(QString str, node->getHelpImages())
-			{
-				QString imgname = str.section("/", -1);
-				file.copy(str, helpPath + "/" + imgname);
-			}
-		}
 	}
 }
 /*!\func
@@ -349,20 +312,7 @@ int Project::load_one_edge(QDomNode& parent, GraphBody*activity)
 			INode *nto = findNode(to, activity->getParentNode()), *nfrom = findNode(from, activity->getParentNode());
 			if((nto)&&(nfrom))
 			{
-				IEdge*n = 0;
-				switch(e.attribute("type").toInt()) {
-				case EDGE_SEQUENCE:
-					n = activity->getFactory()->newEdgeSequence(nfrom, nto, e.attribute("data"));
-					break;
-				case EDGE_LIST:
-					n = activity->getFactory()->newEdgeList(nfrom, nto, e.attribute("data"));
-					break;
-				case EDGE_SIMPLE:
-					;;
-				default:
-					n = activity->getFactory()->newEdgeSimple(nfrom, nto, e.attribute("data"));
-				}
-				n->hide();
+				activity->getFactory()->newEdge((Types)e.attribute("type").toInt(), nfrom, nto, e.attribute("data"))->hide();
 			}
 		}
 		node = node.nextSibling();
@@ -385,44 +335,8 @@ int Project::load_node(QDomNode& parent, INode* pnode, GraphBody*activity)
 		{
 			int id = e.attribute("id").toInt();
 			if(id > max_id)max_id = id;
-			INode *n = 0;
-			switch(e.attribute("type").toInt())
-			{
-			case TOP_SIMPLE:
-				n = activity->getFactory()->newSimple(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
-											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-				break;
-			case TOP_USECASE:
-				n = activity->getFactory()->newUseCase(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
-											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-				break;
-			case TOP_HOST:
-				n = activity->getFactory()->newHost(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
-											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-				break;
-			case TOP_AUTHOR:
-				n = activity->getFactory()->newAuthor(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
-											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-				break;
-			case TOP_IF:
-				n = activity->getFactory()->newIf(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
-											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-				break;
-			case TOP_SYNC:
-				n = activity->getFactory()->newSync(id, pnode, QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-				break;
-			case TOP_SEQUENCE:
-				n = activity->getFactory()->newSequence(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"));
-				break;
-			case TOP_CLASS:
-				n = activity->getFactory()->newClass(id, pnode, e.attribute("name"), e.attribute("short_description"),e.attribute("help"),
-													 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-				break;
-			case TOP_ACTIVITY:
-			default:
-				n = activity->getFactory()->newActivity(id, pnode, e.attribute("name"),e.attribute("short_description"),e.attribute("help"),
-											 QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
-			}
+			INode *n = activity->getFactory()->newNode((TopTypes)e.attribute("type").toInt(), id, pnode, e.attribute("name"),e.attribute("short_description"),
+												    QPointF(e.attribute("x").toDouble(), e.attribute("y").toDouble()));
 			load_node(node, n, activity);
 		}
 		node = node.nextSibling();
