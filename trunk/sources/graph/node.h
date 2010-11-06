@@ -29,11 +29,6 @@ public:
 	virtual void addNode(INode*node);
 	virtual void removeNode(const qint32 id);
 	virtual qint16 getId();
-	virtual QString getHelp() const;
-	virtual QStringList getHelpImages() const;
-	virtual void setHelp(const QString&, const QStringList&);
-	virtual QString getHelpFile() const;
-	virtual void setHelpFile(const QString&);
 	virtual QString getShortDesc() const;
 	virtual void setShortDesc(const QString&);
 	virtual void show();

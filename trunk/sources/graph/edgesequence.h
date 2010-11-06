@@ -19,9 +19,9 @@ protected:
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 	QPainterPath shape() const;
+	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 private:
-	QPointF sourcePoint;
-	QPointF destPoint;
+	QPointF position;
 	QRectF rect;
 	qreal arrowSize;
 	qint32 shift;
