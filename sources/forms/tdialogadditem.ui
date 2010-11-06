@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>666</width>
-    <height>483</height>
+    <width>375</width>
+    <height>278</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,48 +19,24 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
-     <property name="currentIndex">
-      <number>0</number>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Название</string>
      </property>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>Параметры</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Название</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="IdentificatorEdit" name="leName"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Краткое описание</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="shortDescr"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_2">
-      <attribute name="title">
-       <string>Описание</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <widget class="TextEdit" name="textEdit" native="true"/>
-       </item>
-      </layout>
-     </widget>
     </widget>
+   </item>
+   <item>
+    <widget class="IdentificatorEdit" name="leName"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Краткое описание</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="shortDescr"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -110,12 +86,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>TextEdit</class>
-   <extends>QWidget</extends>
-   <header>textedit.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>IdentificatorEdit</class>
    <extends>QLineEdit</extends>

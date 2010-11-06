@@ -38,16 +38,16 @@ Node::Node(GraphBody *graphWidget, INode* _parent, qint16 _id)
 Node::~Node()
 {
     /*try{
-        while(edgeListIn.count())
-                delete edgeListIn.first();
-        while(edgeListOut.count())
-                delete edgeListOut.first();
-        foreach(Node*n, shapesList.values())
-                delete n;
+	while(edgeListIn.count())
+		delete edgeListIn.first();
+	while(edgeListOut.count())
+		delete edgeListOut.first();
+	foreach(Node*n, shapesList.values())
+		delete n;
 
-        shapesList.clear();
-        graph->removeItem(this);
-        graph->removeItem(&name);
+	shapesList.clear();
+	graph->removeItem(this);
+	graph->removeItem(&name);
     } catch(...)
     {
     }*/
@@ -62,13 +62,13 @@ void Node::addEdge(Edge *edge)
 {
     if(edge->destNode() == this)
     {
-        if(!edgeListIn.contains(edge))
-            edgeListIn << edge;
+	if(!edgeListIn.contains(edge))
+	    edgeListIn << edge;
     }
     else
     {
-        if(!edgeListOut.contains(edge))
-            edgeListOut << edge;
+	if(!edgeListOut.contains(edge))
+	    edgeListOut << edge;
     }
     edge->adjust();
 }
@@ -82,29 +82,29 @@ void Node::delEdge(Edge *edge)
 {
     /*if(edge->sourceNode()->getType() == TOP_DEVICE)
     {
-        foreach(INode*parent, edge->destNode()->nodes())
-        {
-            if(parent)
-            {
-                int i = 0;
-                while(i < parent->edgesIn().count())
-                {
-                    Edge*e = parent->edgesIn().at(i);
-                    if(e->sourceNode() == edge->sourceNode())
-                    {
-                        e->sourceNode()->delEdge(e);
-                        e->destNode()->delEdge(e);
-                        continue;
-                    }
-                    i++;
-                }
-            }
-        }
+	foreach(INode*parent, edge->destNode()->nodes())
+	{
+	    if(parent)
+	    {
+		int i = 0;
+		while(i < parent->edgesIn().count())
+		{
+		    Edge*e = parent->edgesIn().at(i);
+		    if(e->sourceNode() == edge->sourceNode())
+		    {
+			e->sourceNode()->delEdge(e);
+			e->destNode()->delEdge(e);
+			continue;
+		    }
+		    i++;
+		}
+	    }
+	}
     }*/
     if(edgeListIn.contains(edge))
-        edgeListIn.removeAt(edgeListIn.indexOf(edge));
+	edgeListIn.removeAt(edgeListIn.indexOf(edge));
     if(edgeListOut.contains(edge))
-        edgeListOut.removeAt(edgeListOut.indexOf(edge));
+	edgeListOut.removeAt(edgeListOut.indexOf(edge));
 }
 /*!\func
  * вернуть список стрелок
@@ -143,7 +143,7 @@ QList<INode*> Node::getNodes() const
     static QList<INode*> list;
     list.clear();
     foreach(INode*n, shapesList.values())
-        list.insert(0, n);
+	list.insert(0, n);
     return list;
 }
 /*!\func
@@ -157,7 +157,7 @@ void Node::addNode(INode*node)
     if(shapesList.contains(node->getId()))
     {
 		shapesList[node->getId()]->hide();
-        shapesList.remove(node->getId());
+	shapesList.remove(node->getId());
     }
     shapesList.insert(node->getId(),node);
 }
@@ -170,55 +170,9 @@ void Node::removeNode(const qint32 id)
 {
     if(shapesList.contains(id))
     {
-        shapesList[id]->remove();
-        shapesList.remove(id);
+	shapesList[id]->remove();
+	shapesList.remove(id);
     }
-}
-/*!\func
- * вернуть файл с помощью
- * \param нет
- * \return занимемая пл-дь
- */
-QString Node::getHelp() const
-{
-	return help;
-}
-/*!\func
- * images for help
- * \param нет
- * \return занимемая пл-дь
- */
-QStringList Node::getHelpImages() const
-{
-	return images;
-}
-/*!\func
- * запомнить файл с помощью
- * \param нет
- * \return no
- */
-void Node::setHelpFile(const QString&_help)
-{
-	helpFile = _help;
-}
-/*!\func
- * вернуть файл с помощью
- * \param нет
- * \return занимемая пл-дь
- */
-QString Node::getHelpFile() const
-{
-	return helpFile;
-}
-/*!\func
- * запомнить файл с помощью
- * \param нет
- * \return no
- */
-void Node::setHelp(const QString&_help, const QStringList&_images)
-{
-	help = _help;
-	images = _images;
 }
 /*!\func
  * вернуть файл с помощью
@@ -241,23 +195,23 @@ void Node::setShortDesc(const QString&_help)
     int common = 0, count = 0, lines = 0;
     foreach(QChar c, _help)
     {
-        if(c == '\n')
-        {
-            count = 0;
-            lines++;
-        }
-        tmp += c;
-        if(count++ > 20)
-        {
-            count = 0;
-            lines++;
-            tmp  += '\n';
-        }
-        if((common++ > 80)||(lines > 5))
-        {
-            tmp += "...";
-            break;
-        }
+	if(c == '\n')
+	{
+	    count = 0;
+	    lines++;
+	}
+	tmp += c;
+	if(count++ > 20)
+	{
+	    count = 0;
+	    lines++;
+	    tmp  += '\n';
+	}
+	if((common++ > 80)||(lines > 5))
+	{
+	    tmp += "...";
+	    break;
+	}
     }
     setToolTip(tmp);
 }
@@ -291,14 +245,14 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 {
     if(graph->getCurIndex() == id)
     {
-        painter->setPen(Qt::NoPen);
-        painter->setBrush(QColor(0xd0, 0xd0, 0xd0, 100));
+	painter->setPen(Qt::NoPen);
+	painter->setBrush(QColor(0xd0, 0xd0, 0xd0, 100));
 		painter->drawRoundedRect(-14,-14, 28, 28, 5, 5);
     }
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::lightGray);
     if (option->state & QStyle::State_Sunken) {
-            painter->drawEllipse(-8, -8, 20, 20);
+	    painter->drawEllipse(-8, -8, 20, 20);
     } else {
     painter->drawEllipse(-7, -7, 20, 20);
     }
@@ -310,10 +264,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
     if (option->state & QStyle::State_Sunken) {
 	painter->drawEllipse(-9, -9, 20, 20);
-        if(!nodes().isEmpty())painter->drawImage(QRect(-8, -8, 18, 18), QImage(":/icons/down"));
+	if(!nodes().isEmpty())painter->drawImage(QRect(-8, -8, 18, 18), QImage(":/icons/down"));
     } else {
 	painter->drawEllipse(-10, -10, 20, 20);
-        if(!nodes().isEmpty())painter->drawImage(QRect(-9, -9, 18, 18), QImage(":/icons/down"));
+	if(!nodes().isEmpty())painter->drawImage(QRect(-9, -9, 18, 18), QImage(":/icons/down"));
     }
 }
 /*!\func
@@ -328,17 +282,17 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
     switch (change)
     {
     case ItemPositionHasChanged:
-            break;
+	    break;
     case ItemPositionChange:
 		/*foreach (Edge *edge, edgeListIn)
-            edge->adjust();
-        foreach (Edge *edge, edgeListOut)
-            edge->adjust();
+	    edge->adjust();
+	foreach (Edge *edge, edgeListOut)
+	    edge->adjust();
 				name->moveBy(x() - name->x() - name->boundingRect().width()/2, y() - name->y() + 10);*/
 		show();
-        break;
+	break;
     default:
-        ;;
+	;;
     };
     return QGraphicsItem::itemChange(change, value);
 }
@@ -353,9 +307,9 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
     graph->setCurIndex(id);
     if(event->buttons() & Qt::RightButton)
     {
-        graph->ppMenu();
+	graph->ppMenu();
     } else {
-        update();
+	update();
     }
     QGraphicsItem::mousePressEvent(event);
 }

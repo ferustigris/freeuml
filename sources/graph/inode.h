@@ -24,11 +24,6 @@ public:
 	virtual TopTypes getType() const = 0 ;
 	virtual QString getName() const = 0 ;
 	virtual void setName(const QString&) = 0;
-	virtual QString getHelp() const = 0;
-	virtual QStringList getHelpImages() const = 0;
-	virtual void setHelp(const QString&, const QStringList&) = 0;
-	virtual QString getHelpFile() const = 0;
-	virtual void setHelpFile(const QString&) = 0;
 	virtual QString getShortDesc() const = 0;
 	virtual void setShortDesc(const QString&) = 0;
 	virtual qint16 getId() = 0;

@@ -19,9 +19,6 @@ TDialogAddItem::TDialogAddItem(INode *mi, const QString &dbPath, QWidget *parent
 	oldName = mi->getName();
 	setModal(true);
 	m_ui->pbOk->setEnabled(true);
-	m_ui->tabWidget->setCurrentIndex(0);
-	m_ui->textEdit->setCurrentFileName(dbPath);
-	m_ui->textEdit->fileOpen(mi->getHelpFile());
 	m_ui->leName->setText(mi->getName());
 	m_ui->shortDescr->setPlainText(mi->getShortDesc());
 }
@@ -42,9 +39,6 @@ TDialogAddItem::~TDialogAddItem() {
 void TDialogAddItem::getHelp(INode *mi)
 {
 	if(!mi)return;
-	/*static QSharedPointer<TDialogAddItem> dlg;
-	dlg = QSharedPointer<TDialogAddItem>(new TDialogAddItem(mi, ""));
-	dlg->show();*/
 	static TDialogAddItem*dlg = 0;
 	if(dlg)
 	{
@@ -87,9 +81,7 @@ void TDialogAddItem::on_pbOk_pressed()
 {
 	if(!n)return;
 	QString name(m_ui->leName->text());
-	n->setHelpFile(m_ui->textEdit->getCurrentFileName());
 	QString short_desc(m_ui->shortDescr->toPlainText());
-	n->setHelp(m_ui->textEdit->fileSave(), m_ui->textEdit->getAddedImages());
 	n->setShortDesc(short_desc);
 	n->setName(name);
 	accept();
