@@ -1,14 +1,14 @@
-#ifndef EDGEAGGREGATION_H
-#define EDGEAGGREGATION_H
-#include "edge.h"
+#ifndef EdgeAssotiation_H
+#define EdgeAssotiation_H
+#include "edgeaggregation.h"
 
 class GraphBody;
 //! class for aggregation relation
-class EdgeAggregation : public Edge
+class EdgeAssotiation : public EdgeAggregation
 {
 public:
-	EdgeAggregation(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name);
-	~EdgeAggregation();
+	EdgeAssotiation(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name);
+	~EdgeAssotiation();
 	virtual void adjust();
 	virtual Types getType() const;
 protected:

@@ -14,11 +14,20 @@ class EnterInputs;
 namespace Ui {
 	class GraphBody;
 }
-enum States {
-	STATE_IDLE = 0,
-	STATE_ADD_RELATION,
-	STATE_LEVEL_DOWN,
-	STATE_ADD_RELATION_AGGREGATION,
+//! class for states of body
+class State {
+public:
+	enum States {
+		STATE_IDLE = 0,
+		STATE_ADD_RELATION,
+		STATE_LEVEL_DOWN,
+	};
+	State();
+	State(const int state);
+	State& operator =(const int state);
+	bool isState(int state) const;
+private:
+	int state;
 };
 //виджет для отображения графа
 class GraphBody : public QGraphicsView {
@@ -43,13 +52,14 @@ public:
 protected:
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent *event);
-	virtual bool addRelation(const qint16& index,const qint16& relationWith, const States state = STATE_ADD_RELATION) = 0;
+	virtual bool addRelation(const qint16& index,const qint16& relationWith, const State *state = NULL) = 0;
 	void change(const bool ch);
 protected:
 	void drawBackground(QPainter *painter, const QRectF &rect);
 	void wheelEvent(QWheelEvent *event);
 	void scaleView(qreal scaleFactor);
 	void setLevelsPath() const;
+	void setState(State*state);
 	enum ItemTypes {
 #warning: pattern posetitel
 		MENUITEM_DOWN = 0x01,
@@ -69,19 +79,15 @@ private:
 	qint16 max_id;
 	INode* rootNode;
 	INode* node;
-	quint8 state;
+	QSharedPointer<State> state;
 	QGraphicsLineItem* line;
 	qreal factor;
 protected slots:
 	void on_actionRemove_state_triggered();
-	void on_actionAdd_relation_triggered();
+	virtual void on_actionAdd_relation_triggered();
 protected slots:
 	virtual void on_actionLevel_down_triggered();
-public slots:
 	virtual void on_actionHelp_triggered();
-
-private slots:
-	void on_actionAdd_aggregation_triggered();
 };
 
 #endif // GRAPHBODY_H

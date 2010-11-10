@@ -6,6 +6,7 @@
 #include "edgeline.h"
 #include "edgesequence.h"
 #include "edgedirectlist.h"
+#include "edgeassotiation.h"
 #include "node.h"
 #include "nodeclass.h"
 #include "nodeif.h"
@@ -104,6 +105,12 @@ IEdge* NodesFactory::newEdge(const Types type, INode *source, INode *dest, const
 		break;
 	case EDGE_LINES:
 		n = newEdgeLines(source, dest, name);
+		break;
+	case EDGE_AGGREGATION:
+		n = newEdgeAggregation(source, dest, name);
+		break;
+	case EDGE_ASSOTIATION:
+		n = newEdgeAssotiation(source, dest, name);
 		break;
 	case EDGE_SIMPLE:
 		;;
@@ -230,6 +237,19 @@ IEdge* NodesFactory::newEdgeLines(INode *source, INode *dest, const QString&name
 IEdge* NodesFactory::newEdgeAggregation(INode *source, INode *dest, const QString&name)
 {
 	IEdge *e = new EdgeAggregation(gb, source, dest, name);
+	return e;
+}
+/*!\func
+ * create new edge
+ * \params
+ * - dest - destination node
+ * - source - sources node
+ * - name - name of edge
+ * \return pointer to new edge
+ */
+IEdge* NodesFactory::newEdgeAssotiation(INode *source, INode *dest, const QString&name)
+{
+	IEdge *e = new EdgeAssotiation(gb, source, dest, name);
 	return e;
 }
 /*!\func

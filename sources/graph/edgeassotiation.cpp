@@ -1,4 +1,4 @@
-#include "edgeaggregation.h"
+#include "edgeassotiation.h"
 #include "inode.h"
 #include <QPainter>
 #include <math.h>
@@ -8,8 +8,8 @@
  * \params no
  * \return no
  */
-EdgeAggregation::EdgeAggregation(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name)
-	: Edge(graphWidget, sourceNode, destNode, name), arrowSize(15)
+EdgeAssotiation::EdgeAssotiation(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name)
+	: EdgeAggregation(graphWidget, sourceNode, destNode, name), arrowSize(10)
 {
 	if(this->sourceNode())
 		this->sourceNode()->show();
@@ -19,7 +19,7 @@ EdgeAggregation::EdgeAggregation(GraphBody *graphWidget, INode *sourceNode, INod
  * \params no
  * \return no
  */
-EdgeAggregation::~EdgeAggregation()
+EdgeAssotiation::~EdgeAssotiation()
 {
 }
 /*!\func
@@ -27,7 +27,7 @@ EdgeAggregation::~EdgeAggregation()
  * \params no
  * \return no
  */
-void EdgeAggregation::adjust()
+void EdgeAssotiation::adjust()
 {
 	if (!sourceNode() || !destNode())
 		return;
@@ -41,7 +41,7 @@ void EdgeAggregation::adjust()
  * \param no
  * \return no
  */
-QPainterPath EdgeAggregation::shape() const
+QPainterPath EdgeAssotiation::shape() const
 {
 	QPainterPath path;
 	path.moveTo(destPoint + QPointF(arrowSize,0));
@@ -57,7 +57,7 @@ QPainterPath EdgeAggregation::shape() const
  * \params no
  * \return no
  */
-QRectF EdgeAggregation::boundingRect() const
+QRectF EdgeAssotiation::boundingRect() const
 {
 	if (!sourceNode() || !destNode())
 		return QRectF();
@@ -74,7 +74,7 @@ QRectF EdgeAggregation::boundingRect() const
  * \params no
  * \return no
  */
-void EdgeAggregation::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void EdgeAssotiation::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	if (!sourceNode() || !destNode())
 		return;
@@ -117,7 +117,7 @@ void EdgeAggregation::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 		QPointF destArrowP1 = QPointF(destPoint.x(), destPoint.y()-sign*rect.height()/2);
 		QPointF destArrowP2 = QPointF(destPoint.x()-arrowSize/2, destPoint.y() - sign*(rect.height()/2 + arrowSize));
 		QPointF destArrowP3 = QPointF(destPoint.x()+arrowSize/2, destPoint.y() - sign*(rect.height()/2 + arrowSize));
-		painter->setBrush(Qt::white);
+		painter->setBrush(color);
 		painter->drawPolygon(QPolygonF() << destArrowP3 << destArrowP1 << destArrowP2);
 	}
 	if(rects.contains(middlePoint))
@@ -129,14 +129,13 @@ void EdgeAggregation::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 		else
 			name->setPos(sourcePoint + QPointF(-name->boundingRect().width()-sourceNode()->boundingRect().width()/2,-name->boundingRect().height()));
 	}
-	//painter->drawText((destPoint + sourcePoint)/2, getData());
 }
 /*!\func
  * type of relation
  * \params no
  * \return type of edge
  */
-Types EdgeAggregation::getType() const
+Types EdgeAssotiation::getType() const
 {
-	return EDGE_AGGREGATION;
+	return EDGE_ASSOTIATION;
 }

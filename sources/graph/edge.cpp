@@ -7,9 +7,6 @@
 #include <QInputDialog>
 #include <QApplication>
 
-static const double Pi = 3.14159265358979323846264338327950288419717;
-static double TwoPi = 2.0 * Pi;
-
 Edge::Edge(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name)
     : arrowSize(10)
 {
@@ -26,6 +23,7 @@ Edge::Edge(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QSt
 	state = OFF;
 	graph->addItem(this);
 	graph->addItem(this->name);
+	source->show();
 }
 
 Edge::~Edge()
@@ -42,23 +40,24 @@ INode *Edge::destNode() const
 }
 void Edge::adjust()
 {
-    if (!source || !dest)
-	return;
-    QLineF line(mapFromItem(source, 0, 0), mapFromItem(dest, 0, 0));
-    qreal length = line.length();
-    prepareGeometryChange();
-    if (!qFuzzyCompare(length, qreal(0.0))) {
-	QPointF edgeOffset((line.dx() * 10) / length, (line.dy() * 10) / length);
-	sourcePoint = line.p1() + edgeOffset;
-	destPoint = line.p2() - edgeOffset;
-    } else {
-	sourcePoint = destPoint = line.p1();
-    }
+	if (!source || !dest)
+		return;
+	QLineF line(mapFromItem(source, 0, 0), mapFromItem(dest, 0, 0));
+	qreal length = line.length();
+	prepareGeometryChange();
+	if (!qFuzzyCompare(length, qreal(0.0)))
+	{
+		QPointF edgeOffset((line.dx() * 10) / length, (line.dy() * 10) / length);
+		sourcePoint = line.p1() + edgeOffset;
+		destPoint = line.p2() - edgeOffset;
+	} else {
+		sourcePoint = destPoint = line.p1();
+	}
 }
-/*!\func
- * фигура для определения занимаемой пло-ди
- * \param нет
- * \return фигура
+/*! \func
+ * figure
+ * \param no
+ * \return no
  */
 QPainterPath Edge::shape() const
 {
@@ -69,6 +68,11 @@ QPainterPath Edge::shape() const
 	path.lineTo(destNode()->pos() + QPointF(-2,-2));
 	return path;
 }
+/*! \func
+ * rect
+ * \param no
+ * \return no
+ */
 QRectF Edge::boundingRect() const
 {
     if (!source || !dest)
@@ -84,23 +88,31 @@ QRectF Edge::boundingRect() const
 	.normalized()
 	.adjusted(-extra, -extra, extra, extra);
 }
-
+/*! \func
+ * draw all
+ * \param
+ * - painter - painter device
+ * \return no
+ */
 void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    if (!source || !dest)
-	return;
-    QColor color (Qt::black);
-    switch (state) {
-    case OFF:
-	    color = Qt::gray;
-	    break;
-    case OK:
-	    color = Qt::green;
-	    break;
-    case WARNING:
-    default:
-	    color = Qt::red;
-    }
+	static const double Pi = 3.14159265358979323846264338327950288419717;
+	static double TwoPi = 2.0 * Pi;
+
+	if (!source || !dest)
+		return;
+	QColor color (Qt::black);
+	switch (state) {
+	case OFF:
+		color = Qt::gray;
+		break;
+	case OK:
+		color = Qt::green;
+		break;
+	case WARNING:
+	default:
+		color = Qt::red;
+	}
 
 	// Draw the line itself
 	if(sourceNode()->getId() == destNode()->getId())
@@ -119,11 +131,11 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 		double angle = ::acos(line.dx() / line.length());
 		if (line.dy() >= 0)
 			angle = TwoPi - angle;
-		QPointF destArrowP1 = (destPoint + sourcePoint)/2 + QPointF(sin(angle - Pi / 3) * arrowSize,
+		QPointF destArrowP1 = destPoint + QPointF(sin(angle - Pi / 3) * arrowSize,
 							  cos(angle - Pi / 3) * arrowSize);
-		QPointF destArrowP2 = (destPoint + sourcePoint)/2 + QPointF(sin(angle - Pi + Pi / 3) * arrowSize,
+		QPointF destArrowP2 = destPoint + QPointF(sin(angle - Pi + Pi / 3) * arrowSize,
 							  cos(angle - Pi + Pi / 3) * arrowSize);
-		QPointF destArrowP3 = (destPoint + sourcePoint)/2 + QPointF(sin(angle + Pi / 2) * arrowSize,
+		QPointF destArrowP3 = destPoint + QPointF(sin(angle + Pi / 2) * arrowSize,
 							  cos(angle + Pi / 2) * arrowSize);
 		painter->setBrush(color);
 		painter->drawPolygon(QPolygonF() << destArrowP3 << destArrowP1 << destArrowP2);
@@ -180,7 +192,7 @@ QString Edge::getData () const
 {
 	return name->toPlainText();
 }
-/*!\func
+/*! \func
  * type of relation
  * \params no
  * \return type of edge
@@ -189,11 +201,11 @@ Types Edge::getType() const
 {
 	return EDGE_SIMPLE;
 }
-/*!\func
- * подцепить мышью
+/*! \func
+ * get by mouse
  * \params
- * - event - событие
- * \return нет
+ * - event - event
+ * \return no
  */
 void Edge::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
