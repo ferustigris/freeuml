@@ -12,6 +12,44 @@
 #include <QTime>
 #include "nodesfactory.h"
 
+
+/*! \func
+ *  constructor
+ * \param no
+ * \return no
+ */
+State::State()
+{
+	state = STATE_IDLE;
+}
+/*! \func
+ *  constructor with argument
+ * \param
+ * - state - start state
+ * \return no
+ */
+State::State(const int state)
+{
+	this->state = state;
+}
+/*! \func
+ * operator =
+ * \param no
+ * \return no
+ */
+State& State::operator =(const int state)
+{
+	this->state = state;
+}
+/*! \func
+ * operator equals
+ * \param no
+ * \return yes/no
+ */
+bool State::isState(const int state)const
+{
+	return this->state == state;
+}
 /*!\func TGraph::TGraph
  *  --,
  * \param
@@ -23,6 +61,7 @@ GraphBody::GraphBody(EnterInputs *parent) :
 	m_ui(new Ui::GraphBody)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	setState(new State());
 	m_ui->setupUi(this);
 	this->parent = parent;
 	line = new QGraphicsLineItem;
@@ -34,7 +73,6 @@ GraphBody::GraphBody(EnterInputs *parent) :
 	scaleView(1);
 	//scene.setSceneRect(200*factor, 100*factor, width(), height());
 	setMinimumSize(400, 400);
-	state = STATE_IDLE;
 	currentIndex = -1;
 	scene.addItem(line);
 	rootNode = getFactory()->newRoot();
@@ -85,23 +123,17 @@ void GraphBody::clear()
  * \return
  */
 void GraphBody::mousePressEvent(QMouseEvent *event) {
-    LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-    switch(state)
-    {
-	case STATE_ADD_RELATION:
-	case STATE_ADD_RELATION_AGGREGATION:
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(state->isState(State::STATE_ADD_RELATION))
+	{
 		if(node->nodes().contains(currentIndex))
 		{
 			qint16 index = currentIndex;
 			QGraphicsView::mousePressEvent(event);
-			addRelation(index, currentIndex);
+			addRelation(index, currentIndex, state.data());
 		}
-	default:
-		currentIndex = -1;
-		foreach(INode*n, node->nodes())
-			n->hide(), n->show();
-		state = STATE_IDLE;
 	}
+	setState(new State());
 	QGraphicsView::mousePressEvent(event);
 }
 /*!\func GraphBody::mouseMoveEvent
@@ -112,24 +144,23 @@ void GraphBody::mousePressEvent(QMouseEvent *event) {
  */
 void GraphBody::mouseMoveEvent(QMouseEvent *event) {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	switch(state)
+	if(state->isState(State::STATE_IDLE))
 	{
-	case STATE_IDLE:
 		line->hide();
 		if(parent&&(event->buttons()&Qt::LeftButton)&&(node->nodes().contains(currentIndex)))
 			parent->change(true);
-		break;
-	case STATE_ADD_RELATION:
+	}
+	else if(state->isState(State::STATE_ADD_RELATION))
+	{
 		LOG(LOG_DEBUG, QString(__FUNCTION__)+": add relation");
 		if(node->nodes().contains(currentIndex))
 		{
 			line->show();
 			QPointF p1(mapToScene(event->pos()));
 			INode*n = node->nodes()[currentIndex];
-			if(!n)break;
+			if(!n)return;
 			line->setLine(n->pos().x(), n->pos().y(), p1.x(), p1.y());
 		}
-		break;
 	}
 	QGraphicsView::mouseMoveEvent(event);
 }
@@ -141,7 +172,7 @@ void GraphBody::mouseMoveEvent(QMouseEvent *event) {
 void GraphBody::on_actionAdd_relation_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	state = STATE_ADD_RELATION;
+	setState(new State(State::STATE_ADD_RELATION));
 	line->show();
 }
 /*!\func
@@ -433,13 +464,11 @@ qint16 GraphBody::getMax() const
 	return max_id;
 }
 /*!\func
- * add aggregation edge
+ * set state
  * \params no
  * \return maximum id
  */
-void GraphBody::on_actionAdd_aggregation_triggered()
+void GraphBody::setState(State*state)
 {
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	state = STATE_ADD_RELATION_AGGREGATION;
-	line->show();
+	this->state = QSharedPointer<State>(state);
 }

@@ -138,8 +138,6 @@ void EdgeLines::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
 		//painter->drawText((destPoint + sourcePoint)/2, getData());
 		painter->drawLine(destPoint, middle);
 		painter->drawLine(middle, sourcePoint);
-
-
 	}
 }
 /*!\func

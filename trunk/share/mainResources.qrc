@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>images/test.png</file>
+        <file alias="help">images/test.png</file>
         <file>images/exit.png</file>
         <file alias="bad">images/bad.PNG</file>
         <file alias="ok">images/ok.PNG</file>
@@ -69,10 +69,10 @@
         <file>icons/aim.png</file>
         <file>icons/applix.png</file>
         <file>icons/build.png</file>
-        <file>icons/button_cancel.png</file>
+        <file alias="cancel">icons/button_cancel.png</file>
         <file>icons/camera_test.png</file>
         <file>icons/dia_gnome_icon.png</file>
-        <file>icons/down.png</file>
+        <file alias="down">icons/down.png</file>
         <file>icons/edit_add.png</file>
         <file>icons/exit.png</file>
         <file>icons/file-manager.png</file>

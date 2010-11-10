@@ -53,7 +53,7 @@ void ActivityBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool ActivityBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
+bool ActivityBody::addRelation(const qint16& index,const qint16& relationWith, const State*state)
 {
 	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");

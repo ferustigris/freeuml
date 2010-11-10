@@ -45,7 +45,7 @@ void StateBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool StateBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
+bool StateBody::addRelation(const qint16& index,const qint16& relationWith, const State*state)
 {
 	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
@@ -107,16 +107,6 @@ qint16 StateBody::addTop(TopTypes type)
 	getFactory()->newNode(TOP_SIMPLE, id, getCurrentNode(), name, tr("No tool tip now!"), QPointF(posx,posy))->show();
 	change(true);
 	return id;
-}
-/*!\func
- * down on one level
- * \param
- * \return
- */
-void StateBody::on_actionLevel_down_triggered()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	GraphBody::on_actionLevel_down_triggered();
 }
 /*!\func
  * return nodes factory

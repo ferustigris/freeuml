@@ -45,7 +45,7 @@ void TopologyBody::ppMenu()
  * - relationWith - index destination node
  * \return
  */
-bool TopologyBody::addRelation(const qint16& index,const qint16& relationWith, const States state)
+bool TopologyBody::addRelation(const qint16& index,const qint16& relationWith, const State*state)
 {
 	Q_UNUSED(state);
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
@@ -112,17 +112,6 @@ qint16 TopologyBody::addTop(TopTypes type)
 	change(true);
 	return id;
 }
-/*!\func
- * down on one level
- * \param
- * \return
- */
-void TopologyBody::on_actionLevel_down_triggered()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	GraphBody::on_actionLevel_down_triggered();
-}
-
 /*!\func
  * return nodes factory
  * \param no

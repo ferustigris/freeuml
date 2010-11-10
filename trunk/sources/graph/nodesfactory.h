@@ -28,6 +28,7 @@ private:
 	IEdge*newEdgeSimple(INode *source, INode *dest, const QString&name);
 	IEdge*newEdgeLines(INode *source, INode *dest, const QString&name);
 	IEdge*newEdgeAggregation(INode *source, INode *dest, const QString&name);
+	IEdge*newEdgeAssotiation(INode *source, INode *dest, const QString&name);
 	IEdge*newEdgeSequence(INode *source, INode *dest, const QString&name);
 	IEdge*newEdgeList(INode *source, INode *dest, const QString&data);
 private:
