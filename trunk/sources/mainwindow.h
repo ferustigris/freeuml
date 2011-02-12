@@ -30,30 +30,41 @@ private:
 	QString project_name;//! current project
 	QLabel pathLevels;
 	QSharedPointer<Project> project;
-	QSharedPointer<GraphBody> useCase;
+	/*QSharedPointer<GraphBody> useCase;
 	QSharedPointer<GraphBody> activity;
 	QSharedPointer<GraphBody> fsm;
 	QSharedPointer<GraphBody> topology;
 	QSharedPointer<GraphBody> collaboration;
 	QSharedPointer<GraphBody> sequence;
-	QSharedPointer<GraphBody> classes;
+	QSharedPointer<GraphBody> classes;*/
+	QList<QSharedPointer<GraphBody> > diagrams;
 	GraphBody*current;
 	bool hasChanges;
 protected:
+	void addDiagrams();
 	virtual void closeEvent ( QCloseEvent * event );
 	bool newProject ();
 	void saveParams() const;
 	void loadParams();
-	void createNewUseCase();
+	/*void createNewUseCase();
 	void createNewActivity();
 	void createNewFSM();
 	void createNewTopology();
 	void createNewCollaboration();
 	void createNewSequence();
-	void createNewClass();
+	void createNewClass();*/
 private slots:
+	void on_actionEdit_name_of_diagram_triggered();
+	void on_actionCreate_use_case_diagram_triggered();
+	void on_actionCreate_topology_diagram_triggered();
+	void on_actionCreate_class_diagram_triggered();
+	void on_actionCreate_sequence_diagram_triggered();
+	void on_actionCreate_coloboration_diagram_triggered();
+	void on_actionCreate_fsm_diagram_triggered();
+	void on_actionCreate_activity_diagram_triggered();
 	void on_actionShow_toolbar_triggered(bool checked);
- void on_actionAdd_class_triggered();
+	void on_actionAdd_class_triggered();
+	void on_tabCloseRequested ( int index );
 	void on_actionAdd_sequence_triggered();
 	void on_actionAdd_coloboration_triggered();
 	void on_actionAdd_module_triggered();

@@ -16,6 +16,7 @@ ActivityBody::ActivityBody(EnterInputs *parent) :
 	GraphBody(parent)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	factory = 0;
 }
 /*!\func TGraph::TGraph
  * destructor
@@ -24,6 +25,7 @@ ActivityBody::ActivityBody(EnterInputs *parent) :
  */
 ActivityBody::~ActivityBody()
 {
+	if(factory)delete factory;
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 }
 /*!\func
@@ -189,6 +191,17 @@ void ActivityBody::on_actionEdgeEdit_triggered(QObject*pointer)
  */
 INodesFactory*ActivityBody::getFactory()
 {
-	static NodesFactory nodesFactory(this);
-	return &nodesFactory;
+	if(!factory)factory = new NodesFactory(this);
+	return factory;
 }
+/*! \func
+ * return type of diagramm
+ * \param no
+ * \return type of diagramm
+ */
+QString ActivityBody::type() const
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	return "ActivityBody";
+}
+

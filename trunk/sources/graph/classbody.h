@@ -26,6 +26,7 @@ public:
 	virtual qint16 addTop(TopTypes type);
 	virtual void ppMenu();
 	virtual INodesFactory*getFactory();
+	virtual QString type() const;
 protected:
 	virtual bool addRelation(const qint16& index,const qint16& relationWith, const State*state);
 private slots:
@@ -33,6 +34,7 @@ private slots:
 	virtual void on_actionAdd_relation_triggered();
 private:
 	QMenu ppTopMenu;
+	INodesFactory*factory;
 };
 
 #endif // ClassBody_H

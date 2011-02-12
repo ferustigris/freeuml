@@ -7,13 +7,15 @@
 #include <QFile>
 
 class GraphBody;
+class EnterInputs;
 const QString projectMainFile("/project.xml");
 
 //! class for projects files
 class Project
 {
 public:
-	Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *colloboration, GraphBody *sequence, GraphBody *classes, const QString&_path);
+	//Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *colloboration, GraphBody *sequence, GraphBody *classes, const QString&_path);
+	Project(EnterInputs *mw, QList<QSharedPointer<GraphBody> > &diagrams, const QString&_path);
 	~Project();
 	int load();
 	void save();
@@ -24,14 +26,16 @@ private:
 	QString fileName;
 	QString path;
 	QFile file;
-	QString content;
-	GraphBody *activity;
+	QString content, simpleContent;
+	/*GraphBody *activity;
 	GraphBody *useCase;
 	GraphBody *state;
 	GraphBody *topology;
 	GraphBody *collaboration;
 	GraphBody *sequence;
-	GraphBody *classes;
+	GraphBody *classes;*/
+	EnterInputs *mw;
+	QList<QSharedPointer<GraphBody> > *diagrams;
 	bool tmpProject;
 	QStringList mustBeRemoved;
 protected:

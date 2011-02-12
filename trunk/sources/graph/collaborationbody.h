@@ -16,10 +16,12 @@ public:
 	virtual qint16 addTop(TopTypes type);
 	virtual void ppMenu();
 	virtual INodesFactory*getFactory();
+	virtual QString type() const;
 protected:
 	virtual bool addRelation(const qint16& index,const qint16& relationWith, const State*state);
 private:
 	QMenu ppTopMenu;
+	INodesFactory*factory;
 };
 
 #endif // CollaborationBody_H

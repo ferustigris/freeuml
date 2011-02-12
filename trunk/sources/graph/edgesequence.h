@@ -9,7 +9,7 @@ class EdgeSequence : public Edge
 public:
 
 	EdgeSequence(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name);
-	~EdgeSequence();
+	virtual ~EdgeSequence();
 	virtual void adjust();
 	virtual Types getType() const;
 	virtual QString getData () const;

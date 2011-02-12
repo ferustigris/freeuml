@@ -11,7 +11,7 @@
  * \params no
  * \return no
  */
-NodeHost::NodeHost(GraphBody *graphWidget, INode* _parent, qint16 _id) : Node(graphWidget, _parent, _id), image(":/icons/host")
+NodeHost::NodeHost(GraphBody *graphWidget, INode* _parent, qint16 _id) : Node(graphWidget, _parent, _id), image(":/icon/TopologyBody")
 {
 	graph = graphWidget;
 	id = _id;

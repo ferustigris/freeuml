@@ -42,6 +42,7 @@ ClassBody::ClassBody(EnterInputs *parent) :
 		ActivityBody(parent)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	factory = 0;
 }
 /*!\func TGraph::TGraph
  * destructor
@@ -51,6 +52,7 @@ ClassBody::ClassBody(EnterInputs *parent) :
 ClassBody::~ClassBody()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(factory)delete factory;
 }
 /*!\func
  * show popup menu on node
@@ -87,7 +89,7 @@ bool ClassBody::addRelation(const qint16& index,const qint16& relationWith, cons
 	{
 		INode* source = getCurrentNode()->nodes()[index];
 		INode* dest = getCurrentNode()->nodes()[relationWith];
-		if(dest && source )
+		if(dest && source && (dest != source) )
 				{
 					bool present = false;
 					foreach(IEdge*edge, source->edgesOut())
@@ -155,8 +157,8 @@ qint16 ClassBody::addTop(TopTypes type)
 INodesFactory*ClassBody::getFactory()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	static NodesFactory nodesFactory(this);
-	return &nodesFactory;
+	if(!factory)factory = new NodesFactory(this);
+	return factory;
 }
 /*!\func
  * add relation state
@@ -180,3 +182,14 @@ void ClassBody::on_actionAdd_agrigation_triggered()
 	GraphBody::on_actionAdd_relation_triggered();
 	setState(new ClassState(State::STATE_ADD_RELATION, "AGGREGATION"));
 }
+/*! \func
+ * return type of diagramm
+ * \param no
+ * \return type of diagramm
+ */
+QString ClassBody::type() const
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	return "ClassBody";
+}
+

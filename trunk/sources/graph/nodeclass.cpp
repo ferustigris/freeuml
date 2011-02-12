@@ -139,11 +139,13 @@ void NodeClass::setFields(const QStringList&fields)
 	width = 40;
 	foreach(QString text, methods)
 	{
+		if(text.isEmpty())continue;
 		qreal newWidth = text.length()*signWidth + 20;
 		if(newWidth > width)width = newWidth;
 	}
 	foreach(QString text, fields)
 	{
+		if(text.isEmpty())continue;
 		qreal newWidth = text.length()*signWidth + 20;
 		if(newWidth > width)width = newWidth;
 	}
@@ -180,16 +182,16 @@ QStringList NodeClass::getFields()const
  */
 void NodeClass::setName(const QString&data) {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	QStringList list = data.split("\n", QString::SkipEmptyParts);
+	QStringList list = data.split("#", QString::KeepEmptyParts);
 	if(list.count())
 	{
 		if(list.count() > 2)
 		{
 			QString name = list[0];
 			this->name->setPlainText(name);
-			QStringList fields = list[1].split("|", QString::SkipEmptyParts);
+			QStringList fields = (list[1].split("|", QString::KeepEmptyParts)).filter(".+");
 			setFields(fields);
-			QStringList methods = list[2].split("|", QString::SkipEmptyParts);
+			QStringList methods = (list[2].split("|", QString::KeepEmptyParts)).filter(".+");
 			setMethods(methods);
 		}
 		else name->setPlainText(data);
@@ -205,12 +207,12 @@ void NodeClass::setName(const QString&data) {
 QString NodeClass::getName() const
 {
 		LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-		QString data(name->toPlainText() + "\n");
+		QString data(name->toPlainText() + "#");
 		foreach(QString text, fields)
 		{
 			data += text + "|";
 		}
-		data += "\n";
+		data += "#";
 		foreach(QString text, methods)
 		{
 			data += text + "|";

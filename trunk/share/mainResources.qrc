@@ -66,7 +66,7 @@
         <file alias="ru.qm">lang/tr_ru.qm</file>
     </qresource>
     <qresource prefix="/icon">
-        <file>icons/aim.png</file>
+        <file alias="UseCaseBody">icons/aim.png</file>
         <file>icons/applix.png</file>
         <file>icons/build.png</file>
         <file alias="cancel">icons/button_cancel.png</file>
@@ -82,16 +82,16 @@
         <file>icons/kalarm.png</file>
         <file>icons/kblackbox.png</file>
         <file>icons/kontact_contacts.png</file>
-        <file>icons/kontact_date.png</file>
-        <file>icons/kontact_journal.png</file>
-        <file>icons/kthememgr.png</file>
-        <file>icons/ktip.png</file>
-        <file>icons/kwikdisk.png</file>
+        <file alias="SequenceBody">icons/kontact_date.png</file>
+        <file alias="CollaborationBody">icons/kontact_journal.png</file>
+        <file alias="ClassBody">icons/kthememgr.png</file>
+        <file alias="ActivityBody">icons/ktip.png</file>
+        <file alias="StateBody">icons/kwikdisk.png</file>
         <file>icons/kynaptic.png</file>
         <file>icons/messagebox_critical.png</file>
         <file>icons/messagebox_info.png</file>
         <file>icons/messagebox_warning.png</file>
-        <file>icons/mycomputer.png</file>
+        <file alias="TopologyBody">icons/mycomputer.png</file>
         <file>icons/next.png</file>
         <file>icons/pencil.png</file>
         <file>icons/player_fwd.png</file>

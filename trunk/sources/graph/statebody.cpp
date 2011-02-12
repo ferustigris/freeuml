@@ -15,6 +15,7 @@ StateBody::StateBody(EnterInputs *parent) :
 		ActivityBody(parent)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	factory = 0;
 }
 /*!\func TGraph::TGraph
  * destructor
@@ -24,6 +25,7 @@ StateBody::StateBody(EnterInputs *parent) :
 StateBody::~StateBody()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(factory)delete factory;
 }
 /*!\func
  * show popup menu on node
@@ -115,7 +117,17 @@ qint16 StateBody::addTop(TopTypes type)
  */
 INodesFactory*StateBody::getFactory()
 {
-	static NodesFactory nodesFactory(this);
-	return &nodesFactory;
+	if(!factory)factory = new NodesFactory(this);
+	return factory;
+}
+/*! \func
+ * return type of diagramm
+ * \param no
+ * \return type of diagramm
+ */
+QString StateBody::type() const
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	return "StateBody";
 }
 

@@ -15,7 +15,7 @@ class Node : public INode
 {
 public:
 	Node(GraphBody *graphWidget, INode* _parent, qint16 _id);
-	~Node();
+	virtual ~Node();
 	virtual TopTypes getType() const;
 	virtual void addEdge(Edge *edge);
 	virtual void delEdge(Edge *edge);

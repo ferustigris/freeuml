@@ -15,6 +15,7 @@ SequenceBody::SequenceBody(EnterInputs *parent) :
 		ActivityBody(parent)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	factory = 0;
 }
 /*!\func TGraph::TGraph
  * destructor
@@ -24,6 +25,7 @@ SequenceBody::SequenceBody(EnterInputs *parent) :
 SequenceBody::~SequenceBody()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(factory)delete factory;
 }
 /*!\func
  * show popup menu on node
@@ -90,6 +92,17 @@ qint16 SequenceBody::addTop(TopTypes type)
  */
 INodesFactory*SequenceBody::getFactory()
 {
-	static NodesFactory nodesFactory(this);
-	return &nodesFactory;
+	if(!factory)factory = new NodesFactory(this);
+	return factory;
 }
+/*! \func
+ * return type of diagramm
+ * \param no
+ * \return type of diagramm
+ */
+QString SequenceBody::type() const
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	return "SequenceBody";
+}
+

@@ -43,152 +43,8 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>-1</number>
       </property>
-      <widget class="QWidget" name="activity">
-       <attribute name="icon">
-        <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icon/icons/kynaptic.png</normaloff>:/icon/icons/kynaptic.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Activity</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QVBoxLayout" name="activityLayout"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="useCase">
-       <attribute name="icon">
-        <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icon/icons/games.png</normaloff>:/icon/icons/games.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Use case</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QVBoxLayout" name="useCaseLayout"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="fsm">
-       <attribute name="icon">
-        <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icon/icons/kwikdisk.png</normaloff>:/icon/icons/kwikdisk.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>FSM</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout">
-        <property name="horizontalSpacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="fsmLayout"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="topology">
-       <attribute name="icon">
-        <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icon/icons/mycomputer.png</normaloff>:/icon/icons/mycomputer.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Topology</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <property name="horizontalSpacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="topologyLayout"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="coloboration">
-       <attribute name="icon">
-        <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icon/icons/kontact_journal.png</normaloff>:/icon/icons/kontact_journal.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Coloboration</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <property name="horizontalSpacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="coloborationLayout"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="Sequence">
-       <attribute name="icon">
-        <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icon/icons/kontact_date.png</normaloff>:/icon/icons/kontact_date.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Sequence</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_4">
-        <property name="horizontalSpacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="sequenceLayout"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="Class">
-       <attribute name="icon">
-        <iconset resource="../../share/mainResources.qrc">
-         <normaloff>:/icon/icons/file-manager.png</normaloff>:/icon/icons/file-manager.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Class</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_5">
-        <property name="horizontalSpacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="classLayout">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-         </layout>
-        </item>
-       </layout>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -199,7 +55,7 @@
      <x>0</x>
      <y>0</y>
      <width>629</width>
-     <height>25</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="maFile">
@@ -230,6 +86,7 @@
     <addaction name="actionAdd_sequence"/>
     <addaction name="actionAdd_class"/>
     <addaction name="separator"/>
+    <addaction name="actionEdit_name_of_diagram"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -237,9 +94,22 @@
     </property>
     <addaction name="actionShow_toolbar"/>
    </widget>
+   <widget class="QMenu" name="menuDiagrams">
+    <property name="title">
+     <string>Diagrams</string>
+    </property>
+    <addaction name="actionCreate_activity_diagram"/>
+    <addaction name="actionCreate_fsm_diagram"/>
+    <addaction name="actionCreate_use_case_diagram"/>
+    <addaction name="actionCreate_class_diagram"/>
+    <addaction name="actionCreate_topology_diagram"/>
+    <addaction name="actionCreate_coloboration_diagram"/>
+    <addaction name="actionCreate_sequence_diagram"/>
+   </widget>
    <addaction name="maFile"/>
    <addaction name="maActions"/>
    <addaction name="menuView"/>
+   <addaction name="menuDiagrams"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
@@ -277,7 +147,7 @@
   <action name="actionAddState">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icon/icons/kwikdisk.png</normaloff>:/icon/icons/kwikdisk.png</iconset>
+     <normaloff>:/icon/StateBody</normaloff>:/icon/StateBody</iconset>
    </property>
    <property name="text">
     <string>Add state</string>
@@ -388,7 +258,7 @@
   <action name="actionAdd_condition">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icons/images/test.png</normaloff>:/icons/images/test.png</iconset>
+     <normaloff>:/icon/icons/messagebox_warning.png</normaloff>:/icon/icons/messagebox_warning.png</iconset>
    </property>
    <property name="text">
     <string>Add condition</string>
@@ -412,7 +282,7 @@
   <action name="actionAdd_author">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icon/icons/aim.png</normaloff>:/icon/icons/aim.png</iconset>
+     <normaloff>:/icon/UseCaseBody</normaloff>:/icon/UseCaseBody</iconset>
    </property>
    <property name="text">
     <string>Add author</string>
@@ -433,7 +303,7 @@
   <action name="actionAdd_node">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icon/icons/mycomputer.png</normaloff>:/icon/icons/mycomputer.png</iconset>
+     <normaloff>:/icon/TopologyBody</normaloff>:/icon/TopologyBody</iconset>
    </property>
    <property name="text">
     <string>Add node</string>
@@ -445,7 +315,7 @@
   <action name="actionAdd_module">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icon/icons/kthememgr.png</normaloff>:/icon/icons/kthememgr.png</iconset>
+     <normaloff>:/icon/ClassBody</normaloff>:/icon/ClassBody</iconset>
    </property>
    <property name="text">
     <string>Add module</string>
@@ -457,7 +327,7 @@
   <action name="actionAdd_coloboration">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icon/icons/kontact_journal.png</normaloff>:/icon/icons/kontact_journal.png</iconset>
+     <normaloff>:/icon/CollaborationBody</normaloff>:/icon/CollaborationBody</iconset>
    </property>
    <property name="text">
     <string>Add coloboration</string>
@@ -475,7 +345,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icon/icons/kontact_date.png</normaloff>:/icon/icons/kontact_date.png</iconset>
+     <normaloff>:/icon/icons/run.png</normaloff>:/icon/icons/run.png</iconset>
    </property>
    <property name="text">
     <string>Show toolbar</string>
@@ -487,7 +357,7 @@
   <action name="actionAdd_sequence">
    <property name="icon">
     <iconset resource="../../share/mainResources.qrc">
-     <normaloff>:/icon/icons/kontact_date.png</normaloff>:/icon/icons/kontact_date.png</iconset>
+     <normaloff>:/icon/SequenceBody</normaloff>:/icon/SequenceBody</iconset>
    </property>
    <property name="text">
     <string>Add sequence</string>
@@ -500,6 +370,81 @@
    </property>
    <property name="text">
     <string>Add class</string>
+   </property>
+  </action>
+  <action name="actionCreate_activity_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/ActivityBody</normaloff>:/icon/ActivityBody</iconset>
+   </property>
+   <property name="text">
+    <string>Create activity diagram</string>
+   </property>
+  </action>
+  <action name="actionCreate_fsm_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/StateBody</normaloff>:/icon/StateBody</iconset>
+   </property>
+   <property name="text">
+    <string>Create fsm diagram</string>
+   </property>
+  </action>
+  <action name="actionCreate_coloboration_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/CollaborationBody</normaloff>:/icon/CollaborationBody</iconset>
+   </property>
+   <property name="text">
+    <string>Create coloboration diagram</string>
+   </property>
+  </action>
+  <action name="actionCreate_sequence_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/SequenceBody</normaloff>:/icon/SequenceBody</iconset>
+   </property>
+   <property name="text">
+    <string>Create sequence diagram</string>
+   </property>
+  </action>
+  <action name="actionCreate_class_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/ClassBody</normaloff>:/icon/ClassBody</iconset>
+   </property>
+   <property name="text">
+    <string>Create class diagram</string>
+   </property>
+  </action>
+  <action name="actionCreate_topology_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/TopologyBody</normaloff>:/icon/TopologyBody</iconset>
+   </property>
+   <property name="text">
+    <string>Create topology diagram</string>
+   </property>
+  </action>
+  <action name="actionCreate_use_case_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/UseCaseBody</normaloff>:/icon/UseCaseBody</iconset>
+   </property>
+   <property name="text">
+    <string>Create use case diagram</string>
+   </property>
+  </action>
+  <action name="actionEdit_name_of_diagram">
+   <property name="icon">
+    <iconset resource="../../share/mainResources.qrc">
+     <normaloff>:/icon/icons/pencil.png</normaloff>:/icon/icons/pencil.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit name of diagram</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit name of active diagram</string>
    </property>
   </action>
  </widget>

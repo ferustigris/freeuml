@@ -28,6 +28,7 @@ public:
 	virtual void ppMenu();
 	virtual void changeEdge(IEdge* e);
 	virtual INodesFactory*getFactory();
+	virtual QString type() const;
 protected:
 	virtual bool addRelation(const qint16& index,const qint16& relationWith, const State*state);
 private slots:
@@ -36,6 +37,7 @@ private slots:
 	virtual void on_actionEdgeEdit_triggered(QObject*pointer);
 private:
 	QMenu ppTopMenu;
+	INodesFactory*factory;
 };
 
 #endif // ActivityBody_H
