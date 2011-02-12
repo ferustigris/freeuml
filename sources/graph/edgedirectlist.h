@@ -18,7 +18,7 @@ class EdgeDirectList : public Edge
 {
 public:
 	EdgeDirectList(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString&data);
-	~EdgeDirectList();
+	virtual ~EdgeDirectList();
 	void Edit();
 	virtual QString getData () const;
 	void setData(const QList <Relation> relations);

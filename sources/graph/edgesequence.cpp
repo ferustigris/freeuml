@@ -91,7 +91,7 @@ void EdgeSequence::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
 {
 	painter->setPen(Qt::black);
 	painter->drawLine(0, arrowSize, rect.width(), arrowSize);
-	painter->drawText(arrowSize, arrowSize, name);
+	painter->drawText(arrowSize, arrowSize/2, name);
 	painter->setPen(Qt::NoPen);
 	if(destNode()->pos().x() < sourceNode()->pos().x())
 	{

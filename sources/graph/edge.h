@@ -9,7 +9,7 @@ class Edge : public IEdge
 public:
 
 	Edge(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name);
-	~Edge();
+	virtual  ~Edge();
 	INode *sourceNode() const;
 	INode *destNode() const;
 	virtual void adjust();

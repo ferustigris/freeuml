@@ -120,7 +120,6 @@ IEdge* NodesFactory::newEdge(const Types type, INode *source, INode *dest, const
 	return n;
 }
 //
-#warning: delete all under this line!!!
 /*!\func
  * create new use case
  * \params

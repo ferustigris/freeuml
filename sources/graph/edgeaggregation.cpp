@@ -13,6 +13,7 @@ EdgeAggregation::EdgeAggregation(GraphBody *graphWidget, INode *sourceNode, INod
 {
 	if(this->sourceNode())
 		this->sourceNode()->show();
+	setState(OFF);
 }
 /*!\func
  * destructor
@@ -98,8 +99,13 @@ void EdgeAggregation::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 	height = sourceNode()->boundingRect().height();
 	QRectF rects(sourceNode()->pos().x(), sourceNode()->pos().y(), width, height);
 	painter->setBrush(color);
+	QPen pen(Qt::DashLine);
+	pen.setColor(color);
+	painter->setPen(pen);
 	painter->drawLine(destPoint, middlePoint);
 	painter->drawLine(middlePoint, sourcePoint);
+	pen.setStyle(Qt::SolidLine);
+	painter->setPen(pen);
 	if(rect.contains(middlePoint))
 	{//arrow enter in node by left or right
 		int sign = destPoint.x() > sourcePoint.x() ? 1 : -1;

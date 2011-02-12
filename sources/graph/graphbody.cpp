@@ -10,6 +10,7 @@
 #include <QProcess>
 #include <QTextStream>
 #include <QTime>
+#include <QMessageBox>
 #include "nodesfactory.h"
 
 
@@ -40,6 +41,7 @@ State::State(const int state)
 State& State::operator =(const int state)
 {
 	this->state = state;
+	return *this;
 }
 /*! \func
  * operator equals
@@ -61,6 +63,7 @@ GraphBody::GraphBody(EnterInputs *parent) :
 	m_ui(new Ui::GraphBody)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	factory = 0;
 	setState(new State());
 	m_ui->setupUi(this);
 	this->parent = parent;
@@ -91,6 +94,7 @@ GraphBody::GraphBody(EnterInputs *parent) :
 GraphBody::~GraphBody()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(factory)delete factory;
 	delete m_ui;
 }
 /*!\func
@@ -230,8 +234,13 @@ void GraphBody::scaleView(qreal scaleFactor)
  */
 void GraphBody::setCurIndex(qint16 newInd)
 {
-    LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-    currentIndex = newInd;
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	int tmp = currentIndex;
+	currentIndex = newInd;
+	if(node->nodes().contains(tmp))
+	{
+		node->nodes()[tmp]->update();
+	}
 }
 /*!\func
  *
@@ -393,8 +402,8 @@ void GraphBody::on_actionRemove_state_triggered()
  */
 INodesFactory*GraphBody::getFactory()
 {
-	static NodesFactory nodesFactory(this);
-	return &nodesFactory;
+	if(!factory)factory = new NodesFactory(this);
+	return factory;
 }
 /*!\func
  * set max id
@@ -471,4 +480,32 @@ qint16 GraphBody::getMax() const
 void GraphBody::setState(State*state)
 {
 	this->state = QSharedPointer<State>(state);
+}
+/*! \func
+ * get name of diagramm
+ * \params no
+ * \return name
+ */
+QString GraphBody::getTitle() const
+{
+	return title;
+}
+/*! \func
+ * set name of diagramm
+ * \params
+ * - name - new title
+ * \return no
+ */
+void GraphBody::setTitle(const QString& name)
+{
+	title = name;
+}
+/*! \func
+ * show menu
+ * \params no
+ * \return no
+ */
+void GraphBody::on_customContextMenuRequested ( const QPoint & pos )
+{
+	QMessageBox::information(0,"2","1");
 }

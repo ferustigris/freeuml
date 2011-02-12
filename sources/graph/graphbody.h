@@ -38,6 +38,9 @@ public:
 	virtual qint16 addTop(TopTypes type) = 0;
 	virtual void ppMenu();
 	virtual void changeEdge(IEdge* e);
+	virtual QString type() const = 0;//get type of diagramm
+	QString getTitle() const;//get name of diagramm
+	void setTitle(const QString& name);//get name of diagramm
 public:
 	void clear();
 	void setMax(const qint16 max);
@@ -61,6 +64,8 @@ protected:
 	void setLevelsPath() const;
 	void setState(State*state);
 	enum ItemTypes {
+#ifndef POSITITEL
+#define POSITITEL
 #warning: pattern posetitel
 		MENUITEM_DOWN = 0x01,
 		MENUITEM_ADDSIMPLERELATION = 0x02,
@@ -68,6 +73,7 @@ protected:
 		MENUITEM_REMOVENODE = 0x08,
 		MENUITEM_ADDAGGREGATION = 0x10,
 	};
+#endif
 	void setMenuItems(QMenu&menu, const qint16 items) const;
 	INode*getCurrentNode() const;
 	INode*getSelectedNode() const;
@@ -82,9 +88,12 @@ private:
 	QSharedPointer<State> state;
 	QGraphicsLineItem* line;
 	qreal factor;
+	INodesFactory*factory;
+	QString title;
 protected slots:
 	void on_actionRemove_state_triggered();
 	virtual void on_actionAdd_relation_triggered();
+	void on_customContextMenuRequested ( const QPoint & pos );
 protected slots:
 	virtual void on_actionLevel_down_triggered();
 	virtual void on_actionHelp_triggered();

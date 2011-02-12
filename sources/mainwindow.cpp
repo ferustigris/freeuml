@@ -3,9 +3,9 @@
 #include "inode.h"
 #include <QCloseEvent>
 #include <QTime>
-#include <QMessageBox>
-#include <QFileDialog>
-#include "ui_mainwindow.h"
+#include <QInputDialog>
+#include "graphbody.h"
+#include "nodesfactory.h"
 #include "activitybody.h"
 #include "usecasebody.h"
 #include "statebody.h"
@@ -13,6 +13,11 @@
 #include "topologybody.h"
 #include "sequencebody.h"
 #include "collaborationbody.h"
+
+
+#include <QMessageBox>
+#include <QFileDialog>
+#include "ui_mainwindow.h"
 
 /*!\func
  * constructor
@@ -26,12 +31,14 @@ EnterInputs::EnterInputs(QWidget *parent)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	ui->setupUi(this);
+	current = 0;
 	ui->statusBar->addWidget(&pathLevels);
 	loadParams();
 	window_title = windowTitle ();
 	change(false);
 	newProject();
 	ui->datagrams->setCurrentIndex(0);
+	connect(ui->datagrams, SIGNAL(tabCloseRequested ( int)), this, SLOT(on_tabCloseRequested ( int)));
 }
 /*!\func
  * destructor
@@ -41,6 +48,12 @@ EnterInputs::EnterInputs(QWidget *parent)
 EnterInputs::~EnterInputs()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	current = 0;
+	while(ui->datagrams->count() > 0)
+	{
+		ui->datagrams->removeTab(0);
+		current = 0;
+	}
 	delete ui;
 }
 /*!\func
@@ -80,83 +93,6 @@ void EnterInputs::loadParams()
 	settings.endGroup();
 }
 /*!\func
- * create new body for draw
- * \params no
- * \return no
- */
-void EnterInputs::createNewUseCase()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	useCase = QSharedPointer<GraphBody>(new UseCaseBody(this));
-	ui->useCaseLayout->addWidget(useCase.data());
-}
-/*!\func
- * create new body for activity diagram
- * \params no
- * \return no
- */
-void EnterInputs::createNewActivity()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	activity = QSharedPointer<GraphBody>(new ActivityBody(this));
-	ui->activityLayout->addWidget(activity.data());
-}
-/*!\func
- * create new body for state (fsm) diagram
- * \params no
- * \return no
- */
-void EnterInputs::createNewFSM()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	fsm = QSharedPointer<GraphBody>(new StateBody(this));
-	ui->fsmLayout->addWidget(fsm.data());
-}
-/*!\func
- * create new body for topology diagram
- * \params no
- * \return no
- */
-void EnterInputs::createNewTopology()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	topology = QSharedPointer<GraphBody>(new TopologyBody(this));
-	ui->topologyLayout->addWidget(topology.data());
-}
-/*!\func
- * create new body for topology diagram
- * \params no
- * \return no
- */
-void EnterInputs::createNewCollaboration()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	collaboration = QSharedPointer<GraphBody>(new CollaborationBody(this));
-	ui->coloborationLayout->addWidget(collaboration.data());
-}
-/*!\func
- * create new body for Sequence diagram
- * \params no
- * \return no
- */
-void EnterInputs::createNewSequence()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	sequence = QSharedPointer<GraphBody>(new SequenceBody(this));
-	ui->sequenceLayout->addWidget(sequence.data());
-}
-/*!\func
- * create new body for class diagram
- * \params no
- * \return no
- */
-void EnterInputs::createNewClass()
-{
-	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	classes = QSharedPointer<GraphBody>(new ClassBody(this));
-	ui->classLayout->addWidget(classes.data());
-}
-/*!\func
  * user said: generate code!
  * \params no
  * \return no
@@ -188,7 +124,8 @@ void EnterInputs::on_actionExit_triggered()
 void EnterInputs::on_actionLevel_up_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	ui->actionLevel_up->setEnabled(current->levelUp());
+	if(current)
+		ui->actionLevel_up->setEnabled(current->levelUp());
 }
 /*!\func
  * user said: save current project
@@ -269,17 +206,17 @@ void EnterInputs::on_actionCreate_project_triggered()
 bool EnterInputs::newProject ()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	createNewActivity();
+	/*createNewActivity();
 	createNewUseCase();
 	createNewFSM();
 	createNewTopology();
 	createNewCollaboration();
 	createNewSequence();
-	createNewClass();
-	project = QSharedPointer<Project>(new Project(activity.data(), useCase.data(), fsm.data(), topology.data(), collaboration.data(), sequence.data(), classes.data(), project_name));
+	createNewClass();*/
+	project = QSharedPointer<Project>(new Project(this, diagrams, project_name));//new Project(activity.data(), useCase.data(), fsm.data(), topology.data(), collaboration.data(), sequence.data(), classes.data(), project_name));
 	project->load();
 	setWindowTitle(window_title + " - " + project->getProjectName());
-	on_datagrams_currentChanged(0);
+	addDiagrams();
 	return true;
 }
 /*!\func
@@ -324,6 +261,7 @@ void EnterInputs::change(const bool changes)
 void EnterInputs::on_datagrams_currentChanged(int index)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	current = 0;
 	ui->actionAdd_activity->setVisible(false);
 	ui->actionAdd_condition->setVisible(false);
 	ui->actionAddState->setVisible(false);
@@ -335,42 +273,44 @@ void EnterInputs::on_datagrams_currentChanged(int index)
 	ui->actionAdd_coloboration->setVisible(false);
 	ui->actionAdd_sequence->setVisible(false);
 	ui->actionAdd_class->setVisible(false);
-	switch(index)
+	if((index < diagrams.count()) && (index >= 0))
+		current = diagrams[index].data();
+	if(current)
 	{
-	case 0://activity
-		ui->actionAdd_activity->setVisible(true);
-		ui->actionAdd_condition->setVisible(true);
-		ui->actionAdd_sync->setVisible(true);
-		current = activity.data();
-		break;
-	case 1://use case
-		ui->actionAdd_use_case->setVisible(true);
-		ui->actionAdd_author->setVisible(true);
-		current = useCase.data();
-		break;
-	case 2://fsm
-		current = fsm.data();
-		ui->actionAddState->setVisible(true);
-		break;
-	case 3://topology
-		current = topology.data();
-		ui->actionAdd_node->setVisible(true);
-		ui->actionAdd_module->setVisible(true);
-		break;
-	case 4://collaboration
-		current = collaboration.data();
-		ui->actionAdd_coloboration->setVisible(true);
-		break;
-	case 5://sequence
-		current = sequence.data();
-		ui->actionAdd_sequence->setVisible(true);
-		break;
-	case 6://class
-		current = classes.data();
-		ui->actionAdd_class->setVisible(true);
-		break;
+		if(current->type() == "ActivityBody")
+		{
+			ui->actionAdd_activity->setVisible(true);
+			ui->actionAdd_condition->setVisible(true);
+			ui->actionAdd_sync->setVisible(true);
+		}
+		else if(current->type() == "UseCaseBody")
+		{
+			ui->actionAdd_use_case->setVisible(true);
+			ui->actionAdd_author->setVisible(true);
+		}
+		else if(current->type() == "StateBody")
+		{
+			ui->actionAddState->setVisible(true);
+		}
+		else if(current->type() == "TopologyBody")
+		{
+			ui->actionAdd_node->setVisible(true);
+			ui->actionAdd_module->setVisible(true);
+		}
+		else if(current->type() == "CollaborationBody")
+		{
+			ui->actionAdd_coloboration->setVisible(true);
+		}
+		else if(current->type() == "SequenceBody")
+		{
+			ui->actionAdd_sequence->setVisible(true);
+		}
+		else if(current->type() == "ClassBody")
+		{
+			ui->actionAdd_class->setVisible(true);
+		}
+		current->reflesh();
 	}
-	current->reflesh();
 }
 /*!\func
  * new activity
@@ -380,7 +320,8 @@ void EnterInputs::on_datagrams_currentChanged(int index)
 void EnterInputs::on_actionAdd_activity_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	activity->addTop(TOP_ACTIVITY);
+	if(current)
+		current->addTop(TOP_ACTIVITY);
 }
 /*!\func
  * add new condition to activity diagram
@@ -390,7 +331,8 @@ void EnterInputs::on_actionAdd_activity_triggered()
 void EnterInputs::on_actionAdd_condition_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	activity->addTop(TOP_IF);
+	if(current)
+		current->addTop(TOP_IF);
 }
 /*!\func
  * add new sync to activity diagram
@@ -400,7 +342,8 @@ void EnterInputs::on_actionAdd_condition_triggered()
 void EnterInputs::on_actionAdd_sync_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	activity->addTop(TOP_SYNC);
+	if(current)
+		current->addTop(TOP_SYNC);
 }
 /*!\func
  * add new author to use case diagram
@@ -410,7 +353,8 @@ void EnterInputs::on_actionAdd_sync_triggered()
 void EnterInputs::on_actionAdd_author_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	useCase->addTop(TOP_AUTHOR);
+	if(current)
+		current->addTop(TOP_AUTHOR);
 }
 /*!\func
  * add new use case to use case diagram
@@ -420,7 +364,8 @@ void EnterInputs::on_actionAdd_author_triggered()
 void EnterInputs::on_actionAdd_use_case_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	useCase->addTop(TOP_USECASE);
+	if(current)
+		current->addTop(TOP_USECASE);
 }
 /*!\func
  * add new state to fsm diagram
@@ -430,7 +375,8 @@ void EnterInputs::on_actionAdd_use_case_triggered()
 void EnterInputs::on_actionAddState_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	fsm->addTop(TOP_SIMPLE);
+	if(current)
+		current->addTop(TOP_SIMPLE);
 }
 /*!\func
  * add new node to topology diagram
@@ -440,7 +386,8 @@ void EnterInputs::on_actionAddState_triggered()
 void EnterInputs::on_actionAdd_node_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	topology->addTop(TOP_HOST);
+	if(current)
+		current->addTop(TOP_HOST);
 }
 /*!\func
  * add new module to topology diagram
@@ -450,7 +397,8 @@ void EnterInputs::on_actionAdd_node_triggered()
 void EnterInputs::on_actionAdd_module_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	topology->addTop(TOP_ACTIVITY);
+	if(current)
+		current->addTop(TOP_ACTIVITY);
 }
 /*! \func
  * add new component to collaboration diagram
@@ -460,7 +408,8 @@ void EnterInputs::on_actionAdd_module_triggered()
 void EnterInputs::on_actionAdd_coloboration_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	collaboration->addTop(TOP_ACTIVITY);
+	if(current)
+		current->addTop(TOP_ACTIVITY);
 }
 /*! \func
  * add new sequence to sequence diagram
@@ -470,7 +419,8 @@ void EnterInputs::on_actionAdd_coloboration_triggered()
 void EnterInputs::on_actionAdd_sequence_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	sequence->addTop(TOP_SEQUENCE);
+	if(current)
+		current->addTop(TOP_SEQUENCE);
 }
 /*! \func
  * add new class to diagram
@@ -480,7 +430,8 @@ void EnterInputs::on_actionAdd_sequence_triggered()
 void EnterInputs::on_actionAdd_class_triggered()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
-	classes->addTop(TOP_CLASS);
+	if(current)
+		current->addTop(TOP_CLASS);
 }
 /*!\func
  * show tool bar
@@ -493,4 +444,168 @@ void EnterInputs::on_actionShow_toolbar_triggered(bool checked)
 	if(checked)ui->mainToolBar->show();
 	else
 		ui->mainToolBar->hide();
+}
+/*! \func
+ * add diagrams to layouts
+ * \params no
+ * \return no
+ */
+void EnterInputs::addDiagrams()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	current = 0;
+	while(ui->datagrams->count() > 0)
+	{
+		ui->datagrams->removeTab(0);
+		current = 0;
+	}
+	foreach(QSharedPointer<GraphBody>p, diagrams)
+	{
+		ui->datagrams->addTab(p.data(), QIcon(":/icon/" + p->type()), p->getTitle());
+	}
+	ui->datagrams->setTabsClosable(true);
+}
+/*! \func
+ * create new diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionCreate_activity_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	GraphBody *gb = new ActivityBody(this);
+	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
+	diagrams.append(QSharedPointer<GraphBody>(gb));
+	addDiagrams();
+	change(true);
+}
+/*! \func
+ * create new diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionCreate_fsm_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	GraphBody *gb = new StateBody(this);
+	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
+	diagrams.append(QSharedPointer<GraphBody>(gb));
+	addDiagrams();
+	change(true);
+}
+/*! \func
+ * create new diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionCreate_coloboration_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	GraphBody *gb = new CollaborationBody(this);
+	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
+	diagrams.append(QSharedPointer<GraphBody>(gb));
+	addDiagrams();
+	change(true);
+}
+/*! \func
+ * create new diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionCreate_sequence_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	GraphBody *gb = new SequenceBody(this);
+	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
+	diagrams.append(QSharedPointer<GraphBody>(gb));
+	addDiagrams();
+	change(true);
+}
+/*! \func
+ * create new diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionCreate_class_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	GraphBody *gb = new ClassBody(this);
+	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
+	diagrams.append(QSharedPointer<GraphBody>(gb));
+	addDiagrams();
+	change(true);
+}
+/*! \func
+ * create new diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionCreate_topology_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	GraphBody *gb = new TopologyBody(this);
+	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
+	diagrams.append(QSharedPointer<GraphBody>(gb));
+	addDiagrams();
+	change(true);
+}
+/*! \func
+ * create new diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionCreate_use_case_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	GraphBody *gb = new UseCaseBody(this);
+	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
+	diagrams.append(QSharedPointer<GraphBody>(gb));
+	addDiagrams();
+	change(true);
+}
+/*! \func
+ * remove diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_tabCloseRequested ( int index )
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	change(true);
+	for(int cur = 0; cur < diagrams.count(); cur++)
+	{
+		if(cur != index)
+		{
+			ui->datagrams->setCurrentIndex(cur);
+			if(diagrams.count() > index && index >= 0)
+			{
+				ui->datagrams->removeTab(index);
+				diagrams.removeAt(index);
+				addDiagrams();
+				break;
+			}
+		}
+	}
+}
+/*! \func
+ * remove diagram
+ * \params no
+ * \return no
+ */
+void EnterInputs::on_actionEdit_name_of_diagram_triggered()
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(current)
+	{
+		bool ok;
+		QString text = QInputDialog::getText(this, tr("Name of active diagram"),
+												tr("New name:"), QLineEdit::Normal,
+												current->getTitle(), &ok);
+		if(ok)
+		{
+			current->setTitle(text);
+			ui->datagrams->setTabText(ui->datagrams->currentIndex(), text);
+		}
+	}
+
 }

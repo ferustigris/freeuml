@@ -100,6 +100,7 @@ void EdgeAssotiation::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 	painter->setBrush(color);
 	painter->drawLine(destPoint, middlePoint);
 	painter->drawLine(middlePoint, sourcePoint);
+	painter->setPen(Qt::SolidLine);
 	if(rect.contains(middlePoint))
 	{//arrow enter in node by left or right
 		int sign = destPoint.x() > sourcePoint.x() ? 1 : -1;
@@ -107,7 +108,7 @@ void EdgeAssotiation::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 		QPointF destArrowP1 = QPointF(middlePoint.x() - sign*rect.width()/2, middlePoint.y());
 		QPointF destArrowP2 = QPointF(middlePoint.x() - sign*(rect.width()/2 + arrowSize), middlePoint.y()-arrowSize/2);
 		QPointF destArrowP3 = QPointF(middlePoint.x() - sign*(rect.width()/2 + arrowSize), middlePoint.y()+arrowSize/2);
-		painter->setBrush(Qt::white);
+		painter->setBrush(color);
 		painter->drawPolygon(QPolygonF() << destArrowP3 << destArrowP1 << destArrowP2);
 	}
 	else

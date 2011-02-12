@@ -15,6 +15,7 @@ UseCaseBody::UseCaseBody(EnterInputs *parent) :
 		ActivityBody(parent)
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	factory = 0;
 }
 /*!\func TGraph::TGraph
  * destructor
@@ -24,6 +25,7 @@ UseCaseBody::UseCaseBody(EnterInputs *parent) :
 UseCaseBody::~UseCaseBody()
 {
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(factory)delete factory;
 }
 /*!\func
  * show popup menu on node
@@ -83,7 +85,7 @@ bool UseCaseBody::addRelation(const qint16& index,const qint16& relationWith, co
 					}
 					if(!present)
 					{
-						getFactory()->newEdge(EDGE_LINES, source, dest, "");
+						getFactory()->newEdge(EDGE_SIMPLE, source, dest, "");
 						change(true);
 						return true;
 					}
@@ -143,6 +145,17 @@ void UseCaseBody::on_actionLevel_down_triggered()
  */
 INodesFactory*UseCaseBody::getFactory()
 {
-	static NodesFactory nodesFactory(this);
-	return &nodesFactory;
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	if(!factory)factory = new NodesFactory(this);
+	return factory;
+}
+/*! \func
+ * return type of diagramm
+ * \param no
+ * \return type of diagramm
+ */
+QString UseCaseBody::type() const
+{
+	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
+	return "UseCaseBody";
 }

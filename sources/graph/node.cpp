@@ -181,7 +181,7 @@ void Node::removeNode(const qint32 id)
  */
 QString Node::getShortDesc() const
 {
-    return toolTip();
+	return desc;
 }
 /*!\func
  * запомнить файл с помощью
@@ -243,12 +243,12 @@ QRectF Node::boundingRect() const
  */
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
-    if(graph->getCurIndex() == id)
-    {
-	painter->setPen(Qt::NoPen);
-	painter->setBrush(QColor(0xd0, 0xd0, 0xd0, 100));
+	if(graph->getCurIndex() == id)
+	{
+		painter->setPen(Qt::NoPen);
+		painter->setBrush(QColor(0xd0, 0xd0, 0xd0, 100));
 		painter->drawRoundedRect(-14,-14, 28, 28, 5, 5);
-    }
+	}
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::lightGray);
     if (option->state & QStyle::State_Sunken) {

@@ -8,7 +8,7 @@ class EdgeLines : public Edge
 {
 public:
 	EdgeLines(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name);
-	~EdgeLines();
+	virtual ~EdgeLines();
 	virtual void adjust();
 	virtual Types getType() const;
 protected:

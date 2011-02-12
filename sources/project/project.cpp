@@ -7,22 +7,24 @@
 #include <QFileDialog>
 #include "graphbody.h"
 #include "nodesfactory.h"
+#include "activitybody.h"
+#include "usecasebody.h"
+#include "statebody.h"
+#include "classbody.h"
+#include "topologybody.h"
+#include "sequencebody.h"
+#include "collaborationbody.h"
 
 /*!\func
  * constructor
  * \param no
  * \return no
  */
-Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *collaboration, GraphBody *sequence, GraphBody *classes, const QString&_path) : file(_path)
+Project::Project(EnterInputs *mw, QList<QSharedPointer<GraphBody> > &diagrams, const QString&_path) : file(_path)
 {//
-	this->activity = activity;
-	this->useCase = useCase;
-	this->state = state;
-	this->topology = topology;
-	this->collaboration = collaboration;
-	this->sequence = sequence;
-	this->classes = classes;
 	fileName = _path + projectMainFile;
+	this->mw = mw;
+	this->diagrams = &diagrams;
 	path = _path;
 	tmpProject = false;
 	if(path.isEmpty()||!QFile::exists(fileName))
@@ -37,15 +39,18 @@ Project::Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, Grap
 		tmpProject = true;
 		fileName = path + projectMainFile;
 	}
+	simpleContent = "<?xml version='1.0' encoding='utf-8'?>\n";
+	simpleContent += "<project>\n";
+	simpleContent += "</project>\n";
 	content = "<?xml version='1.0' encoding='utf-8'?>\n";
 	content += "<project>\n";
-	content += "\t<Activity />\n";
-	content += "\t<UseCase />\n";
-	content += "\t<State />\n";
-	content += "\t<Topology />\n";
-	content += "\t<Collaboration />\n";
-	content += "\t<Sequence />\n";
-	content += "\t<Classes />\n";
+	content += "\t<ActivityBody name=\"Activity\" />\n";
+	content += "\t<UseCaseBody name=\"UseCase\" />\n";
+	content += "\t<StateBody name=\"State\" />\n";
+	content += "\t<TopologyBody name=\"Topology\" />\n";
+	content += "\t<CollaborationBody name=\"Collaboration\" />\n";
+	content += "\t<SequenceBody name=\"Sequence\" />\n";
+	content += "\t<ClassBody name=\"Classes\" />\n";
 	content += "</project>\n";
 	create_new();
 	if(file.open(QIODevice::ReadWrite))
@@ -90,43 +95,45 @@ int Project::load()
 {
 	QDomElement docElem = doc.documentElement();
 	QDomNode n = docElem.firstChild();
+	diagrams->clear();
 	while(!n.isNull())
 	{
 		QDomElement e = n.toElement();
-		if((e.tagName() =="Activity"))
+		GraphBody *gb = 0;
+		if((e.tagName() =="ActivityBody"))
 		{
-			load_node(n, activity->getParentNode(), activity);
-			load_edges(n, activity);
+			gb = new ActivityBody(mw);
 		}
-		if((e.tagName() =="UseCase"))
+		if((e.tagName() =="UseCaseBody"))
 		{
-			load_node(n, useCase->getParentNode(), useCase);
-			load_edges(n, useCase);
+			gb = new UseCaseBody(mw);
 		}
-		if((e.tagName() =="State"))
+		if((e.tagName() =="StateBody"))
 		{
-			load_node(n, state->getParentNode(), state);
-			load_edges(n, state);
+			gb = new StateBody(mw);
 		}
-		if((e.tagName() =="Topology"))
+		if((e.tagName() =="TopologyBody"))
 		{
-			load_node(n, topology->getParentNode(), topology);
-			load_edges(n, topology);
+			gb = new TopologyBody(mw);
 		}
-		if((e.tagName() =="Collaboration"))
+		if((e.tagName() =="CollaborationBody"))
 		{
-			load_node(n, collaboration->getParentNode(), collaboration);
-			load_edges(n, collaboration);
+			gb = new CollaborationBody(mw);
 		}
-		if((e.tagName() =="Sequence"))
+		if((e.tagName() =="SequenceBody"))
 		{
-			load_node(n, sequence->getParentNode(), sequence);
-			load_edges(n, sequence);
+			gb = new SequenceBody(mw);
 		}
-		if((e.tagName() =="Classes"))
+		if((e.tagName() =="ClassBody"))
 		{
-			load_node(n, classes->getParentNode(), classes);
-			load_edges(n, classes);
+			gb = new ClassBody(mw);
+		}
+		if(gb)
+		{
+			gb->setTitle(e.attribute("name"));
+			diagrams->append(QSharedPointer<GraphBody>(gb));
+			load_node(n, gb->getParentNode(), gb);
+			load_edges(n, gb);
 		}
 		n = n.nextSibling();
 	}
@@ -155,27 +162,14 @@ void Project::save()
 	file.remove();
 	create_new();
 	file.open(QIODevice::ReadWrite);
-	doc.setContent(content);
+	doc.setContent(simpleContent);
 	QDomElement docElem = doc.documentElement();
-	QDomNode n = docElem.firstChild();
-	while(!n.isNull())
+	foreach(QSharedPointer<GraphBody>p, *diagrams)
 	{
-		QDomElement e = n.toElement();
-		if((e.tagName() =="Activity"))
-			save_node(e, activity->getParentNode());
-		if((e.tagName() =="UseCase"))
-			save_node(e, useCase->getParentNode());
-		if((e.tagName() =="State"))
-			save_node(e, state->getParentNode());
-		if((e.tagName() =="Topology"))
-			save_node(e, topology->getParentNode());
-		if((e.tagName() =="Collaboration"))
-			save_node(e, collaboration->getParentNode());
-		if((e.tagName() =="Sequence"))
-			save_node(e, sequence->getParentNode());
-		if((e.tagName() =="Classes"))
-			save_node(e, classes->getParentNode());
-		n = n.nextSibling();
+		QDomElement e = doc.createElement(p->type());
+		e.setAttribute("name", p->getTitle());
+		docElem.appendChild(e);
+		save_node(e, p->getParentNode());
 	}
 	QTextStream tf(&file);
 	doc.save(tf, 4);
@@ -344,4 +338,3 @@ int Project::load_node(QDomNode& parent, INode* pnode, GraphBody*activity)
 	pnode->hide();
 	return max_id;
 }
-

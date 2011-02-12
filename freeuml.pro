@@ -36,7 +36,9 @@ HEADERS += sources/wiremodel.h \
     sources/help/tdialogadditem.h \
     sources/log/errors.h \
     sources/project/project.h \
-    sources/widgets/identificatoredit.h
+    sources/widgets/identificatoredit.h \
+    sources/editclass.h \
+    sources/widgets/tabwidget.h
 SOURCES += sources/wiremodel.cpp \
     sources/mainwindow.cpp \
     sources/editclass.cpp \
@@ -72,14 +74,16 @@ SOURCES += sources/wiremodel.cpp \
     sources/log/errors.cpp \
     sources/project/project.cpp \
     sources/widgets/identificatoredit.cpp \
-    main.cpp
+    main.cpp \
+    sources/widgets/tabwidget.cpp
 RESOURCES += share/mainResources.qrc
 FORMS += sources/forms/tdialogadditem.ui \
     sources/forms/mainwindow.ui \
     sources/forms/graphbody.ui \
     sources/forms/generator.ui \
     sources/forms/editclass.ui \
-    sources/forms/edgeparams.ui
+    sources/forms/edgeparams.ui \
+    sources/forms/editclass.ui
 INCLUDEPATH += sources \
     sources/forms \
     sources/log \

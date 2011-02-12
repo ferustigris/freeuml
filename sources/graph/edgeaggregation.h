@@ -8,7 +8,7 @@ class EdgeAggregation : public Edge
 {
 public:
 	EdgeAggregation(GraphBody *graphWidget, INode *sourceNode, INode *destNode, const QString& name);
-	~EdgeAggregation();
+	virtual ~EdgeAggregation();
 	virtual void adjust();
 	virtual Types getType() const;
 protected:
