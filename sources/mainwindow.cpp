@@ -213,7 +213,7 @@ bool EnterInputs::newProject ()
 	createNewCollaboration();
 	createNewSequence();
 	createNewClass();*/
-	project = QSharedPointer<Project>(new Project(this, diagrams, project_name));//new Project(activity.data(), useCase.data(), fsm.data(), topology.data(), collaboration.data(), sequence.data(), classes.data(), project_name));
+    project = new Project(this, diagrams, project_name);
 	project->load();
 	setWindowTitle(window_title + " - " + project->getProjectName());
 	addDiagrams();
@@ -274,7 +274,7 @@ void EnterInputs::on_datagrams_currentChanged(int index)
 	ui->actionAdd_sequence->setVisible(false);
 	ui->actionAdd_class->setVisible(false);
 	if((index < diagrams.count()) && (index >= 0))
-		current = diagrams[index].data();
+        current = diagrams[index];
 	if(current)
 	{
 		if(current->type() == "ActivityBody")
@@ -459,9 +459,9 @@ void EnterInputs::addDiagrams()
 		ui->datagrams->removeTab(0);
 		current = 0;
 	}
-	foreach(QSharedPointer<GraphBody>p, diagrams)
+    foreach(GraphBody *p, diagrams)
 	{
-		ui->datagrams->addTab(p.data(), QIcon(":/icon/" + p->type()), p->getTitle());
+        ui->datagrams->addTab(p, QIcon(":/icon/" + p->type()), p->getTitle());
 	}
 	ui->datagrams->setTabsClosable(true);
 }
@@ -475,7 +475,7 @@ void EnterInputs::on_actionCreate_activity_diagram_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody *gb = new ActivityBody(this);
 	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
-	diagrams.append(QSharedPointer<GraphBody>(gb));
+    diagrams.append(gb);
 	addDiagrams();
 	change(true);
 }
@@ -489,7 +489,7 @@ void EnterInputs::on_actionCreate_fsm_diagram_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody *gb = new StateBody(this);
 	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
-	diagrams.append(QSharedPointer<GraphBody>(gb));
+    diagrams.append(gb);
 	addDiagrams();
 	change(true);
 }
@@ -503,7 +503,7 @@ void EnterInputs::on_actionCreate_coloboration_diagram_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody *gb = new CollaborationBody(this);
 	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
-	diagrams.append(QSharedPointer<GraphBody>(gb));
+    diagrams.append(gb);
 	addDiagrams();
 	change(true);
 }
@@ -517,7 +517,7 @@ void EnterInputs::on_actionCreate_sequence_diagram_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody *gb = new SequenceBody(this);
 	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
-	diagrams.append(QSharedPointer<GraphBody>(gb));
+    diagrams.append(gb);
 	addDiagrams();
 	change(true);
 }
@@ -531,7 +531,7 @@ void EnterInputs::on_actionCreate_class_diagram_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody *gb = new ClassBody(this);
 	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
-	diagrams.append(QSharedPointer<GraphBody>(gb));
+    diagrams.append(gb);
 	addDiagrams();
 	change(true);
 }
@@ -545,7 +545,7 @@ void EnterInputs::on_actionCreate_topology_diagram_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody *gb = new TopologyBody(this);
 	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
-	diagrams.append(QSharedPointer<GraphBody>(gb));
+    diagrams.append(gb);
 	addDiagrams();
 	change(true);
 }
@@ -559,7 +559,7 @@ void EnterInputs::on_actionCreate_use_case_diagram_triggered()
 	LOG(LOG_DEBUG, QString(__FUNCTION__) + " <" + QString::number(__LINE__) + ">");
 	GraphBody *gb = new UseCaseBody(this);
 	gb->setTitle(gb->type() + "_" + QString::number(diagrams.count()));
-	diagrams.append(QSharedPointer<GraphBody>(gb));
+    diagrams.append(gb);
 	addDiagrams();
 	change(true);
 }

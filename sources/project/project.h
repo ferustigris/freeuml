@@ -15,7 +15,7 @@ class Project
 {
 public:
 	//Project(GraphBody *activity, GraphBody *useCase, GraphBody *state, GraphBody *topology, GraphBody *colloboration, GraphBody *sequence, GraphBody *classes, const QString&_path);
-	Project(EnterInputs *mw, QList<QSharedPointer<GraphBody> > &diagrams, const QString&_path);
+    Project(EnterInputs *mw, QList<GraphBody *> &diagrams, const QString&_path);
 	~Project();
 	int load();
 	void save();
@@ -35,7 +35,7 @@ private:
 	GraphBody *sequence;
 	GraphBody *classes;*/
 	EnterInputs *mw;
-	QList<QSharedPointer<GraphBody> > *diagrams;
+    QList<GraphBody *> *diagrams;
 	bool tmpProject;
 	QStringList mustBeRemoved;
 protected:

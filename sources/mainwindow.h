@@ -29,7 +29,7 @@ private:
 	QString window_title;//! first part of title
 	QString project_name;//! current project
 	QLabel pathLevels;
-	QSharedPointer<Project> project;
+    Project *project;
 	/*QSharedPointer<GraphBody> useCase;
 	QSharedPointer<GraphBody> activity;
 	QSharedPointer<GraphBody> fsm;
@@ -37,7 +37,7 @@ private:
 	QSharedPointer<GraphBody> collaboration;
 	QSharedPointer<GraphBody> sequence;
 	QSharedPointer<GraphBody> classes;*/
-	QList<QSharedPointer<GraphBody> > diagrams;
+    QList<GraphBody *> diagrams;
 	GraphBody*current;
 	bool hasChanges;
 protected:
