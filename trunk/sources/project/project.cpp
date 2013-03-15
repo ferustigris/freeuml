@@ -20,7 +20,7 @@
  * \param no
  * \return no
  */
-Project::Project(EnterInputs *mw, QList<QSharedPointer<GraphBody> > &diagrams, const QString&_path) : file(_path)
+Project::Project(EnterInputs *mw, QList<GraphBody *> &diagrams, const QString&_path) : file(_path)
 {//
 	fileName = _path + projectMainFile;
 	this->mw = mw;
@@ -131,7 +131,7 @@ int Project::load()
 		if(gb)
 		{
 			gb->setTitle(e.attribute("name"));
-			diagrams->append(QSharedPointer<GraphBody>(gb));
+            diagrams->append(gb);
 			load_node(n, gb->getParentNode(), gb);
 			load_edges(n, gb);
 		}
@@ -164,7 +164,7 @@ void Project::save()
 	file.open(QIODevice::ReadWrite);
 	doc.setContent(simpleContent);
 	QDomElement docElem = doc.documentElement();
-	foreach(QSharedPointer<GraphBody>p, *diagrams)
+    foreach(GraphBody *p, *diagrams)
 	{
 		QDomElement e = doc.createElement(p->type());
 		e.setAttribute("name", p->getTitle());
