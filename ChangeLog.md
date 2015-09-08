@@ -1,0 +1,1 @@
+This page will be use to register all releases and logged changes and fixed bugs. Edit by developers only.
